@@ -7,17 +7,9 @@
 
 <p align="center"><img alt="banner" src="/public/fabritor_2024_1.png"></p>
 
-### 🔥 文档
-
-<strong>正在编写 [halas 手册](https://sleepy-zone.github.io/fabritor-handbook)，跟着 halas 一起学习 fabric.js</strong>
-
-手册内覆盖几乎所有的 halas 特性，也是一本 fabric.js 学习手册！
-
 ### 👻 特性
 
 使用 halas，快速构建属于自己的图片编辑器。
-
-在线体验：[https://fabritor.surge.sh/](https://fabritor.surge.sh/)
 
 <p align="center"><img alt="banner" src="/public/fabritor_editor.png"></p>
 
@@ -50,13 +42,3 @@ yarn start
 ```
 
 访问: http://localhost:3000
-
-### 哪些项目在使用 halas
-
-#### 截图美化工具
-
-[https://www.photor.fun/](https://www.photor.fun/)
-
-<p align="center"><img alt="photor" src="/public/photor.png"></p>
-
-欢迎提交自己的作品或者项目。

@@ -1,6 +1,6 @@
 import { Layout, FloatButton } from 'antd';
 import { useContext, useState } from 'react';
-import { LayoutTemplate, Type, Image, Shapes, PenTool, AppWindow, Github } from 'lucide-react';
+import { LayoutTemplate, Type, Image, Shapes, PenTool, AppWindow } from 'lucide-react';
 import TextPanel from './TextPanel';
 import ImagePanel from './ImagePanel';
 import ShapePanel from './ShapePanel';
@@ -113,12 +113,6 @@ export default function Panel () {
           
           <div className={styles.bottomActions}>
              <LocalesSwitch />
-             <FloatButton
-                icon={<Github size={20} />}
-                href="https://github.com/sleepy-zone/halas-web"
-                target="_blank"
-                style={{ position: 'static' }}
-             />
           </div>
         </div>
         <div className={styles.content}>
