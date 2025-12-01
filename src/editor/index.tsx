@@ -7,7 +7,7 @@ import { throttle } from 'lodash-es';
 import { loadFont } from '@/utils';
 import { initAligningGuidelines, initCenteringGuidelines } from './guide-lines';
 import initHotKey from './extensions/hotkey';
-import { SKETCH_ID, FABRITOR_CUSTOM_PROPS, SCHEMA_VERSION, SCHEMA_VERSION_KEY } from '@/utils/constants';
+import { SKETCH_ID, HALAS_CUSTOM_PROPS, SCHEMA_VERSION, SCHEMA_VERSION_KEY } from '@/utils/constants';
 import FabricHistory from './extensions/history';
 import AutoSave from './extensions/autosave';
 import { createGroup } from './objects/group';
@@ -389,9 +389,16 @@ export default class Editor {
   }
 
   public canvas2Json () {
-    const json = this.canvas.toJSON(FABRITOR_CUSTOM_PROPS);
-    json[SCHEMA_VERSION_KEY] = SCHEMA_VERSION;
-    return json;
+    console.log('HALAS_CUSTOM_PROPS:', HALAS_CUSTOM_PROPS);
+    try {
+      const json = this.canvas.toJSON(HALAS_CUSTOM_PROPS);
+      json[SCHEMA_VERSION_KEY] = SCHEMA_VERSION;
+      return json;
+    } catch (e) {
+      console.error('Error in canvas2Json:', e);
+      console.log('Canvas objects:', this.canvas.getObjects());
+      return null;
+    }
   }
 
   public async loadFromJSON (json, errorToast = false) {
