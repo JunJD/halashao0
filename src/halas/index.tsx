@@ -201,7 +201,8 @@ export default function Halas () {
         <Spin spinning={!isReady} fullscreen />
         <ObjectRotateAngleTip />
         <Header />
-        <Layout>
+        {/* Ensure the main area fills remaining height so side panels stretch full-height */}
+        <Layout style={{ flex: 1, minHeight: 0 }}>
           <Panel />
           <Content style={contentStyle}>
             <ContextMenu ref={contextMenuRef} object={activeObject}>
