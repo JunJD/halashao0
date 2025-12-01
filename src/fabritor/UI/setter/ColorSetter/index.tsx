@@ -1,14 +1,12 @@
-import { Popover } from 'antd';
-import { ColorsPicker, Color } from 'react-colors-beauty';
+import { Popover, ColorPicker } from 'antd';
 
 // @TODO preset size
 export default function ColorSetter (props) {
   const { defaultColor = '#ffffff', trigger, type, value, onChange } = props;
 
-  const handleChange = (v) => {
-    if (!v) return;
-    if (!v.color) v.color = defaultColor;
-    onChange?.(v);
+  const handleChange = (_val, hexString: string) => {
+    const color = hexString || defaultColor;
+    onChange?.({ type: 'solid', color });
   }
 
   const calcIconFill = () => {
@@ -38,8 +36,8 @@ export default function ColorSetter (props) {
 
   const calcTriggerBg = () => {
     if (value?.type === 'solid') {
-      const c = new Color(value.color);
-      if (c.toHexString() === '#ffffff') {
+      const hex = String(value.color || '').toLowerCase();
+      if (hex === '#ffffff' || hex === '#fff' || hex === 'white' || hex === 'rgb(255, 255, 255)') {
         return 'rgba(103,103,103,0.24)';
       }
     }
@@ -67,11 +65,10 @@ export default function ColorSetter (props) {
       <Popover
         content={
           <div className="fabritor-color-setter">
-            <ColorsPicker
-              value={value}
+            <ColorPicker
+              value={value?.type === 'solid' ? value.color : defaultColor}
               onChange={handleChange}
               format="hex"
-              angleType="rotate"
             />
           </div>
         }
@@ -92,7 +89,7 @@ export default function ColorSetter (props) {
         <linearGradient id="colorsetter-icon-gradient" x2="1" y2="1">
           {
             value?.gradient?.colorStops.map(stop => (
-              <stop offset={`${stop.offset * 100}%`} stop-color={stop.color} />
+              <stop offset={`${stop.offset * 100}%`} stopColor={stop.color} />
             ))
           }
         </linearGradient>

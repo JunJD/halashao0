@@ -46,6 +46,8 @@ export default class Editor {
     this.autoSave = new AutoSave(this);
     await this.autoSave.loadFromLocal();
 
+    if (!this.canvas) return;
+
     this.fhistory = new FabricHistory(this);
     initHotKey(this.canvas, this.fhistory);
 

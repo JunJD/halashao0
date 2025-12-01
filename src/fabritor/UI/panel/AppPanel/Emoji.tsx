@@ -1,5 +1,5 @@
 import { fabric } from 'fabric';
-import { useSearchParams } from 'ice';
+import { useSearchParams } from '@/utils/router';
 import AppSubPanel from './AppSubPanel';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';

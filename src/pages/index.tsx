@@ -1,10 +1,16 @@
-import { definePageConfig } from 'ice';
-import Fabritor from '@/fabritor';
+import Head from 'next/head';
+import dynamic from 'next/dynamic';
 
-export const pageConfig = definePageConfig(() => ({
-  title: 'fabritor, A creative editor based on fabricjs.'
-}));
+// Fabritor uses browser APIs heavily; disable SSR for safety
+const Fabritor = dynamic(() => import('@/fabritor'), { ssr: false });
 
-export default function () {
-  return <Fabritor />;
+export default function HomePage() {
+  return (
+    <>
+      <Head>
+        <title>fabritor, A creative editor based on fabricjs.</title>
+      </Head>
+      <Fabritor />
+    </>
+  );
 }

@@ -3,5 +3,8 @@
     "public/locales",
     "src/i18n"
   ],
-  "i18n-ally.keystyle": "nested"
+  "i18n-ally.keystyle": "nested",
+  "cSpell.words": [
+    "fabritor"
+  ]
 }

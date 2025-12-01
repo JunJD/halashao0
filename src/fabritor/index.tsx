@@ -1,5 +1,5 @@
 import { fabric } from 'fabric';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import { Layout, Spin } from 'antd';
 import Header from './UI/header';
 import Panel from './UI/panel';
@@ -11,7 +11,6 @@ import { SKETCH_ID } from '@/utils/constants';
 import ObjectRotateAngleTip from './components/ObjectRotateAngleTip';
 import rough from 'roughjs';
 
-import '../font.css';
 
 const { Content } = Layout;
 
@@ -118,6 +117,14 @@ export default function Fabritor () {
     setRoughSvg(rough.svg(roughSvgEl.current));
   }
 
+  const renderWorkspace = useMemo(() => {
+    return (
+      <div style={workspaceStyle} ref={workspaceEl} className="fabritor-workspace">
+        <canvas ref={canvasEl} />
+      </div>
+    )
+  }, []);
+
   useEffect(() => {
     if (editor) {
       initEvent();
@@ -126,11 +133,43 @@ export default function Fabritor () {
   }, [editor]);
 
   useEffect(() => {
-    initEditor();
+    let isCancelled = false;
+    let editorInstance: Editor | null = null;
+
+    const init = async () => {
+      const _editor = new Editor({
+        canvasEl: canvasEl.current,
+        workspaceEl: workspaceEl.current,
+        sketchEventHandler: {
+          groupHandler: () => { setActiveObject(_editor.canvas.getActiveObject()) }
+        }
+      });
+
+      editorInstance = _editor;
+
+      if (isCancelled) {
+        _editor.destroy();
+        return;
+      }
+
+      await _editor.init();
+
+      if (isCancelled) {
+        _editor.destroy();
+        return;
+      }
+
+      setEditor(_editor);
+      setReady(true);
+      setActiveObject(_editor.sketch);
+    }
+
+    init();
 
     return () => {
-      if (editor) {
-        editor.destroy();
+      isCancelled = true;
+      if (editorInstance) {
+        editorInstance.destroy();
       }
     }
   }, []);
@@ -154,9 +193,7 @@ export default function Fabritor () {
           <Panel />
           <Content style={contentStyle}>
             <ContextMenu ref={contextMenuRef} object={activeObject}>
-              <div style={workspaceStyle} ref={workspaceEl} className="fabritor-workspace">
-                <canvas ref={canvasEl} />
-              </div>
+              {renderWorkspace}
             </ContextMenu>
           </Content>
           <Setter />

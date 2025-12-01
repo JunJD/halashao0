@@ -12,7 +12,7 @@ import { PANEL_WIDTH } from '@/config';
 import { Trans } from '@/i18n/utils';
 import LocalesSwitch from '@/fabritor/components/LocalesSwitch';
 
-import './index.scss';
+// styles moved to global import in _app.tsx
 
 const { Sider } = Layout;
 

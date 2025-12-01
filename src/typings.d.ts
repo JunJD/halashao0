@@ -1,1 +1,1 @@
-/// <reference types="@ice/app/types" />
+// empty, reserved for project-level typings

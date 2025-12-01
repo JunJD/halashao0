@@ -1,16 +1,15 @@
-import { Popover } from 'antd';
-import { Color, ColorPicker } from 'react-colors-beauty';
+import { Popover, ColorPicker } from 'antd';
 
 export default function SolidColorSetter (props) {
   const { value, onChange, trigger } = props;
 
-  const handleChange = (v) => {
-    onChange?.(v);
+  const handleChange = (_value, hexString: string) => {
+    onChange?.(hexString || value);
   }
 
   const calcTriggerBg = () => {
-    const c = new Color(value);
-    if (c.toHexString() === '#ffffff') {
+    const hex = String(value || '').toLowerCase();
+    if (hex === '#ffffff' || hex === '#fff' || hex === 'white' || hex === 'rgb(255, 255, 255)') {
       return 'rgba(103,103,103,0.24)';
     }
     return null;

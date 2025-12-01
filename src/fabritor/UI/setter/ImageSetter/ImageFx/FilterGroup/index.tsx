@@ -1,5 +1,5 @@
 import { Slider } from 'antd';
-import './index.scss';
+// styles moved to global import in _app.tsx
 
 const COLOR_FILTER_LIST = [
   {

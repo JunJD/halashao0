@@ -5,7 +5,7 @@ import { CloseOutlined, CheckOutlined, ExpandOutlined } from '@ant-design/icons'
 import { PANEL_WIDTH } from '@/config';
 import { useTranslation } from '@/i18n/utils';
 
-import 'cropperjs/dist/cropper.css';
+// global CSS moved to _app.tsx
 
 export default function ClipSetter (props) {  
   const { t } = useTranslation();

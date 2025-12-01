@@ -3,8 +3,12 @@
     "baseUrl": "./",
     "module": "ESNext",
     "target": "ESNext",
-    "lib": ["DOM", "ESNext", "DOM.Iterable"],
-    "jsx": "react-jsx",
+    "lib": [
+      "DOM",
+      "ESNext",
+      "DOM.Iterable"
+    ],
+    "jsx": "preserve",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
@@ -16,10 +20,24 @@
     "strictNullChecks": false,
     "skipLibCheck": true,
     "paths": {
-      "@/*": ["./src/*"],
-      "ice": [".ice"]
-    }
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "allowJs": true,
+    "strict": false,
+    "noEmit": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    "isolatedModules": true
   },
-  "include": ["src", ".ice"],
-  "exclude": ["build"]
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "build",
+    "src/app.ts",
+    "src/document.tsx",
+    "src/pages/layout.tsx"
+  ]
 }

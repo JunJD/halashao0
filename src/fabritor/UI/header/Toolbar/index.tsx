@@ -8,7 +8,7 @@ import ToolbarItem from './ToolbarItem';
 import ToolbarDivider from '@/fabritor/components/ToolbarDivider';
 import { Trans } from '@/i18n/utils';
 
-import './index.scss';
+// styles moved to global import in _app.tsx
 
 const i18nKeySuffix = 'header.toolbar';
 
