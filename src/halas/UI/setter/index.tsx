@@ -1,5 +1,4 @@
 import { useContext } from 'react';
-import { Layout } from 'antd';
 import { GlobalStateContext } from '@/context';
 import { SKETCH_ID } from '@/utils/constants';
 import SketchSetter from './SketchSetter';
@@ -10,22 +9,11 @@ import CommonSetter from './CommonSetter';
 import GroupSetter from './GroupSetter';
 import PathSetter from './PathSetter';
 import RoughSetter from './RoughSetter';
-import { SETTER_WIDTH } from '@/config';
-
-const { Sider } = Layout;
-
-const siderStyle: React.CSSProperties = {
-  position: 'relative',
-  backgroundColor: '#fff',
-  boxShadow: '-1px 0 2px 0 rgba(0, 0, 0, 0.03)',
-  zIndex: 100
-};
 
 export default function Setter () {
   const { object, isReady } = useContext(GlobalStateContext);
 
   const objectType = object?.get?.('type') || '';
-  console.log('objectType', objectType, object);
 
   const getRenderSetter = () => {
     if (!isReady) return null;
@@ -77,22 +65,16 @@ export default function Setter () {
   }
 
   return (
-    <Sider
-      style={siderStyle}
-      width={SETTER_WIDTH}
-      className="halas-sider"
+    <div
+      style={{ 
+        padding: '20px 16px', 
+        height: '100%', 
+        overflowY: 'auto',
+        scrollbarWidth: 'thin'
+      }}
     >
-      <div
-        style={{ 
-          padding: 16, 
-          height: '100%', 
-          overflowY: 'auto',
-          scrollbarWidth: 'thin'
-        }}
-      >
-        {renderSetter()}
-        <CommonSetter />
-      </div>
-    </Sider>
+      {renderSetter()}
+      <CommonSetter />
+    </div>
   )
 }

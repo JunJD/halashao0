@@ -72,7 +72,6 @@ export default class Editor {
       height: workspaceEl.offsetHeight,
       backgroundColor: '#dddddd',
       preserveObjectStacking: true,
-      imageSmoothingEnabled: false
     });
   }
 
@@ -118,6 +117,7 @@ export default class Editor {
         this.canvas.setWidth(workspaceEl.offsetWidth);
         this.canvas.setHeight(workspaceEl.offsetHeight);
         this._adjustSketch2Canvas();
+        this.canvas.requestRenderAll();
       }, 50)
     );
     this._resizeObserver.observe(workspaceEl);

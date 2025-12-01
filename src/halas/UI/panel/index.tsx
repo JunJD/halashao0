@@ -1,14 +1,15 @@
 import { Layout, FloatButton } from 'antd';
-import { useContext, useState } from 'react';
-import { LayoutTemplate, Type, Image, Shapes, PenTool, AppWindow } from 'lucide-react';
+import { useContext, useState, useEffect } from 'react';
+import { LayoutTemplate, Type, Image, Shapes, PenTool, AppWindow, Sliders } from 'lucide-react';
 import TextPanel from './TextPanel';
 import ImagePanel from './ImagePanel';
 import ShapePanel from './ShapePanel';
 import PaintPanel from './PaintPanel';
 import DesignPanel from './DesignPanel';
+import Setter from '../setter';
 import { GlobalStateContext } from '@/context';
 import AppPanel from './AppPanel';
-import { PANEL_WIDTH } from '@/config';
+import { SKETCH_ID } from '@/utils/constants';
 import { Trans } from '@/i18n/utils';
 import LocalesSwitch from '@/halas/components/LocalesSwitch';
 import styles from './index.module.scss';
@@ -49,11 +50,16 @@ const OBJECT_TYPES = [
     label: <Trans i18nKey="panel.app.title" />,
     value: 'app',
     icon: <AppWindow size={iconSize} />
+  },
+  {
+    label: <Trans i18nKey="common.operate" />,
+    value: 'settings',
+    icon: <Sliders size={iconSize} />
   }
 ];
 
 export default function Panel () {
-  const { editor } = useContext(GlobalStateContext);
+  const { editor, object } = useContext(GlobalStateContext);
   const [activeTab, setActiveTab] = useState('design');
 
   const renderPanel = (value) => {
@@ -75,6 +81,9 @@ export default function Panel () {
     if (value === 'app') {
       return <AppPanel />;
     }
+    if (value === 'settings') {
+      return <Setter />;
+    }
     return null;
   }
 
@@ -89,9 +98,15 @@ export default function Panel () {
     }
   }
 
+  useEffect(() => {
+    if (object && object.id !== SKETCH_ID) {
+      setActiveTab('settings');
+    }
+  }, [object]);
+
   return (
     <Sider
-      width={PANEL_WIDTH + 68} // Sidebar width + Content width
+      width={360} // Sidebar width (68) + Content width (~292)
       theme="light"
       style={{ borderRight: '1px solid #f0f0f0', overflow: 'hidden' }}
       className="halas-sider"

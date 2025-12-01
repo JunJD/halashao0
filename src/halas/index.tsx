@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, useMemo } from 'react';
 import { Layout, Spin } from 'antd';
 import Header from './UI/header';
 import Panel from './UI/panel';
-import Setter from './UI/setter';
+import ChatPanel from './UI/chat';
 import Editor from '@/editor';
 import { GlobalStateContext } from '@/context';
 import ContextMenu from './components/ContextMenu';
@@ -105,7 +105,19 @@ export default function Halas () {
       }
     });
 
+    editorInstance = _editor;
+
+    if (isCancelled) {
+      _editor.destroy();
+      return;
+    }
+
     await _editor.init();
+
+    if (isCancelled) {
+      _editor.destroy();
+      return;
+    }
 
     setEditor(_editor);
     setReady(true);
@@ -196,7 +208,7 @@ export default function Halas () {
               {renderWorkspace}
             </ContextMenu>
           </Content>
-          <Setter />
+          <ChatPanel />
         </Layout>
 
         <svg id="halas-rough-svg" ref={roughSvgEl} />
