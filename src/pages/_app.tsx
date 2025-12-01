@@ -39,7 +39,46 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [lngParam]);
 
   return (
-    <ConfigProvider locale={antDLocale}>
+    <ConfigProvider
+      locale={antDLocale}
+      theme={{
+        token: {
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
+          colorPrimary: '#000000',
+          borderRadius: 8,
+        },
+        components: {
+          Button: {
+            controlHeight: 36,
+            borderRadius: 8,
+            primaryShadow: '0 2px 0 rgba(0, 0, 0, 0.04)',
+            defaultShadow: '0 2px 0 rgba(0, 0, 0, 0.02)',
+          },
+          Input: {
+            controlHeight: 36,
+            borderRadius: 8,
+          },
+          Select: {
+            controlHeight: 36,
+            borderRadius: 8,
+          },
+          Popover: {
+            borderRadius: 10,
+          },
+          Segmented: {
+            borderRadius: 8,
+            trackBg: '#f5f5f5',
+            itemSelectedBg: '#ffffff',
+            itemSelectedColor: '#000',
+            itemColor: '#666',
+          },
+          Layout: {
+            headerBg: '#ffffff',
+            siderBg: '#ffffff',
+          }
+        }
+      }}
+    >
       <Component {...pageProps} />
     </ConfigProvider>
   );

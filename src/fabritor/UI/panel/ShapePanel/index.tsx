@@ -1,5 +1,4 @@
 import { Flex, Tag } from 'antd';
-import Title from '@/fabritor/components/Title';
 import LineTypeList from './line-type-list';
 import ShapeTypeList from './shape-type-list';
 import RoughTypeList from './rough-type-list';
@@ -11,6 +10,41 @@ import { GlobalStateContext } from '@/context';
 import { createPathFromSvg } from '@/editor/objects/path';
 import Center from '@/fabritor/components/Center';
 import { useTranslation } from '@/i18n/utils';
+
+const SectionTitle = ({ children }) => (
+  <div style={{ fontSize: 14, fontWeight: 600, color: '#333', marginBottom: 12, marginTop: 8 }}>
+    {children}
+  </div>
+);
+
+const ShapeItem = ({ onClick, children }) => (
+  <div
+    onClick={onClick}
+    style={{
+      background: '#f5f7fa',
+      borderRadius: 8,
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      aspectRatio: '1',
+      transition: 'all 0.2s ease',
+      border: '1px solid transparent'
+    }}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.background = '#fff';
+      e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.08)';
+      e.currentTarget.style.transform = 'scale(1.05)';
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.background = '#f5f7fa';
+      e.currentTarget.style.boxShadow = 'none';
+      e.currentTarget.style.transform = 'scale(1)';
+    }}
+  >
+    {children}
+  </div>
+);
 
 export default function ShapePanel () {
   const { editor, roughSvg } = useContext(GlobalStateContext);
@@ -84,56 +118,44 @@ export default function ShapePanel () {
   }
 
   return (
-    <div className="fabritor-panel-wrapper">
-      <Title>{t('panel.material.line')}</Title>
-      <Flex gap={10} wrap="wrap" justify="space-around">
+    <div style={{ padding: '16px', height: '100%', overflowY: 'auto' }}>
+      <SectionTitle>{t('panel.material.line')}</SectionTitle>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
         {
           LineTypeList.map(item => (
-            <div
-              key={item.key}
-              onClick={() => { addLine(item) }}
-              className="fabritor-panel-shape-item"
-            >
-              <img src={`data:image/svg+xml,${encodeURIComponent(item.svg)}`} alt="" style={{ width: 48, height: 48 }} />
-            </div>
+            <ShapeItem key={item.key} onClick={() => { addLine(item) }}>
+              <img src={`data:image/svg+xml,${encodeURIComponent(item.svg)}`} alt="" style={{ width: 32, height: 32 }} />
+            </ShapeItem>
           ))
         }
-      </Flex>
-      <Title>{t('panel.material.shape')}</Title>
-      <Flex gap={10} wrap="wrap" justify="space-around">
+      </div>
+
+      <SectionTitle>{t('panel.material.shape')}</SectionTitle>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
         {
           ShapeTypeList.map(item => (
-            <div
-              key={item.key}
-              onClick={() => { addShape(item) }}
-              className="fabritor-panel-shape-item"
-            >
-              <img src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(item.elem)}`} style={{ width: 64, height: 64 }} />
-            </div>
+            <ShapeItem key={item.key} onClick={() => { addShape(item) }}>
+              <img src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(item.elem)}`} style={{ width: 36, height: 36 }} />
+            </ShapeItem>
           ))
         }
-      </Flex>
-      <Title>
-        <div style={{ position: 'relative' }}>
+      </div>
+
+      <SectionTitle>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <span>{t('panel.material.hand_drawn')}</span>
-          <Tag color='#f50' style={{ position: 'absolute', right: -48, top: -5, padding: '0 4px' }}>beta</Tag>
+          <Tag color="orange" style={{ borderRadius: 4, fontSize: 10, lineHeight: '16px', height: 18, border: 'none' }}>BETA</Tag>
         </div>
-      </Title>
-      <Flex gap={10} wrap="wrap" justify="space-around">
+      </SectionTitle>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
         {
           RoughTypeList.map(item => (
-            <div
-              key={item.key}
-              onClick={() => { addRough(item) }}
-              className="fabritor-panel-shape-item"
-            >
-              <Center style={{ width: 64, height: 64 }}>
-                <img src={item.elem} style={{ width: 64 }} />
-              </Center>
-            </div>
+            <ShapeItem key={item.key} onClick={() => { addRough(item) }}>
+              <img src={item.elem} style={{ width: 40 }} />
+            </ShapeItem>
           ))
         }
-      </Flex>
+      </div>
     </div>
   )
 }

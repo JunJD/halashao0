@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import { Modal } from 'antd';
 import { GlobalStateContext } from '@/context';
-import { DRAG_ICON } from '@/assets/icon';
-import { ClearOutlined, DragOutlined, ExclamationCircleFilled, UndoOutlined, RedoOutlined } from '@ant-design/icons';
+import { ExclamationCircleFilled } from '@ant-design/icons';
+import { Undo2, Redo2, Hand, MousePointer2, Trash2 } from 'lucide-react';
 import { CenterV } from '@/fabritor/components/Center';
 import ToolbarItem from './ToolbarItem';
 import ToolbarDivider from '@/fabritor/components/ToolbarDivider';
@@ -11,6 +11,7 @@ import { Trans } from '@/i18n/utils';
 // styles moved to global import in _app.tsx
 
 const i18nKeySuffix = 'header.toolbar';
+const ICON_SIZE = 20;
 
 export default function Toolbar () {
   const { setActiveObject, editor } = useContext(GlobalStateContext);
@@ -49,28 +50,29 @@ export default function Toolbar () {
         title={<Trans i18nKey={`${i18nKeySuffix}.undo`} />} 
         onClick={() => { editor.fhistory.undo() }}
       >
-        <UndoOutlined style={{ fontSize: 20 }} />
+        <Undo2 size={ICON_SIZE} />
       </ToolbarItem>
       <ToolbarItem
         disabled={!canRedo}
         title={<Trans i18nKey={`${i18nKeySuffix}.redo`} />} 
         onClick={() => { editor.fhistory.redo() }}
       >
-        <RedoOutlined style={{ fontSize: 20 }} />
+        <Redo2 size={ICON_SIZE} />
       </ToolbarItem>
       <ToolbarDivider />
       <ToolbarItem
         onClick={enablePan}
         title={panEnable ? <Trans i18nKey={`${i18nKeySuffix}.select`} /> : <Trans i18nKey={`${i18nKeySuffix}.pan`} />}
+        style={panEnable ? { backgroundColor: 'rgba(0,0,0,0.06)' } : {}}
       >
         {
-          panEnable? 
-          <DragOutlined style={{ fontSize: 22, color: panEnable ? '#000' : '#ccc' }} /> :
-          <img src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(DRAG_ICON)}`} style={{ width: 22, height: 22 }} />
+          panEnable ? 
+          <MousePointer2 size={ICON_SIZE} /> :
+          <Hand size={ICON_SIZE} />
         }
       </ToolbarItem>
       <ToolbarItem onClick={clearCanvas} title={<Trans i18nKey={`${i18nKeySuffix}.clear`} />}>
-        <ClearOutlined style={{ fontSize: 20 }} />
+        <Trash2 size={ICON_SIZE} />
       </ToolbarItem>
     </CenterV>
   )

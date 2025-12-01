@@ -1,10 +1,10 @@
-import { Flex, Card } from 'antd';
+import { Flex } from 'antd';
 import Title from '@/fabritor/components/Title';
 import { Trans, useTranslation, translate } from '@/i18n/utils';
 
 const PRESET_FONT_LIST = [
   {
-    label: <div style={{ fontSize: 30, fontFamily: 'SmileySans', fontWeight: 'bold' }}><Trans i18nKey="panel.text.add_title" /></div>,
+    label: <div style={{ fontSize: 28, fontFamily: 'SmileySans', fontWeight: 'bold', color: '#333' }}><Trans i18nKey="panel.text.add_title" /></div>,
     key: 'title',
     config: {
       fontFamily: 'SmileySans',
@@ -15,7 +15,7 @@ const PRESET_FONT_LIST = [
     }
   },
   {
-    label: <div style={{ fontSize: 24, fontFamily: 'AlibabaPuHuiTi' }}><Trans i18nKey="panel.text.add_subtitle" /></div>,
+    label: <div style={{ fontSize: 22, fontFamily: 'AlibabaPuHuiTi', color: '#444' }}><Trans i18nKey="panel.text.add_subtitle" /></div>,
     key: 'sub-title',
     config: {
       fontFamily: 'AlibabaPuHuiTi',
@@ -26,7 +26,7 @@ const PRESET_FONT_LIST = [
     }
   },
   {
-    label: <div style={{ fontSize: 16, fontFamily: 'SourceHanSerif' }}><Trans i18nKey="panel.text.add_body_text" /></div>,
+    label: <div style={{ fontSize: 16, fontFamily: 'SourceHanSerif', color: '#666' }}><Trans i18nKey="panel.text.add_body_text" /></div>,
     key: 'content',
     config: {
       fontFamily: 'SourceHanSerif',
@@ -36,7 +36,7 @@ const PRESET_FONT_LIST = [
   },
   {
     label: <div style={{ fontSize: 26, fontFamily: '霞鹜文楷', color: '#ffffff' , WebkitTextStroke: '1px rgb(255, 87, 87)' }}><Trans i18nKey="panel.text.add_text_border" /></div>,
-    key: 'content',
+    key: 'border-text',
     config: {
       fontFamily: '霞鹜文楷',
       fontSize: 100,
@@ -57,20 +57,40 @@ export default function PresetFontPanel (props) {
   }
 
   return (
-    <Flex vertical gap={8} style={{ marginTop: 16 }}>
-      <Title>{t('panel.text.presets')}</Title>
+    <Flex vertical gap={12} style={{ marginTop: 24 }}>
+      <div style={{ fontSize: 14, fontWeight: 600, color: '#999', paddingLeft: 4 }}>
+        {t('panel.text.presets')}
+      </div>
       {
         PRESET_FONT_LIST.map(item => (
-          <Card
+          <div
             key={item.key}
-            hoverable
             onClick={() => { handleClick(item) }}
-            bodyStyle={{
-              padding: '12px 30px'
+            style={{
+              padding: '16px 24px',
+              backgroundColor: '#f5f7fa',
+              borderRadius: 12,
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              minHeight: 80,
+              border: '1px solid transparent'
+            }}
+            onMouseEnter={(e) => { 
+              e.currentTarget.style.backgroundColor = '#fff';
+              e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)';
+              e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
+            }}
+            onMouseLeave={(e) => { 
+              e.currentTarget.style.backgroundColor = '#f5f7fa';
+              e.currentTarget.style.boxShadow = 'none';
+              e.currentTarget.style.borderColor = 'transparent';
             }}
           >
             {item.label}
-          </Card>
+          </div>
         ))
       }
     </Flex>

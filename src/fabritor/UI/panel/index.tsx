@@ -1,6 +1,6 @@
-import { Layout, Tabs, Flex, FloatButton } from 'antd';
-import { useContext } from 'react';
-import { AlertOutlined, FileTextOutlined, PictureOutlined, BorderOutlined, BulbOutlined, AppstoreOutlined, GithubFilled } from '@ant-design/icons';
+import { Layout, FloatButton } from 'antd';
+import { useContext, useState } from 'react';
+import { LayoutTemplate, Type, Image, Shapes, PenTool, AppWindow, Github } from 'lucide-react';
 import TextPanel from './TextPanel';
 import ImagePanel from './ImagePanel';
 import ShapePanel from './ShapePanel';
@@ -11,54 +11,50 @@ import AppPanel from './AppPanel';
 import { PANEL_WIDTH } from '@/config';
 import { Trans } from '@/i18n/utils';
 import LocalesSwitch from '@/fabritor/components/LocalesSwitch';
+import styles from './index.module.scss';
 
 // styles moved to global import in _app.tsx
 
 const { Sider } = Layout;
 
-const siderStyle: React.CSSProperties = {
-  position: 'relative',
-  backgroundColor: '#fff',
-  borderRight: '1px solid #e8e8e8'
-};
-
-const iconStyle = { fontSize: 18, marginRight: 0 };
+const iconSize = 24;
 
 const OBJECT_TYPES = [
   {
     label: <Trans i18nKey="panel.design.title" />,
     value: 'design',
-    icon: <AlertOutlined style={iconStyle} />
+    icon: <LayoutTemplate size={iconSize} />
   },
   {
     label: <Trans i18nKey="panel.text.title" />,
     value: 'text',
-    icon: <FileTextOutlined style={iconStyle} />
+    icon: <Type size={iconSize} />
   },
   {
     label: <Trans i18nKey="panel.image.title" />,
     value: 'image',
-    icon: <PictureOutlined style={iconStyle} />
+    icon: <Image size={iconSize} />
   },
   {
     label: <Trans i18nKey="panel.material.title" />,
     value: 'shape',
-    icon: <BorderOutlined style={iconStyle} />
+    icon: <Shapes size={iconSize} />
   },
   {
     label: <Trans i18nKey="panel.paint.title" />,
     value: 'paint',
-    icon: <BulbOutlined style={iconStyle} />
+    icon: <PenTool size={iconSize} />
   },
   {
     label: <Trans i18nKey="panel.app.title" />,
     value: 'app',
-    icon: <AppstoreOutlined style={iconStyle} />
+    icon: <AppWindow size={iconSize} />
   }
 ];
 
 export default function Panel () {
   const { editor } = useContext(GlobalStateContext);
+  const [activeTab, setActiveTab] = useState('design');
 
   const renderPanel = (value) => {
     if (value === 'design') {
@@ -82,16 +78,8 @@ export default function Panel () {
     return null;
   }
 
-  const renderLabel = (item) => {
-    return (
-      <Flex vertical justify="center">
-        <div>{item.icon}</div>
-        <div>{item.label}</div>
-      </Flex>
-    )
-  }
-
   const handleTabChange = (k) => {
+    setActiveTab(k);
     if (editor?.canvas) {
       if (k === 'paint') {
         editor.canvas.isDrawingMode = true;
@@ -103,33 +91,40 @@ export default function Panel () {
 
   return (
     <Sider
-      style={siderStyle}
-      width={PANEL_WIDTH}
+      width={PANEL_WIDTH + 68} // Sidebar width + Content width
+      theme="light"
+      style={{ borderRight: '1px solid #f0f0f0', overflow: 'hidden' }}
       className="fabritor-sider"
     >
-      <Tabs
-        tabPosition="left"
-        style={{ flex: 1, overflow: 'auto' }}
-        size="small"
-        onChange={handleTabChange}
-        items={
-          OBJECT_TYPES.map((item) => {
-            return {
-              label: renderLabel(item),
-              key: item.value,
-              children: renderPanel(item.value)
-            };
-          })
-        }
-      />
-      <FloatButton.Group shape="circle" style={{ left: 10, bottom: 14, right: 'auto' }}>
-        <FloatButton
-          icon={<GithubFilled />}
-          href="https://github.com/sleepy-zone/fabritor-web"
-          target="_blank"
-        />
-        <LocalesSwitch />
-      </FloatButton.Group>
+      <div className={styles.panelLayout}>
+        <div className={styles.sidebar}>
+          {
+            OBJECT_TYPES.map(item => (
+              <div 
+                key={item.value}
+                className={`${styles.sidebarItem} ${activeTab === item.value ? styles.active : ''}`}
+                onClick={() => handleTabChange(item.value)}
+              >
+                <div className={styles.icon}>{item.icon}</div>
+                <span className={styles.label}>{item.label}</span>
+              </div>
+            ))
+          }
+          
+          <div className={styles.bottomActions}>
+             <LocalesSwitch />
+             <FloatButton
+                icon={<Github size={20} />}
+                href="https://github.com/sleepy-zone/fabritor-web"
+                target="_blank"
+                style={{ position: 'static' }}
+             />
+          </div>
+        </div>
+        <div className={styles.content}>
+          {renderPanel(activeTab)}
+        </div>
+      </div>
     </Sider>
   )
 }

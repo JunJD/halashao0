@@ -1,5 +1,5 @@
 import { Flex, Card } from 'antd';
-import { QrcodeOutlined, SmileOutlined } from '@ant-design/icons';
+import { QrCode, Smile } from 'lucide-react';
 import { useState } from 'react';
 import QRCodePanel from './QRCode';
 import EmojiPanel from './Emoji';
@@ -9,12 +9,12 @@ const APP_LIST = [
   {
     title: <Trans i18nKey="panel.app.qrcode" />,
     key: 'qrcode',
-    icon: <QrcodeOutlined style={{ fontSize: 30 }} />
+    icon: <QrCode size={30} />
   },
   {
     title: <Trans i18nKey="panel.app.emoji" />,
     key: 'emoji',
-    icon: <SmileOutlined style={{ fontSize: 30 }} />
+    icon: <Smile size={30} />
   }
 ];
 
@@ -41,7 +41,7 @@ export default function AppPanel () {
               hoverable
               style={{ width: 120, paddingTop: 12 }}
               key={item.key}
-              cover={item.icon}
+              cover={<div style={{ display: 'flex', justifyContent: 'center' }}>{item.icon}</div>}
               bodyStyle={{ padding: 12 }}
               onClick={() => { handleAppClick(item) }}
             >

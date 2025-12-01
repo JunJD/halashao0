@@ -9,11 +9,13 @@ const { Header} = Layout;
 
 const headerStyle: React.CSSProperties = {
   padding: 0,
-  height: 50,
+  height: 56,
   backgroundColor: '#fff',
   display: 'flex',
   alignItems: 'center',
-  borderBottom: '1px solid #e8e8e8'
+  boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.03)',
+  zIndex: 100,
+  position: 'relative'
 };
 
 export default function () {

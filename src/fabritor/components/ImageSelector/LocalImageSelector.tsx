@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { Button } from 'antd';
 import LocalFileSelector from '../LocalFileSelector';
 import { useTranslation } from '@/i18n/utils';
+import { Upload } from 'lucide-react';
 
 export default function LocalImageSelector (props) {
   const { onChange, ...rest } = props;
@@ -28,7 +29,15 @@ export default function LocalImageSelector (props) {
 
   return (
     <div>
-      <Button type="primary" size="large" onClick={handleClick} {...rest}>
+      <Button 
+        type="primary" 
+        size="large" 
+        onClick={handleClick} 
+        block
+        icon={<Upload size={18} />}
+        style={{ height: 48, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+        {...rest}
+      >
         {t('panel.image.local')}
       </Button>
 

@@ -1,50 +1,51 @@
 import { useContext, useEffect, useState } from 'react';
 import { GlobalStateContext } from '@/context';
-import { LockOutlined, UnlockOutlined, CopyOutlined, DeleteOutlined, PicCenterOutlined, AlignLeftOutlined, AlignCenterOutlined, AlignRightOutlined, VerticalAlignTopOutlined, VerticalAlignMiddleOutlined, VerticalAlignBottomOutlined } from '@ant-design/icons';
+import { Lock, Unlock, Copy, Trash2, FlipHorizontal, LocateFixed, AlignLeft, AlignCenterHorizontal, AlignRight, AlignVerticalJustifyStart, AlignVerticalJustifyCenter, AlignVerticalJustifyEnd } from 'lucide-react';
 import { SKETCH_ID } from '@/utils/constants';
 import OpacitySetter from './OpacitySetter';
 import ToolbarItem from '../../header/Toolbar/ToolbarItem';
 import { CenterV } from '@/fabritor/components/Center';
 import { copyObject, pasteObject, removeObject } from '@/utils/helper';
 import FlipSetter from './FlipSetter';
-import { Divider } from 'antd';
 import PositionSetter from './PositionSetter';
 import { useTranslation, Trans } from '@/i18n/utils';
+
+const ICON_SIZE = 20;
 
 const ALIGH_TYPES = [
   {
     label: <Trans i18nKey="setter.common.center" />,
-    icon: PicCenterOutlined,
+    icon: LocateFixed,
     key: 'center'
   },
   {
     label: <Trans i18nKey="setter.common.align_left" />,
-    icon: AlignLeftOutlined,
+    icon: AlignLeft,
     key: 'left'
   },
   {
     label: <Trans i18nKey="setter.common.center_h" />,
-    icon: AlignCenterOutlined,
+    icon: AlignCenterHorizontal,
     key: 'centerH'
   },
   {
     label: <Trans i18nKey="setter.common.align_right" />,
-    icon: AlignRightOutlined,
+    icon: AlignRight,
     key: 'right'
   },
   {
     label: <Trans i18nKey="setter.common.align_top" />,
-    icon: VerticalAlignTopOutlined,
+    icon: AlignVerticalJustifyStart,
     key: 'top'
   },
   {
     label: <Trans i18nKey="setter.common.center_v" />,
-    icon: VerticalAlignMiddleOutlined,
+    icon: AlignVerticalJustifyCenter,
     key: 'centerV'
   },
   {
     label: <Trans i18nKey="setter.common.align_bottom" />,
-    icon: VerticalAlignBottomOutlined,
+    icon: AlignVerticalJustifyEnd,
     key: 'bottom'
   }
 ]
@@ -129,8 +130,8 @@ export default function CommonSetter () {
         >
           {
             lock ? 
-            <UnlockOutlined style={{ fontSize: 20 }} /> :
-            <LockOutlined style={{ fontSize: 20 }} />
+            <Unlock size={ICON_SIZE} /> :
+            <Lock size={ICON_SIZE} />
           }
         </ToolbarItem>
         <ToolbarItem tooltipProps={{ placement: 'top' }} title={t('setter.common.opacity')}>
@@ -150,14 +151,14 @@ export default function CommonSetter () {
             }
           }
         >
-          <CopyOutlined style={{ fontSize: 20 }} />
+          <Copy size={ICON_SIZE} />
         </ToolbarItem>
         <ToolbarItem
           tooltipProps={{ placement: 'top' }}
           title={t('setter.common.del')}
           onClick={() => { removeObject(null, editor.canvas); }}
         >
-          <DeleteOutlined style={{ fontSize: 20 }} />
+          <Trash2 size={ICON_SIZE} />
         </ToolbarItem>
         {
           object.type === 'f-image' ?
@@ -169,9 +170,13 @@ export default function CommonSetter () {
           </ToolbarItem> : null
         }
       </CenterV>
-      <Divider style={{ margin: '16px 0' }} />
-      <span style={{ fontWeight: 'bold' }}>{t('setter.common.align')}</span>
-      <CenterV height={30} gap={8} justify="space-between" style={{ marginTop: 16 }}>
+      
+      <div style={{ height: 24 }} />
+      
+      <div style={{ marginBottom: 12, fontSize: 12, fontWeight: 600, color: '#666' }}>
+        {t('setter.common.align')}
+      </div>
+      <CenterV height={30} gap={8} justify="space-between">
         {
           ALIGH_TYPES.map(item => (
             <ToolbarItem
@@ -180,12 +185,14 @@ export default function CommonSetter () {
               key={item.key}
               onClick={() => { alignObject(item.key); }}
             >
-              <item.icon style={{ fontSize: 20 }} />
+              <item.icon size={ICON_SIZE} />
             </ToolbarItem>
           ))
         }
       </CenterV>
-      <Divider style={{ margin: '16px 0' }} />
+      
+      <div style={{ height: 24 }} />
+      
       <PositionSetter />
     </>
   )
