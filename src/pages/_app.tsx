@@ -12,9 +12,9 @@ import '@/global.css';
 import '@/font.css';
 import 'antd/dist/reset.css';
 import 'cropperjs/dist/cropper.css';
-import '@/fabritor/UI/header/Toolbar/index.scss';
-import '@/fabritor/UI/panel/index.scss';
-import '@/fabritor/UI/setter/ImageSetter/ImageFx/FilterGroup/index.scss';
+import '@/halas/UI/header/Toolbar/index.scss';
+import '@/halas/UI/panel/index.scss';
+import '@/halas/UI/setter/ImageSetter/ImageFx/FilterGroup/index.scss';
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();

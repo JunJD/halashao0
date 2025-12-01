@@ -40,7 +40,7 @@ export default class AutoSave {
 
     try {
       if (this.canSave) {
-        localStorage.setItem('fabritor_web_json', this._getJSON());
+        localStorage.setItem('halas_web_json', this._getJSON());
       }
     } catch(e) {  console.log(e) }
 
@@ -57,14 +57,14 @@ export default class AutoSave {
       'object:removed': this.autoSaveAction.bind(this),
       'object:modified': this.autoSaveAction.bind(this),
       'object:skewing': this.autoSaveAction.bind(this),
-      'fabritor:object:modified': this.autoSaveAction.bind(this)
+      'halas:object:modified': this.autoSaveAction.bind(this)
     };
   }
 
   public async loadFromLocal () {
     if (LOAD_FROM_LOCAL_WHEN_INIT) {
       try {
-        const jsonStr = localStorage.getItem('fabritor_web_json')
+        const jsonStr = localStorage.getItem('halas_web_json')
         if (jsonStr) {
           const json = JSON.parse(jsonStr);
           await this.editor.loadFromJSON(json);

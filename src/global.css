@@ -7,15 +7,15 @@ html, body {
   height: 100%;
 }
 
-.fabritor-layout .ant-tabs-nav-wrap {
+.halas-layout .ant-tabs-nav-wrap {
   width: 64px;
 }
 
-.fabritor-layout  .ant-tabs-left >.ant-tabs-nav .ant-tabs-tab {
+.halas-layout  .ant-tabs-left >.ant-tabs-nav .ant-tabs-tab {
   padding: 8px 0;
 }
 
-.fabritor-layout .ant-tabs-tab-btn {
+.halas-layout .ant-tabs-tab-btn {
   width: 100%;
 }
 
@@ -23,13 +23,13 @@ html, body {
   overflow: auto !important;
 }
 
-.fabritor-layout h5.ant-typography {
+.halas-layout h5.ant-typography {
   margin: 0;
 }
 
 
 
-.fabritor-toolbar-item {
+.halas-toolbar-item {
   display: inline-flex;
   align-items: center;
   cursor: pointer;
@@ -38,11 +38,11 @@ html, body {
   line-height: 0;
 }
 
-.fabritor-toolbar-item:hover {
+.halas-toolbar-item:hover {
   background-color: rgba(64,87,109,.07);
 }
 
-#fabritor-rough-svg {
+#halas-rough-svg {
   position: fixed;
   left: 99999999px;
   top: 99999999px;

@@ -38,4 +38,42 @@ export const DRAG_ICON = '<svg viewBox="0 0 1024 1024" version="1.1" xmlns="http
 
 export const CLEAR_ICON = '<svg viewBox="64 64 896 896" focusable="false" data-icon="clear" width="1em" height="1em" fill="currentColor" aria-hidden="true"><defs><style></style></defs><path d="M899.1 869.6l-53-305.6H864c14.4 0 26-11.6 26-26V346c0-14.4-11.6-26-26-26H618V138c0-14.4-11.6-26-26-26H432c-14.4 0-26 11.6-26 26v182H160c-14.4 0-26 11.6-26 26v192c0 14.4 11.6 26 26 26h17.9l-53 305.6a25.95 25.95 0 0025.6 30.4h723c1.5 0 3-.1 4.4-.4a25.88 25.88 0 0021.2-30zM204 390h272V182h72v208h272v104H204V390zm468 440V674c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v156H416V674c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v156H202.8l45.1-260H776l45.1 260H672z"></path></svg>';
 
-export const LOGO_ICON = `data:image/svg+xml;charset=utf-8,${encodeURIComponent('<?xml version="1.0" encoding="UTF-8"?><svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 44L12 40L16 44L20 38L24 44L28 38L32 44L36 40L40 44V20C40 11.1634 32.8366 4 24 4C15.1634 4 8 11.1634 8 20V44Z" fill="none" stroke="#000000" stroke-width="4" stroke-linejoin="round"/><path d="M19 20H21" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M31 20H33" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>')}`;
+export const LOGO_ICON = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(`<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none">
+<defs>
+<!-- Deep, premium gradient: From deep forest to void darkness -->
+<linearGradient id="deep_void" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+<stop offset="0" stop-color="#10b981"/> <!-- Bright emerald top-left highlight -->
+<stop offset="0.3" stop-color="#065f46"/> <!-- Deep green body -->
+<stop offset="1" stop-color="#022c22"/> <!-- Almost black bottom-right -->
+</linearGradient>
+
+<!-- Grid Pattern representing the "Canvas/Editor" -->
+<pattern id="grid_pattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+<path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="1" stroke-opacity="0.05"/>
+</pattern>
+
+<!-- Squircle Clip -->
+<clipPath id="squircle">
+<path d="M512 256C512 439.391 439.391 512 256 512C72.609 512 0 439.391 0 256C0 72.609 72.609 0 256 0C439.391 0 512 72.609 512 256Z"/>
+</clipPath>
+</defs>
+
+<g clip-path="url(#squircle)">
+<!-- Base Background -->
+<rect width="512" height="512" fill="url(#deep_void)"/>
+
+<!-- The Grid: Represents structure, editing, and the digital canvas -->
+<rect width="512" height="512" fill="url(#grid_pattern)"/>
+
+<!-- Subtle Glow behind the main element -->
+<circle cx="256" cy="150" r="120" fill="#34d399" fill-opacity="0.2" filter="blur(40px)"/>
+</g>
+
+<!-- The Dot (Source/AI) -->
+<circle cx="256" cy="128" r="48" fill="white"/>
+
+<!-- The Flow (Infinite Scroll/Content) -->
+<path d="M256 216           C 256 216, 256 216, 256 216           C 200 216, 200 280, 256 280           C 312 280, 312 344, 256 344           C 200 344, 200 408, 256 408           C 280 408, 296 396, 304 384" stroke="white" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/>
+<!-- Code injected by live-server -->
+
+</svg>`)}`;

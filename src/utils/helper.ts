@@ -92,7 +92,7 @@ export const pasteObject = async (canvas) => {
 
     canvas.setActiveObject(cloned);
     canvas.requestRenderAll();
-    canvas.fire('fabritor:clone', { target: cloned });
+    canvas.fire('halas:clone', { target: cloned });
   }, FABRITOR_CUSTOM_PROPS);
 }
 
@@ -111,7 +111,7 @@ export const removeObject = (target, canvas) => {
   }
   handleMouseOutCorner(target);
   canvas.requestRenderAll();
-  canvas.fire('fabritor:del', { target: null });
+  canvas.fire('halas:del', { target: null });
   return true;
 }
 
@@ -131,7 +131,7 @@ export const groupSelection = (canvas, target) => {
 
   target.toGroup();
   canvas.requestRenderAll();
-  canvas.fire('fabritor:group');
+  canvas.fire('halas:group');
 }
 
 export const ungroup = (canvas, target) => {
@@ -151,7 +151,7 @@ export const ungroup = (canvas, target) => {
   });
   target.toActiveSelection();
   canvas.requestRenderAll();
-  canvas.fire('fabritor:ungroup');
+  canvas.fire('halas:ungroup');
 }
 
 export const changeLayerLevel = (level, editor, target) => {

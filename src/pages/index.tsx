@@ -1,16 +1,16 @@
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 
-// Fabritor uses browser APIs heavily; disable SSR for safety
-const Fabritor = dynamic(() => import('@/fabritor'), { ssr: false });
+// Halas uses browser APIs heavily; disable SSR for safety
+const Halas = dynamic(() => import('@/halas'), { ssr: false });
 
 export default function HomePage() {
   return (
     <>
       <Head>
-        <title>fabritor, A creative editor based on fabricjs.</title>
+        <title>halas, A creative editor based on fabricjs.</title>
       </Head>
-      <Fabritor />
+      <Halas />
     </>
   );
 }

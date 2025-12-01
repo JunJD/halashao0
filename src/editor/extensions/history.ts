@@ -63,7 +63,7 @@ export default class FabricHistory {
       'object:removed': this._historySaveAction.bind(this),
       'object:modified': this._historySaveAction.bind(this),
       'object:skewing': this._historySaveAction.bind(this),
-      'fabritor:object:modified': this._historySaveAction.bind(this)
+      'halas:object:modified': this._historySaveAction.bind(this)
     };
   }
 
@@ -86,7 +86,7 @@ export default class FabricHistory {
       await this.editor.loadFromJSON(_history);
 
       this.doing = false;
-      this.canvas.fire('fabritor:history:undo');
+      this.canvas.fire('halas:history:undo');
     }
   }
 
@@ -101,7 +101,7 @@ export default class FabricHistory {
       await this.editor.loadFromJSON(_history);
 
       this.doing = false;
-      this.canvas.fire('fabritor:history:redo');
+      this.canvas.fire('halas:history:redo');
     }
   }
 

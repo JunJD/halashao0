@@ -35,8 +35,8 @@
       "skewY": 0,
       "rx": 0,
       "ry": 0,
-      "id": "fabritor-sketch",
-      "fabritor_desc": "我的画板 by fabritor",
+      "id": "halas-sketch",
+      "halas_desc": "我的画板 by halas",
       "selectable": false,
       "hasControls": false
     },
@@ -256,7 +256,7 @@
       "fontFamily": "SmileySans",
       "fontWeight": "bold",
       "fontSize": 120,
-      "text": "fabritor",
+      "text": "halas",
       "underline": false,
       "overline": false,
       "linethrough": false,
@@ -372,5 +372,5 @@
     "hasControls": true
   },
   "background": "#ddd",
-  "fabritor_schema_version": 3.1
+  "halas_schema_version": 3.1
 }

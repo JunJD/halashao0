@@ -1,7 +1,7 @@
-export const APP_NAME = 'fabritor';
+export const APP_NAME = 'halas';
 export const APP_VERSION = '3.0.0';
 export const SCHEMA_VERSION = 3.1;
-export const SCHEMA_VERSION_KEY = 'fabritor_schema_version';
+export const SCHEMA_VERSION_KEY = 'halas_schema_version';
 export const LOG_PREFIX = `${APP_NAME}_log：`;
 
 export const OBJECT_DEFAULT_CONFIG = {
@@ -104,11 +104,11 @@ export const FONT_PRESET_FAMILY_LIST = [
   }
 ]
 
-export const SKETCH_ID = 'fabritor-sketch';
+export const SKETCH_ID = 'halas-sketch';
 
-export const FABRITOR_CUSTOM_PROPS = [
+export const HALAS_CUSTOM_PROPS = [
   'id',
-  'fabritor_desc',
+  'halas_desc',
   'selectable',
   'hasControls',
   'sub_type',

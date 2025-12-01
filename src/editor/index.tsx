@@ -64,7 +64,7 @@ export default class Editor {
     const { canvasEl, workspaceEl } = this._options;
     this.canvas = new fabric.Canvas(canvasEl, {
       selection: true,
-      containerClass: 'fabritor-canvas',
+      containerClass: 'halas-canvas',
       enableRetinaScaling: true,
       fireRightClick: true,
       controlsAboveOverlay: true,
@@ -96,7 +96,7 @@ export default class Editor {
       // @ts-ignore custom id 
       id: SKETCH_ID,
       // @ts-ignore custom desc
-      fabritor_desc: translate('header.fabritor_desc'),
+      halas_desc: translate('header.halas_desc'),
     });
     this.canvas.add(sketch);
     this.canvas.requestRenderAll();
@@ -271,7 +271,7 @@ export default class Editor {
       });
       this.canvas.renderAll();
       this.canvas.setActiveObject(grp);
-      this.canvas.fire('fabritor:group', { target: this.canvas.getActiveObject() });
+      this.canvas.fire('halas:group', { target: this.canvas.getActiveObject() });
 
       textbox.off('editing:exited');
     });
@@ -310,7 +310,7 @@ export default class Editor {
   }
 
   public fireCustomModifiedEvent (data: any = null) {
-    this.canvas.fire('fabritor:object:modified', data);
+    this.canvas.fire('halas:object:modified', data);
   }
 
   private _scrollSketch (opt) {
@@ -430,7 +430,7 @@ export default class Editor {
         this.canvas.requestRenderAll();
 
         this.autoSave.setCanSave(true);
-        this.canvas.fire('fabritor:load:json', { lastActiveObject: nowActiveObject });
+        this.canvas.fire('halas:load:json', { lastActiveObject: nowActiveObject });
         resolve(true);
       }, (o, obj) => {
         if (obj.id === SKETCH_ID) {
@@ -446,8 +446,8 @@ export default class Editor {
   }
 
   public async clearCanvas () {
-    const { width, height, fabritor_desc } = this.sketch;
-    const originalJson = `{"fabritor_schema_version":3,"version":"5.3.0","objects":[{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":${width},"height":${height},"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"id":"fabritor-sketch","fabritor_desc":"${fabritor_desc}","selectable":false,"hasControls":false}],"clipPath":{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":${width},"height":${height},"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"selectable":true,"hasControls":true},"backgroundColor":"#dddddd"}`;
+    const { width, height, halas_desc } = this.sketch;
+    const originalJson = `{"halas_schema_version":3,"version":"5.3.0","objects":[{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":${width},"height":${height},"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"id":"halas-sketch","halas_desc":"${halas_desc}","selectable":false,"hasControls":false}],"clipPath":{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":${width},"height":${height},"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"selectable":true,"hasControls":true},"backgroundColor":"#dddddd"}`;
     await this.loadFromJSON(originalJson);
     this.fhistory.reset();
   }

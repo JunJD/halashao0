@@ -1,7 +1,7 @@
 {
-  "name": "fabritor-web",
+  "name": "halas-web",
   "version": "3.0.1",
-  "description": "fabritor-web",
+  "description": "halas-web",
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "@emoji-mart/data": "^1.1.2",
