@@ -11,7 +11,7 @@ export const drawLine = (options) => {
     strokeLineCap: 'round',
     borderColor: '#00000000',
     id: uuid(),
-    ...rest
+    ...rest,
   });
 
   canvas.viewportCenterObject(line);
@@ -19,13 +19,13 @@ export const drawLine = (options) => {
     x1: line.left,
     y1: line.top,
     x2: line.left + 300,
-    y2: line.top
+    y2: line.top,
   });
   canvas.add(line);
   canvas.setActiveObject(line);
   canvas.requestRenderAll();
   return line;
-}
+};
 
 export const drawArrowLine = (options) => {
   const { points, canvas, ...rest } = options;
@@ -37,7 +37,7 @@ export const drawArrowLine = (options) => {
     strokeLineJoin: 'round',
     strokeLineCap: 'round',
     borderColor: '#00000000',
-    ...rest
+    ...rest,
   });
 
   canvas.viewportCenterObject(arrow);
@@ -45,13 +45,13 @@ export const drawArrowLine = (options) => {
     x1: arrow.left,
     y1: arrow.top,
     x2: arrow.left + 300,
-    y2: arrow.top
+    y2: arrow.top,
   });
   canvas.add(arrow);
   canvas.setActiveObject(arrow);
   canvas.requestRenderAll();
   return arrow;
-}
+};
 
 export const drawTriArrowLine = (options) => {
   const { points, canvas, ...rest } = options;
@@ -63,7 +63,7 @@ export const drawTriArrowLine = (options) => {
     strokeLineJoin: 'round',
     strokeLineCap: 'round',
     borderColor: '#00000000',
-    ...rest
+    ...rest,
   });
 
   canvas.viewportCenterObject(arrow);
@@ -71,11 +71,11 @@ export const drawTriArrowLine = (options) => {
     x1: arrow.left,
     y1: arrow.top,
     x2: arrow.left + 300,
-    y2: arrow.top
+    y2: arrow.top,
   });
 
   canvas.add(arrow);
   canvas.setActiveObject(arrow);
   canvas.requestRenderAll();
   return arrow;
-}
+};

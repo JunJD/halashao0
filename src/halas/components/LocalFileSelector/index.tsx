@@ -1,6 +1,6 @@
 import { useRef, forwardRef, useImperativeHandle } from 'react';
 
-function LocalFileSelector (props, ref) {
+function LocalFileSelector(props, ref) {
   const { onChange, accept } = props;
   const formRef = useRef<HTMLFormElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -9,19 +9,19 @@ function LocalFileSelector (props, ref) {
     if (!file) return;
     onChange && onChange(evt.target.files[0]);
     formRef.current?.reset?.();
-  }
+  };
   useImperativeHandle(ref, () => ({
     start: () => {
       inputRef.current?.click?.();
     },
     reset: () => {
       formRef.current?.reset?.();
-    }
-  }))
+    },
+  }));
   return (
     <form style={{ display: 'none' }} ref={formRef}>
-      <input type="file" accept={accept || 'image/*'} ref={inputRef} onChange={handleFileChange}/>
+      <input type="file" accept={accept || 'image/*'} ref={inputRef} onChange={handleFileChange} />
     </form>
-  )
+  );
 }
 export default forwardRef(LocalFileSelector);

@@ -15,18 +15,18 @@ const ContextMenuItem = (props) => {
   const getCmdkey = () => {
     if (cmdKey) {
       if (isMac) return '⌘';
-      return 'Ctrl'
+      return 'Ctrl';
     }
     return '';
-  }
+  };
 
   return (
     <Flex gap={68} justify="space-between">
       <span>{label}</span>
       <span>{`${getCmdkey()} ${keyboard}`}</span>
     </Flex>
-  )
-}
+  );
+};
 
 const ContextMenu = (props, ref) => {
   const { object, noCareOpen } = props;
@@ -40,11 +40,11 @@ const ContextMenu = (props, ref) => {
         {
           label: <ContextMenuItem label={t('setter.common.paste')} keyboard="V" cmdKey />,
           key: 'paste',
-        }
-      ]
+        },
+      ];
     }
 
-    const menuItems: MenuProps['items']  = [
+    const menuItems: MenuProps['items'] = [
       {
         label: <ContextMenuItem label={t('setter.common.copy')} keyboard="C" cmdKey />,
         key: 'copy',
@@ -61,7 +61,7 @@ const ContextMenu = (props, ref) => {
         label: <ContextMenuItem label={t('setter.common.del')} keyboard="DEL" />,
         key: 'del',
       },
-    ]
+    ];
 
     if (object.type === 'activeSelection') {
       menuItems.push({
@@ -96,23 +96,23 @@ const ContextMenu = (props, ref) => {
             key: 'layer-up',
           },
           {
-            label:  t('setter.common.layer_top'),
+            label: t('setter.common.layer_top'),
             key: 'layer-top',
           },
           {
-            label:  t('setter.common.layer_down'),
+            label: t('setter.common.layer_down'),
             key: 'layer-down',
           },
           {
-            label:  t('setter.common.layer_bottom'),
-            key: 'layer-bottom'
-          }
-        ]
+            label: t('setter.common.layer_bottom'),
+            key: 'layer-bottom',
+          },
+        ],
       });
     }
-    
+
     return menuItems;
-  }
+  };
 
   const handleClick = async ({ key }) => {
     switch (key) {
@@ -141,10 +141,10 @@ const ContextMenu = (props, ref) => {
       case 'layer-bottom':
         changeLayerLevel(key, editor, object);
       default:
-        break; 
+        break;
     }
     setOpen(false);
-  } 
+  };
 
   useImperativeHandle(ref, () => ({
     show: () => setOpen(true),
@@ -159,7 +159,7 @@ const ContextMenu = (props, ref) => {
     >
       {props.children}
     </Dropdown>
-  )
-}
+  );
+};
 
 export default forwardRef(ContextMenu);

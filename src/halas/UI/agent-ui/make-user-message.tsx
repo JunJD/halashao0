@@ -8,8 +8,8 @@ export const MakeUserMessage = (props: UserMessageProps) => {
   return (
     <div className={styles.userMessageContainer}>
       <div className={styles.userMessageHeader}>
-        <div style={{ flex: 1 }}></div>
-        <div 
+        <div style={{ flex: 1 }} />
+        <div
           className={styles.copyButton}
           onClick={() => {
             navigator.clipboard.writeText(message?.content ?? '');
@@ -18,7 +18,7 @@ export const MakeUserMessage = (props: UserMessageProps) => {
           <Copy size={14} color="#999" />
         </div>
       </div>
-      
+
       <div className={styles.userMessageContent}>
         {message?.content}
       </div>

@@ -6,9 +6,9 @@ export const createGroup = (options) => {
 
   const group = new fabric.Group(items, {
     id: uuid(),
-    ...rest
+    ...rest,
   });
 
   canvas.add(group);
   return group;
-}
+};

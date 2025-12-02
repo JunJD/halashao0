@@ -9,11 +9,11 @@ export const loadFont = async (f: string) => {
   if (!item) return Promise.resolve();
   const font = new FontFaceObserver(f);
   return font.load(null, 1000 * 100).catch((e) => { console.error(LOG_PREFIX, e); });
-}
+};
 
 export const uuid = () => {
   return uuidv4();
-}
+};
 
 export const downloadFile = (content: string, type: string, name: string) => {
   const link = document.createElement('a');
@@ -22,7 +22,7 @@ export const downloadFile = (content: string, type: string, name: string) => {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-}
+};
 
 const AngleCoordsMap = {
   45: JSON.stringify({ x1: 0, y1: 1, x2: 1, y2: 0 }),
@@ -32,13 +32,13 @@ const AngleCoordsMap = {
   225: JSON.stringify({ x1: 1, y1: 0, x2: 0, y2: 1 }),
   270: JSON.stringify({ x1: 1, y1: 0, x2: 0, y2: 0 }),
   315: JSON.stringify({ x1: 1, y1: 1, x2: 0, y2: 0 }),
-  0: JSON.stringify({ x1: 0, y1: 1, x2: 0, y2: 0 })
-}
+  0: JSON.stringify({ x1: 0, y1: 1, x2: 0, y2: 0 }),
+};
 
 const transformAngle2Coords = (angle) => {
   angle = angle % 360;
   return JSON.parse(AngleCoordsMap[angle] || AngleCoordsMap[90]);
-}
+};
 
 const transformCoords2Angel = (coords) => {
   const keys = Object.keys(AngleCoordsMap);
@@ -48,14 +48,14 @@ const transformCoords2Angel = (coords) => {
       x1: coords.x1 > 1 ? 1 : 0,
       y1: coords.y1 > 1 ? 1 : 0,
       x2: coords.x2 > 1 ? 1 : 0,
-      y2: coords.y2 > 1 ? 1 : 0
-    }
+      y2: coords.y2 > 1 ? 1 : 0,
+    };
     if (JSON.stringify(_coords) === AngleCoordsMap[key]) {
       return Number(key);
     }
   }
   return 90;
-}
+};
 
 export const transformFill2Colors = (v) => {
   if (!v || typeof v === 'string' || v instanceof fabric.Pattern) {
@@ -65,14 +65,14 @@ export const transformFill2Colors = (v) => {
     type: v.type,
     gradient: {
       colorStops: v.colorStops,
-      angle: transformCoords2Angel(v.coords)
-    }
-  }
-}
+      angle: transformCoords2Angel(v.coords),
+    },
+  };
+};
 
 export const transformColors2Fill = (v) => {
   let fill: any;
-  switch(v?.type) {
+  switch (v?.type) {
     case 'solid':
       fill = v.color;
       break;
@@ -81,7 +81,7 @@ export const transformColors2Fill = (v) => {
         type: 'linear',
         gradientUnits: 'percentage',
         coords: transformAngle2Coords(v.gradient.angle),
-        colorStops: v.gradient.colorStops
+        colorStops: v.gradient.colorStops,
       };
       break;
     case 'radial':
@@ -89,13 +89,13 @@ export const transformColors2Fill = (v) => {
         type: 'radial',
         gradientUnits: 'percentage',
         coords: { x1: 0.5, y1: 0.5, x2: 0.5, y2: 0.5, r1: 0, r2: 1 },
-        colorStops: v.gradient.colorStops
+        colorStops: v.gradient.colorStops,
       };
     default:
       break;
   }
   return fill;
-}
+};
 
 const getType = (type) => {
   if (type.indexOf('text') === 0) {
@@ -105,7 +105,7 @@ const getType = (type) => {
     return 'image';
   }
   return '';
-}
+};
 
 export const readBlob = async (blob, blobType) => {
   const type = getType(blobType);
@@ -114,18 +114,18 @@ export const readBlob = async (blob, blobType) => {
     const reader = new FileReader();
     reader.onload = (e) => {
       resolve({ type, result: e.target?.result });
-    }
+    };
     reader.onerror = (e) => {
-      console.log(e)
+      console.log(e);
       resolve(null);
-    }
+    };
     if (type === 'text') {
       reader.readAsText(blob);
     } else if (type === 'image') {
       reader.readAsDataURL(blob);
     }
   });
-}
+};
 
 export const getSystemClipboard = async () => {
   try {
@@ -143,10 +143,10 @@ export const getSystemClipboard = async () => {
     console.error(err.name, err.message);
     return null;
   }
-}
+};
 
 export const base64ToBlob = async (base64Data) => {
   return fetch(base64Data).then((res) => {
     return res.blob();
   });
-}
+};

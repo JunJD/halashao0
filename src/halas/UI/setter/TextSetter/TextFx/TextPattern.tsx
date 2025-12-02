@@ -5,7 +5,7 @@ import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
 
-export default function TextPattern (props) {
+export default function TextPattern(props) {
   const [form] = Form.useForm();
   const { value, onChange } = props;
   const { t } = useTranslation();
@@ -13,9 +13,9 @@ export default function TextPattern (props) {
   const handleChange = (v) => {
     onChange && onChange({
       ...value,
-      ...v
+      ...v,
     });
-  }
+  };
 
   useEffect(() => {
     if (value) {
@@ -39,5 +39,5 @@ export default function TextPattern (props) {
         <ImageSelector size="middle" type="default" />
       </FormItem>
     </Form>
-  )
+  );
 }

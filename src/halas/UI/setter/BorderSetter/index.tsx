@@ -7,7 +7,7 @@ import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
 
-export const getObjectBorderType = ({stroke, strokeWidth, strokeDashArray}) => {
+export const getObjectBorderType = ({ stroke, strokeWidth, strokeDashArray }) => {
   if (!stroke) {
     return 'none';
   }
@@ -18,7 +18,7 @@ export const getObjectBorderType = ({stroke, strokeWidth, strokeDashArray}) => {
     return [d1, d2].join(',');
   }
   return 'line';
-}
+};
 
 export const getStrokeDashArray = ({ type, strokeWidth }) => {
   if (!type) return null;
@@ -27,34 +27,34 @@ export const getStrokeDashArray = ({ type, strokeWidth }) => {
     dashArray[0] = dashArray[0] * (strokeWidth / 2 > 1 ? strokeWidth / 2 : strokeWidth);
     dashArray[1] = dashArray[1] * (strokeWidth / 4 > 1 ? strokeWidth / 4 : strokeWidth);
     return dashArray;
-  } 
+  }
   return null;
-}
+};
 
 export const BORDER_TYPES = [
   {
     key: 'none',
-    svg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M19.071 19.071c-3.905 3.905-10.237 3.905-14.142 0-3.905-3.905-3.905-10.237 0-14.142 3.905-3.905 10.237-3.905 14.142 0 3.905 3.905 3.905 10.237 0 14.142ZM5.482 17.457 17.457 5.482A8.5 8.5 0 0 0 5.482 17.457Zm1.06 1.06A8.501 8.501 0 0 0 18.519 6.544L6.543 18.518Z" fill="currentColor"></path></svg>'
+    svg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M19.071 19.071c-3.905 3.905-10.237 3.905-14.142 0-3.905-3.905-3.905-10.237 0-14.142 3.905-3.905 10.237-3.905 14.142 0 3.905 3.905 3.905 10.237 0 14.142ZM5.482 17.457 17.457 5.482A8.5 8.5 0 0 0 5.482 17.457Zm1.06 1.06A8.501 8.501 0 0 0 18.519 6.544L6.543 18.518Z" fill="currentColor"></path></svg>',
   },
   {
     key: 'line',
-    svg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><line x2="24" y1="50%" y2="50%" stroke="currentColor" stroke-width="2" shape-rendering="crispEdges"></line></svg>'
+    svg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><line x2="24" y1="50%" y2="50%" stroke="currentColor" stroke-width="2" shape-rendering="crispEdges"></line></svg>',
   },
   {
     key: '12,2',
-    svg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="-1" x2="25" y1="50%" y2="50%" stroke="currentColor" stroke-dasharray="12 2" stroke-width="2" shape-rendering="crispEdges"></line></svg>'
+    svg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="-1" x2="25" y1="50%" y2="50%" stroke="currentColor" stroke-dasharray="12 2" stroke-width="2" shape-rendering="crispEdges"></line></svg>',
   },
   {
     key: '6,2',
-    svg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="1" x2="23" y1="50%" y2="50%" stroke="currentColor" stroke-dasharray="6 2" stroke-width="2" shape-rendering="crispEdges"></line></svg>'
+    svg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="1" x2="23" y1="50%" y2="50%" stroke="currentColor" stroke-dasharray="6 2" stroke-width="2" shape-rendering="crispEdges"></line></svg>',
   },
   {
     key: '2,2',
-    svg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="1" x2="23" y1="50%" y2="50%" stroke="currentColor" stroke-dasharray="2 2" stroke-width="2" shape-rendering="crispEdges"></line></svg>'
-  }
-]
+    svg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="1" x2="23" y1="50%" y2="50%" stroke="currentColor" stroke-dasharray="2 2" stroke-width="2" shape-rendering="crispEdges"></line></svg>',
+  },
+];
 
-export default function BorderSetter (props) {
+export default function BorderSetter(props) {
   const { value, onChange } = props;
   const { editor } = useContext(GlobalStateContext);
   const { t } = useTranslation();
@@ -63,13 +63,13 @@ export default function BorderSetter (props) {
   const handleChange = (v) => {
     onChange && onChange({
       ...value,
-      ...v
+      ...v,
     });
-  }
+  };
 
   const fireEvent = () => {
     editor.fireCustomModifiedEvent();
-  }
+  };
 
   useEffect(() => {
     form.setFieldsValue(value);
@@ -83,15 +83,15 @@ export default function BorderSetter (props) {
     >
       <FormItem name="type" label={t('common.style')} labelCol={{ span: 24 }}>
         <Radio.Group onChange={fireEvent}>
-        {
+          {
           BORDER_TYPES.map(item => (
             <Radio.Button key={item.key} value={item.key}>
               <span
                 dangerouslySetInnerHTML={{ __html: item.svg }}
-                style={{ 
+                style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  marginTop: 6
+                  marginTop: 6,
                 }}
               />
             </Radio.Button>
@@ -117,5 +117,5 @@ export default function BorderSetter (props) {
         />
       </FormItem>
     </Form>
-  )
+  );
 }

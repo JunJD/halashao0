@@ -5,7 +5,7 @@ import { useTranslation } from '@/i18n/utils';
 
 const { Text } = Typography;
 
-export default function BaseInfo () {
+export default function BaseInfo() {
   const [desc, setDesc] = useState('');
   const { editor } = useContext(GlobalStateContext);
   const { t } = useTranslation();
@@ -19,7 +19,7 @@ export default function BaseInfo () {
     sketch.set('halas_desc', _v);
 
     editor.fireCustomModifiedEvent();
-  }
+  };
 
   useEffect(() => {
     if (!editor) return;
@@ -34,15 +34,15 @@ export default function BaseInfo () {
         onChange: handleChange,
         autoSize: {
           minRows: 1,
-          maxRows: 1
-        }
+          maxRows: 1,
+        },
       }}
       ellipsis={{
-        rows: 1
+        rows: 1,
       }}
       style={{ margin: 0, width: 200 }}
     >
       {desc || ''}
     </Text>
-  )
+  );
 }

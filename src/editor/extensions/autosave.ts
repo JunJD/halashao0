@@ -8,7 +8,7 @@ export default class AutoSave {
   private saving: boolean;
   private canSave: boolean;
 
-  constructor (editor) {
+  constructor(editor) {
     this.canvas = editor.canvas;
     this.editor = editor;
 
@@ -18,23 +18,23 @@ export default class AutoSave {
     this.init();
   }
 
-  private init () {
+  private init() {
     if (AUTO_SAVE_WHEN_CHANGE) {
       this.canvas.on(this.initAutoSaveEvents());
     }
   }
 
-  public dispose () {
+  public dispose() {
     if (AUTO_SAVE_WHEN_CHANGE) {
       this.canvas.off(this.initAutoSaveEvents());
     }
   }
 
-  public setCanSave (can) {
+  public setCanSave(can) {
     this.canSave = can;
   }
 
-  private autoSaveAction () {
+  private autoSaveAction() {
     if (this.saving) return;
     this.saving = true;
 
@@ -42,34 +42,34 @@ export default class AutoSave {
       if (this.canSave) {
         localStorage.setItem('halas_web_json', this._getJSON());
       }
-    } catch(e) {  console.log(e) }
+    } catch (e) { console.log(e); }
 
     this.saving = false;
   }
 
-  private _getJSON () {
+  private _getJSON() {
     return JSON.stringify(this.editor.canvas2Json());
   }
 
-  private initAutoSaveEvents () {
+  private initAutoSaveEvents() {
     return {
       'object:added': this.autoSaveAction.bind(this),
       'object:removed': this.autoSaveAction.bind(this),
       'object:modified': this.autoSaveAction.bind(this),
       'object:skewing': this.autoSaveAction.bind(this),
-      'halas:object:modified': this.autoSaveAction.bind(this)
+      'halas:object:modified': this.autoSaveAction.bind(this),
     };
   }
 
-  public async loadFromLocal () {
+  public async loadFromLocal() {
     if (LOAD_FROM_LOCAL_WHEN_INIT) {
       try {
-        const jsonStr = localStorage.getItem('halas_web_json')
+        const jsonStr = localStorage.getItem('halas_web_json');
         if (jsonStr) {
           const json = JSON.parse(jsonStr);
           await this.editor.loadFromJSON(json);
         }
-      } catch(e) {  console.log(e) }
+      } catch (e) { console.log(e); }
     }
   }
 }

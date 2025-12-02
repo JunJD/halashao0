@@ -11,7 +11,7 @@ const DEFAULT_ROUGH_CONFIG = {
   strokeWidth: 8,
   roughness: 1.6,
   bowing: 1,
-}
+};
 
 export default [
   {
@@ -19,8 +19,8 @@ export default [
     elem: roughLineIcon,
     options: {
       stroke: '#E36255',
-      ...DEFAULT_ROUGH_CONFIG
-    }
+      ...DEFAULT_ROUGH_CONFIG,
+    },
   },
   {
     key: 'rough-rect',
@@ -28,8 +28,8 @@ export default [
     options: {
       fill: '#F6C445',
       stroke: '#EC6A52',
-      ...DEFAULT_ROUGH_CONFIG
-    }
+      ...DEFAULT_ROUGH_CONFIG,
+    },
   },
   {
     key: 'rough-circle',
@@ -37,8 +37,8 @@ export default [
     options: {
       fill: '#F6C445',
       stroke: '#EC6A52',
-      ...DEFAULT_ROUGH_CONFIG
-    }
+      ...DEFAULT_ROUGH_CONFIG,
+    },
   },
   {
     key: 'rough-ellipse',
@@ -46,8 +46,8 @@ export default [
     options: {
       fill: '#F6C445',
       stroke: '#EC6A52',
-      ...DEFAULT_ROUGH_CONFIG
-    }
+      ...DEFAULT_ROUGH_CONFIG,
+    },
   },
   {
     key: 'rough-right-angle',
@@ -55,8 +55,8 @@ export default [
     options: {
       fill: '#F6C445',
       stroke: '#EC6A52',
-      ...DEFAULT_ROUGH_CONFIG
-    }
+      ...DEFAULT_ROUGH_CONFIG,
+    },
   },
   {
     key: 'rough-diamond',
@@ -64,7 +64,7 @@ export default [
     options: {
       fill: '#F6C445',
       stroke: '#EC6A52',
-      ...DEFAULT_ROUGH_CONFIG
-    }
-  }
-]
+      ...DEFAULT_ROUGH_CONFIG,
+    },
+  },
+];

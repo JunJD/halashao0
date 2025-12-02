@@ -24,7 +24,7 @@ export default class Editor {
   public fhistory;
   public autoSave;
 
-  constructor (options) {
+  constructor(options) {
     const { template, ...rest } = options;
     this._options = rest;
     this._template = template;
@@ -32,8 +32,8 @@ export default class Editor {
       enable: false,
       isDragging: false,
       lastPosX: 0,
-      lastPosY: 0
-    }
+      lastPosY: 0,
+    };
   }
 
   public async init() {
@@ -54,13 +54,13 @@ export default class Editor {
     this.autoSave.init();
   }
 
-  private _initObject () {
+  private _initObject() {
     initObjectPrototype();
     createCustomClass();
     initControl();
   }
 
-  private _initCanvas () {
+  private _initCanvas() {
     const { canvasEl, workspaceEl } = this._options;
     this.canvas = new fabric.Canvas(canvasEl, {
       selection: true,
@@ -75,12 +75,12 @@ export default class Editor {
     });
   }
 
-  private _initGuidelines () {
+  private _initGuidelines() {
     initAligningGuidelines(this.canvas);
     initCenteringGuidelines(this.canvas);
   }
 
-  private _initSketch () {
+  private _initSketch() {
     // default size: xiaohongshu
     const { width = 1242, height = 1660 } = this._template || {};
     const sketch = new fabric.Rect({
@@ -92,7 +92,7 @@ export default class Editor {
       selectable: false,
       hasControls: false,
       hoverCursor: 'default',
-      // @ts-ignore custom id 
+      // @ts-ignore custom id
       id: SKETCH_ID,
       // @ts-ignore custom desc
       halas_desc: translate('header.halas_desc'),
@@ -105,12 +105,12 @@ export default class Editor {
     this._adjustSketch2Canvas();
   }
 
-  public setSketchSize (size) {
+  public setSketchSize(size) {
     this.sketch.set(size);
     this._adjustSketch2Canvas();
   }
 
-  private _initResizeObserver () {
+  private _initResizeObserver() {
     const { workspaceEl } = this._options;
     this._resizeObserver = new ResizeObserver(
       throttle(() => {
@@ -118,21 +118,21 @@ export default class Editor {
         this.canvas.setHeight(workspaceEl.offsetHeight);
         this._adjustSketch2Canvas();
         this.canvas.requestRenderAll();
-      }, 50)
+      }, 50),
     );
     this._resizeObserver.observe(workspaceEl);
   }
 
-  private _adjustSketch2Canvas () {
+  private _adjustSketch2Canvas() {
     const zoomLevel = calcCanvasZoomLevel(
       {
         width: this.canvas.width,
-        height: this.canvas.height
+        height: this.canvas.height,
       },
       {
         width: this.sketch.width,
-        height: this.sketch.height
-      }
+        height: this.sketch.height,
+      },
     );
 
     const center = this.canvas.getCenter();
@@ -140,10 +140,10 @@ export default class Editor {
 
     // sketch 移至画布中心
     const sketchCenter = this.sketch.getCenterPoint();
-    const viewportTransform = this.canvas.viewportTransform;
+    const { viewportTransform } = this.canvas;
     // @ts-ignore 平移
     viewportTransform[4] = this.canvas.width / 2 - sketchCenter.x * viewportTransform[0];
-    // @ts-ignore 平移 
+    // @ts-ignore 平移
     viewportTransform[5] = this.canvas.height / 2 - sketchCenter.y * viewportTransform[3];
     // @ts-ignore
     this.canvas.setViewportTransform(viewportTransform);
@@ -155,7 +155,7 @@ export default class Editor {
     });
   }
 
-  private _initEvents () {
+  private _initEvents() {
     this.canvas.on('mouse:down', (opt) => {
       const evt = opt.e;
       if (this._pan.enable) {
@@ -163,8 +163,8 @@ export default class Editor {
           enable: true,
           isDragging: true,
           lastPosX: evt.clientX,
-          lastPosY: evt.clientY
-        }
+          lastPosY: evt.clientY,
+        };
       }
     });
     this.canvas.on('mouse:move', (opt) => {
@@ -258,7 +258,7 @@ export default class Editor {
     });
   }
 
-  private _editTextInGroup (group, textbox) {
+  private _editTextInGroup(group, textbox) {
     let items = group.getObjects();
 
     textbox.on('editing:exited', () => {
@@ -267,7 +267,7 @@ export default class Editor {
       }
       const grp = createGroup({
         items,
-        canvas: this.canvas
+        canvas: this.canvas,
       });
       this.canvas.renderAll();
       this.canvas.setActiveObject(grp);
@@ -291,7 +291,7 @@ export default class Editor {
     textbox.selectAll();
   }
 
-  public switchEnablePan () {
+  public switchEnablePan() {
     this._pan.enable = !this._pan.enable;
     this.canvas.discardActiveObject();
     this.canvas.hoverCursor = this._pan.enable ? 'grab' : 'move';
@@ -305,15 +305,15 @@ export default class Editor {
     return this._pan.enable;
   }
 
-  public getIfPanEnable () {
+  public getIfPanEnable() {
     return this._pan.enable;
   }
 
-  public fireCustomModifiedEvent (data: any = null) {
+  public fireCustomModifiedEvent(data: any = null) {
     this.canvas.fire('halas:object:modified', data);
   }
 
-  private _scrollSketch (opt) {
+  private _scrollSketch(opt) {
     const delta = opt.e.deltaY;
     let zoom = this.canvas.getZoom();
     zoom *= 0.999 ** delta;
@@ -325,7 +325,7 @@ export default class Editor {
     opt.e.stopPropagation();
   }
 
-  public destroy () {
+  public destroy() {
     if (this.canvas) {
       this.canvas.dispose();
       // @ts-ignore
@@ -344,9 +344,9 @@ export default class Editor {
     }
   }
 
-  public export2Img (options) {
+  public export2Img(options) {
     const transform = this.canvas.viewportTransform;
-    const clipPath = this.canvas.clipPath;
+    const { clipPath } = this.canvas;
     this.canvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
     // @ts-ignore
     this.canvas.setBackgroundColor('#ffffff');
@@ -360,7 +360,7 @@ export default class Editor {
       width,
       height,
       format: 'png',
-      ...options
+      ...options,
     });
 
     // @ts-ignore
@@ -373,7 +373,7 @@ export default class Editor {
     return dataURL;
   }
 
-  public export2Svg () {
+  public export2Svg() {
     const { left, top, width, height } = this.sketch;
     const svg = this.canvas.toSVG({
       width,
@@ -382,13 +382,13 @@ export default class Editor {
         x: left,
         y: top,
         width,
-        height
-      } as any
+        height,
+      } as any,
     });
     return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
   }
 
-  public canvas2Json () {
+  public canvas2Json() {
     console.log('HALAS_CUSTOM_PROPS:', HALAS_CUSTOM_PROPS);
     try {
       const json = this.canvas.toJSON(HALAS_CUSTOM_PROPS);
@@ -401,13 +401,13 @@ export default class Editor {
     }
   }
 
-  public async loadFromJSON (json, errorToast = false) {
+  public async loadFromJSON(json, errorToast = false) {
     if (!json) return false;
     if (typeof json === 'string') {
       try {
         json = JSON.parse(json);
-      } catch(e) {
-        console.log(e)
+      } catch (e) {
+        console.log(e);
         errorToast && message.error('加载本地模板失败，请重试');
         return false;
       }
@@ -452,7 +452,7 @@ export default class Editor {
     });
   }
 
-  public async clearCanvas () {
+  public async clearCanvas() {
     const { width, height, halas_desc } = this.sketch;
     const originalJson = `{"halas_schema_version":3,"version":"5.3.0","objects":[{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":${width},"height":${height},"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"id":"halas-sketch","halas_desc":"${halas_desc}","selectable":false,"hasControls":false}],"clipPath":{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":${width},"height":${height},"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"selectable":true,"hasControls":true},"backgroundColor":"#dddddd"}`;
     await this.loadFromJSON(originalJson);

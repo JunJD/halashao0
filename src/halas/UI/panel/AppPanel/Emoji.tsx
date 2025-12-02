@@ -7,7 +7,7 @@ import { createTextbox } from '@/editor/objects/textbox';
 import { useContext, useEffect, useState } from 'react';
 import { GlobalStateContext } from '@/context';
 
-export default function EmojiPanel (props) {
+export default function EmojiPanel(props) {
   const { back } = props;
   const { editor } = useContext(GlobalStateContext);
   const [searchParams] = useSearchParams();
@@ -24,10 +24,10 @@ export default function EmojiPanel (props) {
         text: emoji.native,
         fontSize: 80,
         width: 100,
-        canvas: editor.canvas
+        canvas: editor.canvas,
       });
     }
-  }
+  };
 
   useEffect(() => {
     if (lng?.indexOf('en') === 0) {
@@ -51,5 +51,5 @@ export default function EmojiPanel (props) {
         onEmojiSelect={handleEmojiSelect}
       />
     </AppSubPanel>
-  )
+  );
 }

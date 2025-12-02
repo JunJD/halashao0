@@ -4,16 +4,16 @@ import ImageSelector from '@/halas/components/ImageSelector';
 import { GlobalStateContext } from '@/context';
 import { useTranslation } from '@/i18n/utils';
 
-export default function ImagePanel () {
+export default function ImagePanel() {
   const { editor } = useContext(GlobalStateContext);
   const { t } = useTranslation();
 
   const addImage = async (url) => {
     await createFImage({
       imageSource: url,
-      canvas: editor.canvas
+      canvas: editor.canvas,
     });
-  }
+  };
 
   return (
     <div style={{ padding: '20px 16px' }}>
@@ -22,5 +22,5 @@ export default function ImagePanel () {
       </div>
       <ImageSelector onChange={addImage} />
     </div>
-  )
+  );
 }

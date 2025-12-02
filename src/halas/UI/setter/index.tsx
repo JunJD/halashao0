@@ -10,7 +10,7 @@ import GroupSetter from './GroupSetter';
 import PathSetter from './PathSetter';
 import RoughSetter from './RoughSetter';
 
-export default function Setter () {
+export default function Setter() {
   const { object, isReady } = useContext(GlobalStateContext);
 
   const objectType = object?.get?.('type') || '';
@@ -26,7 +26,7 @@ export default function Setter () {
       case 'circle':
       case 'triangle':
       case 'polygon':
-      case 'ellipse':  
+      case 'ellipse':
         return <ShapeSetter />;
       case 'f-line':
       case 'f-arrow':
@@ -36,12 +36,12 @@ export default function Setter () {
         return <ImageSetter />;
       case 'path':
         if (object?.sub_type === 'rough') {
-          return <RoughSetter />
+          return <RoughSetter />;
         }
         return <PathSetter />;
       case 'group':
         if (object?.sub_type === 'rough') {
-          return <RoughSetter />
+          return <RoughSetter />;
         }
         return <GroupSetter />;
       case 'activeSelection':
@@ -49,32 +49,32 @@ export default function Setter () {
       default:
         return null;
     }
-  }
+  };
 
   const renderSetter = () => {
     const Setter = getRenderSetter();
     if (Setter) {
       return (
         <>
-        {Setter}
-        <div style={{ height: 24 }} />
+          {Setter}
+          <div style={{ height: 24 }} />
         </>
-      )
+      );
     }
     return null;
-  }
+  };
 
   return (
     <div
-      style={{ 
-        padding: '20px 16px', 
-        height: '100%', 
+      style={{
+        padding: '20px 16px',
+        height: '100%',
         overflowY: 'auto',
-        scrollbarWidth: 'thin'
+        scrollbarWidth: 'thin',
       }}
     >
       {renderSetter()}
       <CommonSetter />
     </div>
-  )
+  );
 }

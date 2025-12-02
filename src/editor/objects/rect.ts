@@ -1,7 +1,7 @@
 import { fabric } from 'fabric';
 import { uuid } from '@/utils';
 
-export default function createRect (options) {
+export default function createRect(options) {
   const { canvas, ...rest } = options || {};
   const rect = new fabric.Rect({
     id: uuid(),

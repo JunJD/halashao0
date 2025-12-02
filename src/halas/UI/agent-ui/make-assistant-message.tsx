@@ -1,6 +1,6 @@
-import type { AssistantMessageProps } from "@copilotkit/react-ui";
-import { Trans } from "@/i18n/utils";
-import ReactMarkdown from "react-markdown";
+import type { AssistantMessageProps } from '@copilotkit/react-ui';
+import { Trans } from '@/i18n/utils';
+import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Bot } from 'lucide-react';
 import styles from './index.module.scss';
@@ -19,7 +19,7 @@ export const MakeAssistantMessage: React.FC<AssistantMessageProps> = (props) => 
         <Bot size={24} color="#1677ff" />
         <span style={{ fontWeight: 600, fontSize: 14 }}>Halas Copilot</span>
       </div>
-      
+
       {/* Generative UI (if any) */}
       {/* Note: In CopilotKit v1.x, message.generativeUI might be a ReactNode or function.
           Assuming it's renderable directly or we might need to check types.
@@ -32,9 +32,9 @@ export const MakeAssistantMessage: React.FC<AssistantMessageProps> = (props) => 
             {message?.generativeUI ? <Trans i18nKey="Thinking..." /> : <Trans i18nKey="Thinking..." />}
           </span>
           <span className="relative top-[4px] flex gap-1">
-            <span className={styles.bounceDot} style={{ animationDelay: "0ms" }}></span>
-            <span className={styles.bounceDot} style={{ animationDelay: "180ms" }}></span>
-            <span className={styles.bounceDot} style={{ animationDelay: "360ms" }}></span>
+            <span className={styles.bounceDot} style={{ animationDelay: '0ms' }} />
+            <span className={styles.bounceDot} style={{ animationDelay: '180ms' }} />
+            <span className={styles.bounceDot} style={{ animationDelay: '360ms' }} />
           </span>
         </div>
       ) : (
@@ -44,7 +44,7 @@ export const MakeAssistantMessage: React.FC<AssistantMessageProps> = (props) => 
               <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
             </div>
           )}
-          
+
           {/* "Thinking" indicator or "Continue" tip */}
           {!isGenerating && isCurrentMessage && (
             <div className={styles.continueTip}>

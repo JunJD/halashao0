@@ -14,7 +14,7 @@ import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
 
-export default function TextFx () {
+export default function TextFx() {
   const [form] = Form.useForm();
   const { object, editor } = useContext(GlobalStateContext);
   const { t } = useTranslation();
@@ -32,12 +32,12 @@ export default function TextFx () {
       const img = await loadImageDom(pattern.url);
       object.set('fill', new fabric.Pattern({
         source: img as HTMLImageElement,
-        repeat: 'repeat'
+        repeat: 'repeat',
       }));
-    } catch(e) {
+    } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   const handleStroke = (_stroke) => {
     let stroke = transformColors2Fill(_stroke);
@@ -45,7 +45,7 @@ export default function TextFx () {
       stroke = new fabric.Gradient(stroke);
     }
     object.set('stroke', stroke);
-  }
+  };
 
   const handleFxValueChange = async (values) => {
     if (!object || !editor) return;
@@ -58,7 +58,7 @@ export default function TextFx () {
           color: v.color,
           blur: v.blur,
           offsetX: v.offset,
-          offsetY: v.offset
+          offsetY: v.offset,
         };
       } else if (key === 'path') {
         if (v.enable) {
@@ -76,10 +76,10 @@ export default function TextFx () {
     }
     editor.canvas.requestRenderAll();
     editor.fireCustomModifiedEvent();
-  }
+  };
 
   const initObjectFx = () => {
-    const fill = object.fill;
+    const { fill } = object;
     form.setFieldsValue({
       stroke: transformFill2Colors(object.stroke),
       strokeWidth: object.strokeWidth || 0,
@@ -87,18 +87,18 @@ export default function TextFx () {
       shadow: {
         color: object.shadow?.color || object.stroke || '#000000',
         blur: object.shadow?.blur || 0,
-        offset: object.shadow?.offsetX || 0
+        offset: object.shadow?.offsetX || 0,
       },
       path: {
         enable: !!object.path,
-        offset: getPathOffset(object)
+        offset: getPathOffset(object),
       },
       pattern: {
         enable: fill instanceof fabric.Pattern,
-        url: fill?.source?.src
-      }
+        url: fill?.source?.src,
+      },
     });
-  }
+  };
 
   useEffect(() => {
     if (object && object.type === 'f-text') {
@@ -127,15 +127,15 @@ export default function TextFx () {
       <FormItem name="shadow" style={{ marginBottom: 0 }}>
         <TextShadow />
       </FormItem>
-      
+
       {/* warning: text path conflict with gradient fill */}
       <FormItem name="path" style={{ marginBottom: 0 }}>
         <TextPath />
       </FormItem>
-      
+
       <FormItem name="pattern">
         <TextPattern />
       </FormItem>
     </Form>
-  )
+  );
 }

@@ -2,7 +2,7 @@ import { GlobalStateContext } from '@/context';
 import { Tag } from 'antd';
 import { useState, useContext, useEffect } from 'react';
 
-function ObjectRotateAngleTip () {
+function ObjectRotateAngleTip() {
   const [pos, setPos] = useState({ left: 0, top: 0 });
   const [content, setContent] = useState('');
   const [open, setOpen] = useState(false);
@@ -12,15 +12,15 @@ function ObjectRotateAngleTip () {
     const { target, e } = opt;
     setPos({
       left: e.pageX + 16,
-      top: e.pageY
+      top: e.pageY,
     });
     setContent(`${Math.round(target.angle)}°`);
     setOpen(true);
-  }
+  };
 
   const mouseupHandler = () => {
     setOpen(false);
-  }
+  };
 
   useEffect(() => {
     if (editor) {
@@ -37,12 +37,12 @@ function ObjectRotateAngleTip () {
         zIndex: 9999,
         width: 'max-content',
         display: open ? 'block' : 'none',
-        ...pos
+        ...pos,
       }}
     >
       <Tag color="rgba(0, 0, 0, 0.85)">{content}</Tag>
     </div>
-  )
+  );
 }
 
 export default ObjectRotateAngleTip;

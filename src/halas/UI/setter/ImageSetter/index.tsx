@@ -5,7 +5,7 @@ import { FunctionOutlined, RightOutlined } from '@ant-design/icons';
 import ReplaceSetter from './ReplaceSetter';
 import { GlobalStateContext } from '@/context';
 import BorderSetter from './BorderSetter';
-import { getObjectBorderType, getStrokeDashArray } from '../BorderSetter'
+import { getObjectBorderType, getStrokeDashArray } from '../BorderSetter';
 import ClipSetter from './Clip';
 import FList from '@/halas/components/FList';
 import MoreConfigWrapper from '../Form/MoreConfigWrapper';
@@ -14,7 +14,7 @@ import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
 
-export default function ImageSetter () {
+export default function ImageSetter() {
   const { object, editor } = useContext(GlobalStateContext);
   const { t } = useTranslation();
   const [form] = Form.useForm();
@@ -25,8 +25,8 @@ export default function ImageSetter () {
       icon: <FunctionOutlined style={{ fontSize: 22 }} />,
       label: t('setter.image.filter'),
       key: 'fx',
-      onClick: () => { setOpenFx(true) }
-    }
+      onClick: () => { setOpenFx(true); },
+    },
   ];
 
   const handleImageReplace = (base64) => {
@@ -36,7 +36,7 @@ export default function ImageSetter () {
         editor.fireCustomModifiedEvent();
       });
     }
-  }
+  };
 
   const handleBorder = (border) => {
     const { type, stroke = '#000000', strokeWidth, borderRadius } = border || {};
@@ -47,12 +47,12 @@ export default function ImageSetter () {
         stroke,
         strokeWidth,
         borderRadius,
-        strokeDashArray: getStrokeDashArray(border)
+        strokeDashArray: getStrokeDashArray(border),
       });
     }
 
     editor.canvas.requestRenderAll();
-  }
+  };
 
   const handleValuesChange = (values) => {
     if (values.img) {
@@ -66,7 +66,7 @@ export default function ImageSetter () {
     if (values.border) {
       handleBorder(values.border);
     }
-  }
+  };
 
   useEffect(() => {
     if (object) {
@@ -75,55 +75,55 @@ export default function ImageSetter () {
         border: {
           type: getObjectBorderType(border),
           ...border,
-          stroke: border.stroke || '#000000'
+          stroke: border.stroke || '#000000',
         },
-        opacity: object.opacity
+        opacity: object.opacity,
       });
     }
   }, [object]);
 
   return (
     <>
-    <Form
-      form={form}
-      onValuesChange={handleValuesChange}
-      colon={false}
-    >
-      <FormItem name="img">
-        <ReplaceSetter />
-      </FormItem>
-      <Row gutter={8}>
-        <Col span={12}>
-          <FormItem>
-            <ClipSetter object={object} />
-          </FormItem>
-        </Col>
-        <Col span={12}>
-          <FormItem name="border">
-            <BorderSetter />
-          </FormItem>
-        </Col>
-      </Row>
-    </Form>
-    <FList 
-      dataSource={IMAGE_ADVANCE_CONFIG}
-      renderItemChildren={(item) => (
-        <>
-          {item.icon}
-          <span style={{ fontSize: 16, fontWeight: 'bold', margin: '0 6px 0 10px' }}>
-            {item.label}
-          </span>
-          <RightOutlined />
-        </>
+      <Form
+        form={form}
+        onValuesChange={handleValuesChange}
+        colon={false}
+      >
+        <FormItem name="img">
+          <ReplaceSetter />
+        </FormItem>
+        <Row gutter={8}>
+          <Col span={12}>
+            <FormItem>
+              <ClipSetter object={object} />
+            </FormItem>
+          </Col>
+          <Col span={12}>
+            <FormItem name="border">
+              <BorderSetter />
+            </FormItem>
+          </Col>
+        </Row>
+      </Form>
+      <FList
+        dataSource={IMAGE_ADVANCE_CONFIG}
+        renderItemChildren={(item) => (
+          <>
+            {item.icon}
+            <span style={{ fontSize: 16, fontWeight: 'bold', margin: '0 6px 0 10px' }}>
+              {item.label}
+            </span>
+            <RightOutlined />
+          </>
       )}
-    />
-    <MoreConfigWrapper
-      open={openFx}
-      setOpen={setOpenFx}
-      title={t('setter.image.filter')}
-    >
-      <ImageFx />
-    </MoreConfigWrapper>
+      />
+      <MoreConfigWrapper
+        open={openFx}
+        setOpen={setOpenFx}
+        title={t('setter.image.filter')}
+      >
+        <ImageFx />
+      </MoreConfigWrapper>
     </>
-  )
+  );
 }

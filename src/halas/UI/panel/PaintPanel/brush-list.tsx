@@ -1,4 +1,4 @@
-import { Trans }  from '@/i18n/utils';
+import { Trans } from '@/i18n/utils';
 
 export default [
     {
@@ -9,7 +9,7 @@ export default [
         color: '#1296db',
         width: 4,
         strokeLineCap: 'round',
-      }
+      },
     },
     {
       key: 'p-2',
@@ -19,6 +19,6 @@ export default [
         color: '#FF0000',
         width: 36,
         strokeLineCap: 'square',
-      }
-    }
-  ]
+      },
+    },
+  ];

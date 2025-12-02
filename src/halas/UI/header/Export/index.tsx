@@ -12,17 +12,17 @@ import { Trans, useTranslation } from '@/i18n/utils';
 const i18nKeySuffix = 'header.export';
 
 const items: MenuProps['items'] = ['jpg', 'png', 'svg', 'json', 'divider', 'clipboard'].map(
-  item => item === 'divider' ? ({ type: 'divider' }) : ({ key: item, label: <Trans i18nKey={`${i18nKeySuffix}.${item}`} /> })
-)
+  item => (item === 'divider' ? ({ type: 'divider' }) : ({ key: item, label: <Trans i18nKey={`${i18nKeySuffix}.${item}`} /> })),
+);
 
-export default function Export () {
+export default function Export() {
   const { editor, setReady, setActiveObject } = useContext(GlobalStateContext);
   const localFileSelectorRef = useRef<any>();
   const { t } = useTranslation();
 
   const selectJsonFile = () => {
     localFileSelectorRef.current?.start?.();
-  }
+  };
 
   const handleFileChange = (file) => {
     setReady(false);
@@ -38,7 +38,7 @@ export default function Export () {
       }
     });
     reader.readAsText(file);
-  }
+  };
 
   const copyImage = async () => {
     try {
@@ -46,14 +46,14 @@ export default function Export () {
       const blob = await base64ToBlob(png);
       await navigator.clipboard.write([
         new ClipboardItem({
-          'image/png': blob
-        })
+          'image/png': blob,
+        }),
       ]);
       message.success(translate(`${i18nKeySuffix}.copy_success`));
-    } catch(e) {
+    } catch (e) {
       message.error(translate(`${i18nKeySuffix}.copy_fail`));
     }
-  }
+  };
 
   const handleClick = ({ key }) => {
     const { sketch } = editor;
@@ -75,7 +75,7 @@ export default function Export () {
       case 'json':
         const json = editor.canvas2Json();
         downloadFile(`data:text/json;charset=utf-8,${encodeURIComponent(
-          JSON.stringify(json, null, 2)
+          JSON.stringify(json, null, 2),
         )}`, 'json', name);
         break;
       case 'clipboard':
@@ -84,21 +84,21 @@ export default function Export () {
       default:
         break;
     }
-  }
+  };
   return (
     <CenterV
       justify="flex-end"
       gap={16}
       style={{
         width: SETTER_WIDTH,
-        paddingRight: 16
+        paddingRight: 16,
       }}
     >
       <Button onClick={selectJsonFile} icon={<FileOutlined />}>
         {t(`${i18nKeySuffix}.load`)}
       </Button>
-      <Dropdown 
-        menu={{ items, onClick: handleClick }} 
+      <Dropdown
+        menu={{ items, onClick: handleClick }}
         arrow={{ pointAtCenter: true }}
         placement="bottom"
       >
@@ -106,5 +106,5 @@ export default function Export () {
       </Dropdown>
       <LocalFileSelector accept="application/json" ref={localFileSelectorRef} onChange={handleFileChange} />
     </CenterV>
-  )
+  );
 }

@@ -1,5 +1,5 @@
-import type { RenderSuggestionsListProps } from "@copilotkit/react-ui";
-import { ArrowRight, MessageCircle, CheckCircle2 } from "lucide-react";
+import type { RenderSuggestionsListProps } from '@copilotkit/react-ui';
+import { ArrowRight, MessageCircle, CheckCircle2 } from 'lucide-react';
 import styles from './index.module.scss';
 
 export const RenderSuggestionsList: React.FC<RenderSuggestionsListProps> = (props) => {

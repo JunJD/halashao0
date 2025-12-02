@@ -3,7 +3,7 @@ import { LeftOutlined } from '@ant-design/icons';
 import { useEffect } from 'react';
 import { SETTER_WIDTH } from '@/config';
 
-export default function MoreConfigWrapper (props) {
+export default function MoreConfigWrapper(props) {
   const { open, setOpen, title = '', children, ...rest } = props;
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function MoreConfigWrapper (props) {
       mask={false}
       maskClosable={false}
       width={SETTER_WIDTH}
-      rootStyle={{ top: 50, outline: 'none', }}
+      rootStyle={{ top: 50, outline: 'none' }}
       contentWrapperStyle={{ boxShadow: 'none' }}
       bodyStyle={{ padding: 16 }}
       closeIcon={null}
@@ -32,7 +32,7 @@ export default function MoreConfigWrapper (props) {
       <div>
         <Button
           type="link"
-          href="javascript:void(0);" 
+          href="javascript:void(0);"
           size="small"
           onClick={() => { setOpen(false); }}
           icon={<LeftOutlined />}
@@ -43,5 +43,5 @@ export default function MoreConfigWrapper (props) {
         {children}
       </div>
     </Drawer>
-  )
+  );
 }

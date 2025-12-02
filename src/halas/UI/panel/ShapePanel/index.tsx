@@ -29,7 +29,7 @@ const ShapeItem = ({ onClick, children }) => (
       justifyContent: 'center',
       aspectRatio: '1',
       transition: 'all 0.2s ease',
-      border: '1px solid transparent'
+      border: '1px solid transparent',
     }}
     onMouseEnter={(e) => {
       e.currentTarget.style.background = '#fff';
@@ -46,13 +46,13 @@ const ShapeItem = ({ onClick, children }) => (
   </div>
 );
 
-export default function ShapePanel () {
+export default function ShapePanel() {
   const { editor, roughSvg } = useContext(GlobalStateContext);
   const { t } = useTranslation();
 
   const addLine = (item) => {
     const { type, options = {} } = item;
-    const canvas = editor.canvas;
+    const { canvas } = editor;
     switch (type) {
       case 'f-line':
         drawLine({ ...options, canvas });
@@ -66,12 +66,12 @@ export default function ShapePanel () {
       default:
         break;
     }
-  }
+  };
 
   const addShape = (item) => {
     const { key, elem, options } = item;
-    const canvas = editor.canvas;
-    switch(key) {
+    const { canvas } = editor;
+    switch (key) {
       case 'rect':
       case 'rect-r':
         createRect({ ...options, canvas });
@@ -84,11 +84,11 @@ export default function ShapePanel () {
         createShape(item.shape, { ...options, canvas });
         break;
     }
-  }
+  };
 
   const addRough = (item) => {
     const { key, options } = item;
-    const canvas = editor.canvas;
+    const { canvas } = editor;
     let svg;
     switch (key) {
       case 'rough-line':
@@ -112,10 +112,10 @@ export default function ShapePanel () {
         break;
     }
 
-    console.log(svg)
-    const svgString = `<svg fill="none" xmlns="http://www.w3.org/2000/svg">${svg.innerHTML}</svg>`
+    console.log(svg);
+    const svgString = `<svg fill="none" xmlns="http://www.w3.org/2000/svg">${svg.innerHTML}</svg>`;
     createPathFromSvg({ svgString, canvas, sub_type: 'rough' });
-  }
+  };
 
   return (
     <div style={{ padding: '16px', height: '100%', overflowY: 'auto' }}>
@@ -123,7 +123,7 @@ export default function ShapePanel () {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
         {
           LineTypeList.map(item => (
-            <ShapeItem key={item.key} onClick={() => { addLine(item) }}>
+            <ShapeItem key={item.key} onClick={() => { addLine(item); }}>
               <img src={`data:image/svg+xml,${encodeURIComponent(item.svg)}`} alt="" style={{ width: 32, height: 32 }} />
             </ShapeItem>
           ))
@@ -134,7 +134,7 @@ export default function ShapePanel () {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
         {
           ShapeTypeList.map(item => (
-            <ShapeItem key={item.key} onClick={() => { addShape(item) }}>
+            <ShapeItem key={item.key} onClick={() => { addShape(item); }}>
               <img src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(item.elem)}`} style={{ width: 36, height: 36 }} />
             </ShapeItem>
           ))
@@ -150,12 +150,12 @@ export default function ShapePanel () {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
         {
           RoughTypeList.map(item => (
-            <ShapeItem key={item.key} onClick={() => { addRough(item) }}>
+            <ShapeItem key={item.key} onClick={() => { addRough(item); }}>
               <img src={item.elem} style={{ width: 40 }} />
             </ShapeItem>
           ))
         }
       </div>
     </div>
-  )
+  );
 }

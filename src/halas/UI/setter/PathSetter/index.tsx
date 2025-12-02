@@ -4,7 +4,7 @@ import PathSetterForm from './PathSetterForm';
 import { GlobalStateContext } from '@/context';
 import { transformFill2Colors, transformColors2Fill } from '@/utils';
 
-export default function PathSetter () {
+export default function PathSetter() {
   const { object, editor } = useContext(GlobalStateContext);
   const [value, setValue] = useState({});
 
@@ -13,7 +13,7 @@ export default function PathSetter () {
       object.set('stroke', values.color);
     }
     if (values.width) {
-      object.set('strokeWidth', values.width)
+      object.set('strokeWidth', values.width);
     }
     if (values.fill) {
       let fill = transformColors2Fill(values.fill);
@@ -23,7 +23,7 @@ export default function PathSetter () {
       object.set('fill', fill);
     }
     if (values.shadow) {
-      const shadow = object.shadow;
+      const { shadow } = object;
       const originalShadowObject = shadow ? shadow.toObject() : {};
       const newShadowObject = {
         blur: values.shadow.width || originalShadowObject.blur,
@@ -31,12 +31,12 @@ export default function PathSetter () {
         offsetY: values.shadow.offset || originalShadowObject.offsetY,
         affectStroke: true,
         color: values.shadow.color || originalShadowObject.color || '#000000',
-      }
+      };
       object.set('shadow', new fabric.Shadow(newShadowObject));
     }
 
     editor.canvas.requestRenderAll();
-  }
+  };
 
   useEffect(() => {
     if (object) {
@@ -48,8 +48,8 @@ export default function PathSetter () {
         shadow: {
           color: shadow?.color || '#000000',
           width: shadow?.blur || 0,
-          offset: shadow?.offsetX || 0
-        }
+          offset: shadow?.offsetX || 0,
+        },
       });
     }
   }, [object]);
@@ -63,5 +63,5 @@ export default function PathSetter () {
       value={value}
       onChange={handleChange}
     />
-  )
+  );
 }

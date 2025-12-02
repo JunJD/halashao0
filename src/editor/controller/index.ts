@@ -24,7 +24,7 @@ DEL_IMG_ACTIVE.src = DEL_SVG_ACTIVE;
 
 const renderSizeIcon = (ctx, left, top, styleOverride, fabricObject, TBorLR) => {
   const xSize = TBorLR === 'TB' ? 20 : 6;
-  const ySize = TBorLR === 'TB' ? 6 : 20;;
+  const ySize = TBorLR === 'TB' ? 6 : 20;
   ctx.save();
   ctx.fillStyle = '#ffffff';
   ctx.strokeStyle = '#bbbbbb';
@@ -38,15 +38,15 @@ const renderSizeIcon = (ctx, left, top, styleOverride, fabricObject, TBorLR) => 
   ctx.stroke();
   ctx.fill();
   ctx.restore();
-}
+};
 
 const renderLRIcon = (ctx, left, top, styleOverride, fabricObject) => {
   renderSizeIcon(ctx, left, top, styleOverride, fabricObject, 'LR');
-}
+};
 
 const renderTBIcon = (ctx, left, top, styleOverride, fabricObject) => {
   renderSizeIcon(ctx, left, top, styleOverride, fabricObject, 'TB');
-}
+};
 
 export const renderVertexIcon = (ctx, left, top, styleOverride, fabricObject) => {
   const size = 12;
@@ -61,7 +61,7 @@ export const renderVertexIcon = (ctx, left, top, styleOverride, fabricObject) =>
   ctx.stroke();
   ctx.fill();
   ctx.restore();
-}
+};
 
 function renderSvgIcon(icon) {
   return function renderIcon(ctx, left, top, styleOverride, fabricObject) {
@@ -71,23 +71,23 @@ function renderSvgIcon(icon) {
     ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
     ctx.drawImage(icon, -size / 2, -size / 2, size, size);
     ctx.restore();
-  }
+  };
 }
 
 const handleCopyObject = async (eventData, transform) => {
-  const target = transform.target;
-  const canvas = target.canvas;
+  const { target } = transform;
+  const { canvas } = target;
   await copyObject(canvas, target);
   pasteObject(canvas);
   return true;
-}
+};
 
 const handleDelObject = (eventData, transform) => {
-  const target = transform.target;
-  const canvas = target.canvas;
+  const { target } = transform;
+  const { canvas } = target;
   removeObject(target, canvas);
   return true;
-}
+};
 
 export const renderController = () => {
   // middle top
@@ -95,7 +95,7 @@ export const renderController = () => {
     x: 0,
     y: -0.5,
     offsetY: -1,
-    render: renderTBIcon
+    render: renderTBIcon,
   };
   Object.keys(mtConfig).forEach(key => {
     fabric.Object.prototype.controls.mt[key] = mtConfig[key];
@@ -106,7 +106,7 @@ export const renderController = () => {
     x: 0,
     y: 0.5,
     offsetY: 1,
-    render: renderTBIcon
+    render: renderTBIcon,
   };
   Object.keys(mbConfig).forEach(key => {
     fabric.Object.prototype.controls.mb[key] = mbConfig[key];
@@ -117,7 +117,7 @@ export const renderController = () => {
     x: -0.5,
     y: 0,
     offsetX: -1,
-    render: renderLRIcon
+    render: renderLRIcon,
   };
   Object.keys(mlConfig).forEach(key => {
     fabric.Object.prototype.controls.ml[key] = mlConfig[key];
@@ -128,7 +128,7 @@ export const renderController = () => {
     x: 0.5,
     y: 0,
     offsetX: 1,
-    render: renderLRIcon
+    render: renderLRIcon,
   };
   Object.keys(mrConfig).forEach(key => {
     fabric.Object.prototype.controls.mr[key] = mrConfig[key];
@@ -138,8 +138,8 @@ export const renderController = () => {
   const tlConfig = {
     x: -0.5,
     y: -0.5,
-    render: renderVertexIcon
-  }
+    render: renderVertexIcon,
+  };
   Object.keys(tlConfig).forEach(key => {
     fabric.Object.prototype.controls.tl[key] = tlConfig[key];
   });
@@ -148,8 +148,8 @@ export const renderController = () => {
   const trConfig = {
     x: 0.5,
     y: -0.5,
-    render: renderVertexIcon
-  }
+    render: renderVertexIcon,
+  };
   Object.keys(trConfig).forEach(key => {
     fabric.Object.prototype.controls.tr[key] = trConfig[key];
   });
@@ -158,8 +158,8 @@ export const renderController = () => {
   const blConfig = {
     x: -0.5,
     y: 0.5,
-    render: renderVertexIcon
-  }
+    render: renderVertexIcon,
+  };
   Object.keys(blConfig).forEach(key => {
     fabric.Object.prototype.controls.bl[key] = blConfig[key];
   });
@@ -168,12 +168,12 @@ export const renderController = () => {
   const brConfig = {
     x: 0.5,
     y: 0.5,
-    render: renderVertexIcon
-  }
+    render: renderVertexIcon,
+  };
   Object.keys(brConfig).forEach(key => {
     fabric.Object.prototype.controls.br[key] = brConfig[key];
   });
-}
+};
 
 // reference: https://medium.com/@luizzappa/custom-icon-and-cursor-in-fabric-js-controls-4714ba0ac28f
 export const renderRotateController = () => {
@@ -184,12 +184,12 @@ export const renderRotateController = () => {
     // TODO change cursor rotation
     cursorStyleHandler: () => `url("data:image/svg+xml;charset=utf-8,${ROTATE_CURSOR}") 12 12, crosshair`,
     render: renderSvgIcon(ROTATE_IMG),
-    withConnection: false
+    withConnection: false,
   };
   Object.keys(mtrConfig).forEach(key => {
     fabric.Object.prototype.controls.mtr[key] = mtrConfig[key];
   });
-}
+};
 
 // copy & paste & delete & more
 export const renderToolBarController = () => {
@@ -200,7 +200,7 @@ export const renderToolBarController = () => {
     offsetY: -26,
     cursorStyle: 'pointer',
     mouseUpHandler: handleCopyObject,
-    render: renderSvgIcon(COPY_IMG)
+    render: renderSvgIcon(COPY_IMG),
   });
   fabric.Object.prototype.controls.copy = copyControl;
 
@@ -211,10 +211,10 @@ export const renderToolBarController = () => {
     offsetY: -26,
     cursorStyle: 'pointer',
     mouseUpHandler: handleDelObject,
-    render: renderSvgIcon(DEL_IMG)
+    render: renderSvgIcon(DEL_IMG),
   });
   fabric.Object.prototype.controls.del = delControl;
-}
+};
 
 export const handleMouseOverCorner = (corner, target) => {
   if (corner === 'mtr') {
@@ -227,7 +227,7 @@ export const handleMouseOverCorner = (corner, target) => {
     target.controls[corner].render = renderSvgIcon(DEL_IMG_ACTIVE);
   }
   target.canvas.requestRenderAll();
-}
+};
 
 export const handleMouseOutCorner = (target) => {
   if (!target) return;
@@ -240,9 +240,9 @@ export const handleMouseOutCorner = (target) => {
   if (target.controls?.del) {
     target.controls.del.render = renderSvgIcon(DEL_IMG);
   }
-}
+};
 
-export default function initControl () {
+export default function initControl() {
   renderController();
   renderRotateController();
   renderToolBarController();

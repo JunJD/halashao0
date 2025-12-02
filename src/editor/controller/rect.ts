@@ -2,7 +2,7 @@ import { fabric } from 'fabric';
 import { changeHeight } from '@/utils/helper';
 
 // @ts-ignore fabric controlsUtils
-const controlsUtils = fabric.controlsUtils;
+const { controlsUtils } = fabric;
 
 export const initRectControl = () => {
   const objectControls = fabric.Object.prototype.controls;
@@ -25,7 +25,7 @@ export const initRectControl = () => {
       actionHandler: controlsUtils.changeWidth,
       cursorStyleHandler: objectControls.ml.cursorStyleHandler,
       actionName: 'resizing',
-      render: objectControls.ml.render
+      render: objectControls.ml.render,
     });
 
     rectControls.mr = new fabric.Control({
@@ -34,7 +34,7 @@ export const initRectControl = () => {
       actionHandler: controlsUtils.changeWidth,
       cursorStyleHandler: objectControls.mr.cursorStyleHandler,
       actionName: 'resizing',
-      render: objectControls.mr.render
+      render: objectControls.mr.render,
     });
 
     rectControls.mt = new fabric.Control({
@@ -44,7 +44,7 @@ export const initRectControl = () => {
       actionHandler: changeHeight,
       cursorStyleHandler: objectControls.mt.cursorStyleHandler,
       actionName: 'resizing',
-      render: objectControls.mt.render
+      render: objectControls.mt.render,
     });
 
     rectControls.mb = new fabric.Control({
@@ -54,7 +54,7 @@ export const initRectControl = () => {
       actionHandler: changeHeight,
       cursorStyleHandler: objectControls.mb.cursorStyleHandler,
       actionName: 'resizing',
-      render: objectControls.mb.render
+      render: objectControls.mb.render,
     });
   }
-}
+};

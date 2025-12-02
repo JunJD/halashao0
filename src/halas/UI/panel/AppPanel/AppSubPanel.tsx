@@ -1,12 +1,12 @@
 import { LeftOutlined } from '@ant-design/icons';
 import { Card, Flex } from 'antd';
 
-export default function AppSubPanel (props) {
+export default function AppSubPanel(props) {
   const { title, children, back } = props;
 
   const back2AppList = () => {
     back?.();
-  }
+  };
 
   return (
     <Card
@@ -22,5 +22,5 @@ export default function AppSubPanel (props) {
     >
       {children}
     </Card>
-  )
+  );
 }

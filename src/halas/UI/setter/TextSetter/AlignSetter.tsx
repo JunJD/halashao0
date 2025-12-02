@@ -4,16 +4,16 @@ import { AlignCenterOutlined, AlignLeftOutlined, AlignRightOutlined } from '@ant
 const TEXT_ALIGN_LIST = [
   { label: <AlignLeftOutlined />, value: 'left' },
   { label: <AlignCenterOutlined />, value: 'center' },
-  { label: <AlignRightOutlined />, value: 'right' }
+  { label: <AlignRightOutlined />, value: 'right' },
 ];
 
 const TEXT_ALIGN_MAP = {
   left: AlignLeftOutlined,
   center: AlignCenterOutlined,
-  right: AlignRightOutlined
+  right: AlignRightOutlined,
 };
 
-export default function AlignSetter (props) {
+export default function AlignSetter(props) {
   const { value, ...rest } = props;
 
   return (
@@ -24,5 +24,5 @@ export default function AlignSetter (props) {
       optionType="button"
       buttonStyle="solid"
     />
-  )
+  );
 }

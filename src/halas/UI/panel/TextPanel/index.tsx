@@ -6,20 +6,20 @@ import { GlobalStateContext } from '@/context';
 import { useTranslation } from '@/i18n/utils';
 import { Type } from 'lucide-react';
 
-export default function TextPanel () {
+export default function TextPanel() {
   const { editor } = useContext(GlobalStateContext);
   const { t } = useTranslation();
-  
+
   const handleAddText = async (options) => {
-    await createTextbox({  ...options, canvas: editor.canvas });
-  }
+    await createTextbox({ ...options, canvas: editor.canvas });
+  };
 
   return (
     <div style={{ padding: '20px 16px', height: '100%', overflowY: 'auto' }}>
-      <Button 
-        type="primary" 
-        block 
-        onClick={() => { handleAddText({}) }} 
+      <Button
+        type="primary"
+        block
+        onClick={() => { handleAddText({}); }}
         size="large"
         icon={<Type size={18} />}
         style={{ height: 48, borderRadius: 12, fontSize: 16, fontWeight: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
@@ -28,5 +28,5 @@ export default function TextPanel () {
       </Button>
       <PresetFontPanel addTextBox={handleAddText} />
     </div>
-  )
+  );
 }

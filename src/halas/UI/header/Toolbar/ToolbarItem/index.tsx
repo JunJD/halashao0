@@ -1,13 +1,13 @@
 import { Tooltip } from 'antd';
 
-export default function ToolbarItem (props) {
+export default function ToolbarItem(props) {
   const { onClick, title, disabled, tooltipProps, children } = props;
 
   const handleClick = () => {
     if (!disabled) {
       onClick?.();
     }
-  }
+  };
 
   return (
     <Tooltip
@@ -20,12 +20,12 @@ export default function ToolbarItem (props) {
       <span
         className="halas-toolbar-item"
         style={{
-          color: disabled ? '#cccccc' : 'rgba(0, 0, 0, 0.88)'
+          color: disabled ? '#cccccc' : 'rgba(0, 0, 0, 0.88)',
         }}
         onClick={handleClick}
       >
         {children}
       </span>
     </Tooltip>
-  )
+  );
 }

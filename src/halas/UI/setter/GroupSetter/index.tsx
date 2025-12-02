@@ -4,7 +4,7 @@ import { GlobalStateContext } from '@/context';
 import { groupSelection, ungroup } from '@/utils/helper';
 import { useTranslation } from '@/i18n/utils';
 
-export default function GroupSetter () {
+export default function GroupSetter() {
   const { object, editor } = useContext(GlobalStateContext);
   const { t } = useTranslation();
 
@@ -13,10 +13,10 @@ export default function GroupSetter () {
   return (
     <div>
       {
-        object.type === 'group' ?
-        <Button type="primary" block onClick={() => { ungroup(editor.canvas, object); }}>{t('setter.group.ung')}</Button> :
-        <Button type="primary" block onClick={() => { groupSelection(editor.canvas, object); }}>{t('setter.group.g')}</Button>
+        object.type === 'group'
+        ? <Button type="primary" block onClick={() => { ungroup(editor.canvas, object); }}>{t('setter.group.ung')}</Button>
+        : <Button type="primary" block onClick={() => { groupSelection(editor.canvas, object); }}>{t('setter.group.g')}</Button>
       }
     </div>
-  )
+  );
 }

@@ -24,41 +24,41 @@ const OBJECT_TYPES = [
   {
     label: <Trans i18nKey="panel.design.title" />,
     value: 'design',
-    icon: <LayoutTemplate size={iconSize} />
+    icon: <LayoutTemplate size={iconSize} />,
   },
   {
     label: <Trans i18nKey="panel.text.title" />,
     value: 'text',
-    icon: <Type size={iconSize} />
+    icon: <Type size={iconSize} />,
   },
   {
     label: <Trans i18nKey="panel.image.title" />,
     value: 'image',
-    icon: <Image size={iconSize} />
+    icon: <Image size={iconSize} />,
   },
   {
     label: <Trans i18nKey="panel.material.title" />,
     value: 'shape',
-    icon: <Shapes size={iconSize} />
+    icon: <Shapes size={iconSize} />,
   },
   {
     label: <Trans i18nKey="panel.paint.title" />,
     value: 'paint',
-    icon: <PenTool size={iconSize} />
+    icon: <PenTool size={iconSize} />,
   },
   {
     label: <Trans i18nKey="panel.app.title" />,
     value: 'app',
-    icon: <AppWindow size={iconSize} />
+    icon: <AppWindow size={iconSize} />,
   },
   {
     label: <Trans i18nKey="common.operate" />,
     value: 'settings',
-    icon: <Sliders size={iconSize} />
-  }
+    icon: <Sliders size={iconSize} />,
+  },
 ];
 
-export default function Panel () {
+export default function Panel() {
   const { editor, object } = useContext(GlobalStateContext);
   const [activeTab, setActiveTab] = useState('design');
 
@@ -85,7 +85,7 @@ export default function Panel () {
       return <Setter />;
     }
     return null;
-  }
+  };
 
   const handleTabChange = (k) => {
     setActiveTab(k);
@@ -96,7 +96,7 @@ export default function Panel () {
         editor.canvas.isDrawingMode = false;
       }
     }
-  }
+  };
 
   useEffect(() => {
     if (object && object.id !== SKETCH_ID) {
@@ -115,7 +115,7 @@ export default function Panel () {
         <div className={styles.sidebar}>
           {
             OBJECT_TYPES.map(item => (
-              <div 
+              <div
                 key={item.value}
                 className={`${styles.sidebarItem} ${activeTab === item.value ? styles.active : ''}`}
                 onClick={() => handleTabChange(item.value)}
@@ -125,9 +125,9 @@ export default function Panel () {
               </div>
             ))
           }
-          
+
           <div className={styles.bottomActions}>
-             <LocalesSwitch />
+            <LocalesSwitch />
           </div>
         </div>
         <div className={styles.content}>
@@ -135,5 +135,5 @@ export default function Panel () {
         </div>
       </div>
     </Sider>
-  )
+  );
 }

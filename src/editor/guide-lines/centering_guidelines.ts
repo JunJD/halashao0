@@ -7,8 +7,7 @@
 
 // @ts-nocheck
 export default function initCenteringGuidelines(canvas) {
-
-    var canvasWidth = canvas.getWidth(),
+    let canvasWidth = canvas.getWidth(),
         canvasHeight = canvas.getHeight(),
         canvasWidthCenter = canvasWidth / 2,
         canvasHeightCenter = canvasHeight / 2,
@@ -19,22 +18,22 @@ export default function initCenteringGuidelines(canvas) {
         centerLineWidth = 1,
         ctx = canvas.getSelectionContext(),
         viewportTransform;
-  
+
     for (var i = canvasWidthCenter - centerLineMargin, len = canvasWidthCenter + centerLineMargin; i <= len; i++) {
       canvasWidthCenterMap[Math.round(i)] = true;
     }
     for (var i = canvasHeightCenter - centerLineMargin, len = canvasHeightCenter + centerLineMargin; i <= len; i++) {
       canvasHeightCenterMap[Math.round(i)] = true;
     }
-  
+
     function showVerticalCenterLine() {
       showCenterLine(canvasWidthCenter + 0.5, 0, canvasWidthCenter + 0.5, canvasHeight);
     }
-  
+
     function showHorizontalCenterLine() {
       showCenterLine(0, canvasHeightCenter + 0.5, canvasWidth, canvasHeightCenter + 0.5);
     }
-  
+
     function showCenterLine(x1, y1, x2, y2) {
       ctx.save();
       ctx.strokeStyle = centerLineColor;
@@ -45,36 +44,36 @@ export default function initCenteringGuidelines(canvas) {
       ctx.stroke();
       ctx.restore();
     }
-  
-    var afterRenderActions = [],
+
+    let afterRenderActions = [],
         isInVerticalCenter,
         isInHorizontalCenter;
-  
-    canvas.on('mouse:down', function () {
+
+    canvas.on('mouse:down', () => {
       viewportTransform = canvas.viewportTransform;
     });
-  
-    canvas.on('object:moving', function(e) {
-      var object = e.target,
+
+    canvas.on('object:moving', (e) => {
+      let object = e.target,
           objectCenter = object.getCenterPoint(),
           transform = canvas._currentTransform;
-  
+
       if (!transform) return;
-  
+
       isInVerticalCenter = Math.round(objectCenter.x) in canvasWidthCenterMap,
       isInHorizontalCenter = Math.round(objectCenter.y) in canvasHeightCenterMap;
-  
+
       if (isInHorizontalCenter || isInVerticalCenter) {
         object.setPositionByOrigin(new fabric.Point((isInVerticalCenter ? canvasWidthCenter : objectCenter.x), (isInHorizontalCenter ? canvasHeightCenter : objectCenter.y)), 'center', 'center');
       }
     });
-  
-    canvas.on('before:render', function() {
+
+    canvas.on('before:render', () => {
       const ct = canvas.contextTop;
       if (ct) canvas.clearContext(canvas.contextTop);
     });
-  
-    canvas.on('after:render', function() {
+
+    canvas.on('after:render', () => {
       if (isInVerticalCenter) {
         showVerticalCenterLine();
       }
@@ -82,8 +81,8 @@ export default function initCenteringGuidelines(canvas) {
         showHorizontalCenterLine();
       }
     });
-  
-    canvas.on('mouse:up', function() {
+
+    canvas.on('mouse:up', () => {
       // clear these values, to stop drawing guidelines once mouse is up
       isInVerticalCenter = isInHorizontalCenter = null;
       canvas.renderAll();

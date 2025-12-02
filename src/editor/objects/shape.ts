@@ -1,7 +1,7 @@
 import { fabric } from 'fabric';
 import { uuid } from '@/utils';
 
-export default function createShape (ShapeClass, options) {
+export default function createShape(ShapeClass, options) {
   const { points, canvas, ...rest } = options || {};
   let object;
   if (ShapeClass === fabric.Polygon) {

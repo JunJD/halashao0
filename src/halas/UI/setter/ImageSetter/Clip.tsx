@@ -7,7 +7,7 @@ import { useTranslation } from '@/i18n/utils';
 
 // global CSS moved to _app.tsx
 
-export default function ClipSetter (props) {  
+export default function ClipSetter(props) {
   const { t } = useTranslation();
   const { object } = props;
   const imgRef = useRef<HTMLImageElement>();
@@ -23,19 +23,19 @@ export default function ClipSetter (props) {
       width: boundingRect.width,
       height: boundingRect.height,
       left: boundingRect.left + PANEL_WIDTH,
-      top: boundingRect.top + 50 // 50 is setter toolbar height
+      top: boundingRect.top + 50, // 50 is setter toolbar height
     });
     setTimeout(() => {
       cropperRef.current = new Cropper(imgRef.current, {
         scalable: false,
         autoCropArea: 1,
         viewMode: 3,
-        toggleDragModeOnDblclick: false
+        toggleDragModeOnDblclick: false,
       });
       object.set('hasControls', false);
       object.canvas.requestRenderAll();
     }, 66);
-  }
+  };
 
   const handleCrop = () => {
     if (cropperRef.current) {
@@ -50,19 +50,19 @@ export default function ClipSetter (props) {
       });
       setShowCrop(false);
     }
-  }
+  };
 
   const changeRatio = (r) => {
     if (cropperRef.current) {
       cropperRef.current.setAspectRatio(r);
     }
-  }
+  };
 
   const cancel = () => {
     setShowCrop(false);
     object.set('hasControls', true);
     object.canvas.requestRenderAll();
-  }
+  };
 
   useEffect(() => {
     return () => {
@@ -70,7 +70,7 @@ export default function ClipSetter (props) {
         cropperRef.current.destroy();
         cropperRef.current = null;
       }
-    }
+    };
   }, []);
 
   return (
@@ -78,33 +78,33 @@ export default function ClipSetter (props) {
       <Button block icon={<ExpandOutlined />} onClick={startCrop}>{t('setter.image.crop')}</Button>
 
       {
-        showCrop ?
-        <div
-          style={{
+        showCrop
+        ? <div
+            style={{
             position: 'fixed',
             left: 0,
             top: 0,
             right: 0,
             bottom: 0,
             backgroundColor: 'rgba(0,0,0,.65)',
-            zIndex: 1000
+            zIndex: 1000,
           }}
-          className="halas-crop-wrapper"
+            className="halas-crop-wrapper"
         >
           <div
             style={{
             position: 'absolute',
             zIndex: 1001,
             left: imgInfo.left,
-            top: imgInfo.top - 38
+            top: imgInfo.top - 38,
           }}
           >
             <Space.Compact block>
-              <Button onClick={() => { changeRatio(1/1) }}>1:1</Button>
-              <Button onClick={() => { changeRatio(4/3) }}>4:3</Button>
-              <Button onClick={() => { changeRatio(3/4) }}>3:4</Button>
-              <Button onClick={() => { changeRatio(16/9) }}>16:9</Button>
-              <Button onClick={() => { changeRatio(9/16) }}>9:16</Button>
+              <Button onClick={() => { changeRatio(1 / 1); }}>1:1</Button>
+              <Button onClick={() => { changeRatio(4 / 3); }}>4:3</Button>
+              <Button onClick={() => { changeRatio(3 / 4); }}>3:4</Button>
+              <Button onClick={() => { changeRatio(16 / 9); }}>16:9</Button>
+              <Button onClick={() => { changeRatio(9 / 16); }}>9:16</Button>
               <Button icon={<CloseOutlined />} onClick={cancel} />
               <Button icon={<CheckOutlined />} onClick={handleCrop} />
             </Space.Compact>
@@ -116,14 +116,14 @@ export default function ClipSetter (props) {
               position: 'absolute',
               zIndex: 1001,
               left: imgInfo.left,
-              top: imgInfo.top
+              top: imgInfo.top,
             }}
             onDoubleClick={handleCrop}
           >
             <img ref={imgRef} src={imgInfo.src} style={{ display: 'block', maxWidth: '100%' }} />
-          </div> 
+          </div>
         </div> : null
       }
     </div>
-  )
+  );
 }

@@ -4,14 +4,14 @@ import LocalFileSelector from '../LocalFileSelector';
 import { useTranslation } from '@/i18n/utils';
 import { Upload } from 'lucide-react';
 
-export default function LocalImageSelector (props) {
+export default function LocalImageSelector(props) {
   const { onChange, ...rest } = props;
   const localFileSelectorRef = useRef<any>();
   const { t } = useTranslation();
 
   const handleClick = () => {
     localFileSelectorRef.current?.start?.();
-  }
+  };
 
   const handleFileChange = (file) => {
     if (file.type === 'image/svg+xml') {
@@ -19,20 +19,20 @@ export default function LocalImageSelector (props) {
       // addSvg?.({ url });
       return;
     }
-    
+
     const reader = new FileReader();
     reader.onload = (revt) => {
       onChange?.(revt.target.result);
-    }
+    };
     reader.readAsDataURL(file);
-  }
+  };
 
   return (
     <div>
-      <Button 
-        type="primary" 
-        size="large" 
-        onClick={handleClick} 
+      <Button
+        type="primary"
+        size="large"
+        onClick={handleClick}
         block
         icon={<Upload size={18} />}
         style={{ height: 48, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}

@@ -19,16 +19,16 @@ const workspaceStyle: React.CSSProperties = {
   width: '100%',
   height: '100%',
   overflow: 'hidden',
-  flex: 1
-}
+  flex: 1,
+};
 
 const contentStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
-  height: '100%'
-}
+  height: '100%',
+};
 
-export default function Halas () {
+export default function Halas() {
   const canvasEl = useRef<HTMLCanvasElement>(null);
   const workspaceEl = useRef<HTMLDivElement>(null);
   const roughSvgEl = useRef(null);
@@ -57,7 +57,7 @@ export default function Halas () {
     } else {
       contextMenuRef.current?.hide();
     }
-  }
+  };
 
   const selectionHandler = (opt) => {
     const { selected, sketch } = opt;
@@ -68,12 +68,12 @@ export default function Halas () {
       // @ts-ignore
       setActiveObject(sketch);
     }
-  }
+  };
 
   const groupHandler = () => {
     const selection = editor.canvas.getActiveObject();
     setActiveObject(selection);
-  }
+  };
 
   const loadJsonHandler = (opt) => {
     const { lastActiveObject } = opt;
@@ -81,8 +81,8 @@ export default function Halas () {
       editor.canvas.setActiveObject(lastActiveObject);
       setActiveObject(lastActiveObject);
     }
-  }
-  
+  };
+
   const initEvent = () => {
     editor.canvas.on('selection:created', selectionHandler);
     editor.canvas.on('selection:updated', selectionHandler);
@@ -94,15 +94,15 @@ export default function Halas () {
     editor.canvas.on('halas:ungroup', groupHandler);
 
     editor.canvas.on('halas:load:json', loadJsonHandler);
-  }
+  };
 
   const initEditor = async () => {
     const _editor = new Editor({
       canvasEl: canvasEl.current,
       workspaceEl: workspaceEl.current,
       sketchEventHandler: {
-        groupHandler: () => { setActiveObject(_editor.canvas.getActiveObject()) }
-      }
+        groupHandler: () => { setActiveObject(_editor.canvas.getActiveObject()); },
+      },
     });
 
     editorInstance = _editor;
@@ -122,19 +122,19 @@ export default function Halas () {
     setEditor(_editor);
     setReady(true);
     setActiveObject(_editor.sketch);
-  }
+  };
 
   const initRoughSvg = () => {
     // @ts-ignore rough svg
     setRoughSvg(rough.svg(roughSvgEl.current));
-  }
+  };
 
   const renderWorkspace = useMemo(() => {
     return (
       <div style={workspaceStyle} ref={workspaceEl} className="halas-workspace">
         <canvas ref={canvasEl} />
       </div>
-    )
+    );
   }, []);
 
   useEffect(() => {
@@ -153,8 +153,8 @@ export default function Halas () {
         canvasEl: canvasEl.current,
         workspaceEl: workspaceEl.current,
         sketchEventHandler: {
-          groupHandler: () => { setActiveObject(_editor.canvas.getActiveObject()) }
-        }
+          groupHandler: () => { setActiveObject(_editor.canvas.getActiveObject()); },
+        },
       });
 
       editorInstance = _editor;
@@ -174,7 +174,7 @@ export default function Halas () {
       setEditor(_editor);
       setReady(true);
       setActiveObject(_editor.sketch);
-    }
+    };
 
     init();
 
@@ -183,7 +183,7 @@ export default function Halas () {
       if (editorInstance) {
         editorInstance.destroy();
       }
-    }
+    };
   }, []);
 
   return (
@@ -194,7 +194,7 @@ export default function Halas () {
         isReady,
         setReady,
         editor,
-        roughSvg
+        roughSvg,
       }}
     >
       <Layout style={{ height: '100%' }} className="halas-layout">
@@ -215,5 +215,5 @@ export default function Halas () {
         <svg id="halas-rough-svg" ref={roughSvgEl} />
       </Layout>
     </GlobalStateContext.Provider>
-  )
+  );
 }

@@ -19,11 +19,11 @@ export const initObjectPrototype = () => {
     borderColor: '#cccddd',
     borderDashArray: [7, 10],
     borderScaleFactor: 3,
-    padding: 10
-  }
+    padding: 10,
+  };
   Object.keys(asConfig).forEach(key => {
     fabric.ActiveSelection.prototype[key] = asConfig[key];
     fabric.Group.prototype[key] = asConfig[key];
   });
   fabric.Group.prototype.subTargetCheck = true;
-}
+};

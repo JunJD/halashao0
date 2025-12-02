@@ -23,11 +23,11 @@ const PxInputNumber = (props) => {
       changeOnBlur
       value={innerValue}
       onChange={setInnerValue}
-      onPressEnter={() => { onChange?.(innerValue) }}
+      onPressEnter={() => { onChange?.(innerValue); }}
       {...rest}
     />
-  )
-}
+  );
+};
 
 const noScaledSizeTypes = ['textbox', 'f-text', 'rect'];
 
@@ -44,7 +44,7 @@ const PositionForm = (props) => {
         object.set({
           width: realValue,
           scaleX: 1,
-          scaleY: 1
+          scaleY: 1,
         });
       } else {
         object.scaleToWidth(realValue, true);
@@ -54,13 +54,13 @@ const PositionForm = (props) => {
         object.set({
           height: realValue,
           scaleX: 1,
-          scaleY: 1
+          scaleY: 1,
         });
       } else {
         object.scaleToHeight(realValue, true);
       }
     }
-  }
+  };
 
   const handleChange = (values) => {
     Object.keys(values).forEach(key => {
@@ -75,7 +75,7 @@ const PositionForm = (props) => {
 
     editor.canvas.requestRenderAll();
     editor.fireCustomModifiedEvent();
-  }
+  };
 
   const setFormData = () => {
     form.setFieldsValue({
@@ -84,13 +84,13 @@ const PositionForm = (props) => {
       lockRatio: true,
       left: object.left,
       top: object.top,
-      angle: object.angle
+      angle: object.angle,
     });
-  }
+  };
 
   const handleModified = () => {
     setFormData();
-  }
+  };
 
   const init = () => {
     isNoScaledSizeTypeRef.current = noScaledSizeTypes.includes(object.type);
@@ -100,8 +100,8 @@ const PositionForm = (props) => {
 
     return () => {
       object.off('modified', handleModified);
-    }
-  }
+    };
+  };
 
   useEffect(() => {
     if (object && !object.group || object.type !== 'activeSelection') {
@@ -153,17 +153,17 @@ const PositionForm = (props) => {
         </Row>
       </Form>
     </div>
-  )
-}
+  );
+};
 
-export default function PositionSetter () {
+export default function PositionSetter() {
   const { editor, object } = useContext(GlobalStateContext);
   const { t } = useTranslation();
   const [showMore, setShowMore] = useState(false);
 
   return (
     <>
-      <Button block onClick={() => { setShowMore(true) }}>{t('setter.common.adjust_position')}</Button>
+      <Button block onClick={() => { setShowMore(true); }}>{t('setter.common.adjust_position')}</Button>
       <MoreConfigWrapper
         open={showMore}
         setOpen={setShowMore}
@@ -172,5 +172,5 @@ export default function PositionSetter () {
         {showMore ? <PositionForm editor={editor} object={object} /> : null}
       </MoreConfigWrapper>
     </>
-  )
+  );
 }

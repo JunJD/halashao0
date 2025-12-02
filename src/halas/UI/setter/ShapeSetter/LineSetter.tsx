@@ -10,7 +10,7 @@ const { Item: FormItem } = Form;
 
 const LINE_BORDER_TYPES = BORDER_TYPES.slice(1);
 
-export default function LineSetter () {
+export default function LineSetter() {
   const { object, editor } = useContext(GlobalStateContext);
   const { t } = useTranslation();
   const [form] = Form.useForm();
@@ -43,14 +43,14 @@ export default function LineSetter () {
     object.setCoords();
 
     editor.canvas.requestRenderAll();
-  }
+  };
 
   useEffect(() => {
     form.setFieldsValue({
       stroke: object.stroke || '#000000',
       type: getObjectBorderType(object),
       strokeWidth: object.strokeWidth,
-      round: object.strokeLineCap === 'round'
+      round: object.strokeLineCap === 'round',
     });
   }, [object]);
 
@@ -73,10 +73,10 @@ export default function LineSetter () {
               <Radio.Button key={item.key} value={item.key}>
                 <span
                   dangerouslySetInnerHTML={{ __html: item.svg }}
-                  style={{ 
+                  style={{
                     display: 'inline-flex',
                     alignItems: 'center',
-                    marginTop: 6
+                    marginTop: 6,
                   }}
                 />
               </Radio.Button>
@@ -102,5 +102,5 @@ export default function LineSetter () {
         <Switch />
       </FormItem>
     </Form>
-  )
+  );
 }

@@ -22,7 +22,7 @@ export default function SketchSetter() {
     }
     sketch.set('fill', fill);
     canvas.requestRenderAll();
-  }
+  };
 
   const handleValuesChange = (values) => {
     Object.keys(values).forEach((key) => {
@@ -33,14 +33,14 @@ export default function SketchSetter() {
       }
     });
     editor.fireCustomModifiedEvent();
-  }
+  };
 
   useEffect(() => {
     if (!editor) return;
     const { sketch } = editor;
     form.setFieldsValue({
       size: [sketch.width, sketch.height],
-      fill: transformFill2Colors(sketch.fill)
+      fill: transformFill2Colors(sketch.fill),
     });
   }, [editor]);
 

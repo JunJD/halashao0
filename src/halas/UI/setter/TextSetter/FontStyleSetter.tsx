@@ -4,31 +4,31 @@ import { BoldOutlined, ItalicOutlined, UnderlineOutlined, StrikethroughOutlined 
 const FONT_STYLES = [
   {
     icon: BoldOutlined,
-    value: 'bold'
+    value: 'bold',
   },
   {
     icon: ItalicOutlined,
-    value: 'italic'
+    value: 'italic',
   },
   {
     icon: UnderlineOutlined,
-    value: 'underline'
+    value: 'underline',
   },
   {
     icon: StrikethroughOutlined,
-    value: 'linethrough'
-  }
-]
+    value: 'linethrough',
+  },
+];
 
-export default function FontStylePanel (props) {
+export default function FontStylePanel(props) {
   const { value, onChange } = props;
 
   const handleClick = (v) => {
     onChange && onChange({
       ...value,
-      [v]: !value[v]
+      [v]: !value[v],
     });
-  }
+  };
 
   return (
     <Space.Compact block>
@@ -38,16 +38,16 @@ export default function FontStylePanel (props) {
             style={{ width: 46 }}
             icon={
               <FONT_STYLE.icon
-                style={{ 
-                  color: value?.[FONT_STYLE.value] ? '#1677ff' : ''
+                style={{
+                  color: value?.[FONT_STYLE.value] ? '#1677ff' : '',
                 }}
               />
             }
             key={FONT_STYLE.value}
-            onClick={() => { handleClick(FONT_STYLE.value) }}
+            onClick={() => { handleClick(FONT_STYLE.value); }}
           />
         ))
       }
     </Space.Compact>
-  )
+  );
 }

@@ -16,8 +16,8 @@ import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
 
-export default function TextSetter () {
-  const { object, editor }= useContext(GlobalStateContext);
+export default function TextSetter() {
+  const { object, editor } = useContext(GlobalStateContext);
   const [form] = Form.useForm();
   const [openFx, setOpenFx] = useState(false);
   const { t } = useTranslation();
@@ -27,22 +27,22 @@ export default function TextSetter () {
       icon: <FunctionOutlined style={{ fontSize: 22 }} />,
       label: t('setter.text.fx.title'),
       key: 'fx',
-      onClick: () => { setOpenFx(true) }
-    }
-  ]
+      onClick: () => { setOpenFx(true); },
+    },
+  ];
 
   const handleFontStyles = (styles) => {
     object.set({
       fontWeight: styles?.bold ? 'bold' : 'normal',
       fontStyle: styles?.italic ? 'italic' : 'normal',
       underline: !!styles.underline,
-      linethrough: !!styles.linethrough
+      linethrough: !!styles.linethrough,
     });
-  }
+  };
 
   const handleFill = (_fill) => {
     let fill = transformColors2Fill(_fill);
-    // text gradient nor support percentage https://github.com/fabricjs/fabric.js/issues/8168  
+    // text gradient nor support percentage https://github.com/fabricjs/fabric.js/issues/8168
     if (typeof fill !== 'string') {
       fill.gradientUnits = 'pixels';
       const { coords } = fill;
@@ -52,14 +52,14 @@ export default function TextSetter () {
         x2: coords.x2 === 1 ? object.width : 0,
         y2: coords.y2 === 1 ? object.height : 0,
         r1: 0,
-        r2: object.width > object.height ? object.width / 2  : object.height
-      }
+        r2: object.width > object.height ? object.width / 2 : object.height,
+      };
     }
     if (typeof fill !== 'string') {
       fill = new fabric.Gradient(fill);
     }
     object.set({ fill });
-  }
+  };
 
   const handleValuesChange = async (values) => {
     const keys = Object.keys(values);
@@ -90,9 +90,9 @@ export default function TextSetter () {
         editor.fireCustomModifiedEvent();
       }
     }
-   
+
     editor.canvas.requestRenderAll();
-  }
+  };
 
   useEffect(() => {
     form.setFieldsValue({
@@ -106,8 +106,8 @@ export default function TextSetter () {
         bold: object.fontWeight === 'bold',
         italic: object.fontStyle === 'italic',
         underline: object.underline,
-        linethrough: object.linethrough
-      }
+        linethrough: object.linethrough,
+      },
     });
   }, [object]);
 
@@ -130,7 +130,7 @@ export default function TextSetter () {
           name="fontSize"
           label={t('setter.text.font_size')}
         >
-          <SliderInputNumber max={400} onChangeComplete={() =>{ editor.fireCustomModifiedEvent() }} />
+          <SliderInputNumber max={400} onChangeComplete={() => { editor.fireCustomModifiedEvent(); }} />
         </FormItem>
         <FormItem
           name="fill"
@@ -157,7 +157,7 @@ export default function TextSetter () {
           <SliderInputNumber
             min={-200}
             max={800}
-            onChangeComplete={() =>{ editor.fireCustomModifiedEvent() }}
+            onChangeComplete={() => { editor.fireCustomModifiedEvent(); }}
           />
         </FormItem>
         <FormItem
@@ -168,11 +168,11 @@ export default function TextSetter () {
             min={0.5}
             max={2.5}
             step={0.01}
-            onChangeComplete={() =>{ editor.fireCustomModifiedEvent() }}
+            onChangeComplete={() => { editor.fireCustomModifiedEvent(); }}
           />
         </FormItem>
       </Form>
-      <FList 
+      <FList
         dataSource={TEXT_ADVANCE_CONFIG}
         renderItemChildren={(item) => (
           <>
@@ -192,5 +192,5 @@ export default function TextSetter () {
         <TextFx />
       </MoreConfigWrapper>
     </>
-  )
+  );
 }

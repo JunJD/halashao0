@@ -27,19 +27,19 @@ export default function RoughSetter() {
     });
     editor.canvas.requestRenderAll();
     editor.fireCustomModifiedEvent();
-  }
+  };
 
   useEffect(() => {
     if (object?.sub_type) {
       if (object.type === 'path') {
         form.setFieldsValue({
-          stroke: object.stroke
+          stroke: object.stroke,
         });
       } else {
         const _objects = (object as fabric.Group).getObjects();
         form.setFieldsValue({
           stroke: _objects[1].stroke,
-          fill: _objects[0].stroke
+          fill: _objects[0].stroke,
         });
       }
     }
@@ -58,10 +58,10 @@ export default function RoughSetter() {
         <ColorSetter />
       </FormItem>
       {
-        object?.type === 'group' ?
-        <FormItem
-          label={t('common.fill')}
-          name="fill"
+        object?.type === 'group'
+        ? <FormItem
+            label={t('common.fill')}
+            name="fill"
         >
           <ColorSetter />
         </FormItem> : null

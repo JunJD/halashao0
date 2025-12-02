@@ -1,6 +1,6 @@
 import { fabric } from 'fabric';
 
-const extend = fabric.util.object.extend;
+const { extend } = fabric.util.object;
 
 export const createFArrowClass = () => {
   // @ts-ignore custom arrow
@@ -9,10 +9,10 @@ export const createFArrowClass = () => {
     type: 'f-arrow',
 
     borderColor: '#00000000',
-  
-    _render: function(ctx) {
+
+    _render: function (ctx) {
       this.callSuper('_render', ctx);
-  
+
       ctx.save();
 
       if (!this.oldArrowInfo) {
@@ -20,12 +20,12 @@ export const createFArrowClass = () => {
           left: -28,
           top: -15,
           bottom: 15,
-          strokeWidth: this.strokeWidth
+          strokeWidth: this.strokeWidth,
         };
       }
-      var xDiff = this.x2 - this.x1;
-      var yDiff = this.y2 - this.y1;
-      var angle = Math.atan2(yDiff, xDiff);
+      let xDiff = this.x2 - this.x1;
+      let yDiff = this.y2 - this.y1;
+      let angle = Math.atan2(yDiff, xDiff);
       ctx.translate((this.x2 - this.x1) / 2, (this.y2 - this.y1) / 2);
       ctx.rotate(angle);
 
@@ -46,28 +46,28 @@ export const createFArrowClass = () => {
       ctx.restore();
     },
 
-    setStrokeWidth (w) {
+    setStrokeWidth(w) {
       this.set('strokeWidth', w);
     },
 
-    setStrokeDashArray (dashArray) {
+    setStrokeDashArray(dashArray) {
       this.set('strokeDashArray', dashArray);
     },
 
-    setStrokeLineCap (isRound) {
+    setStrokeLineCap(isRound) {
       this.set('strokeLineCap', isRound ? 'round' : 'butt');
-      this.set('strokeLineJoin', isRound ? 'round' : 'miter')
+      this.set('strokeLineJoin', isRound ? 'round' : 'miter');
     },
 
-    toObject (propertiesToInclude) {
+    toObject(propertiesToInclude) {
       return extend(this.callSuper('toObject', propertiesToInclude), { x1: this.x1, y1: this.y1, x2: this.x2, y2: this.y2 });
     },
   });
-  
-  fabric.FArrow.fromObject = function(object, callback) {
+
+  fabric.FArrow.fromObject = function (object, callback) {
     callback && callback(new fabric.FArrow([object.x1, object.y1, object.x2, object.y2], object));
   };
-}
+};
 
 // Triangle Arrow Head
 export const createFTriArrowClass = () => {
@@ -77,10 +77,10 @@ export const createFTriArrowClass = () => {
     type: 'f-tri-arrow',
 
     borderColor: '#00000000',
-  
-    _render: function(ctx) {
+
+    _render: function (ctx) {
       this.callSuper('_render', ctx);
-  
+
       ctx.save();
 
       if (!this.oldArrowInfo) {
@@ -88,12 +88,12 @@ export const createFTriArrowClass = () => {
           left: -24,
           top: -16,
           bottom: 16,
-          strokeWidth: this.strokeWidth
+          strokeWidth: this.strokeWidth,
         };
       }
-      var xDiff = this.x2 - this.x1;
-      var yDiff = this.y2 - this.y1;
-      var angle = Math.atan2(yDiff, xDiff);
+      let xDiff = this.x2 - this.x1;
+      let yDiff = this.y2 - this.y1;
+      let angle = Math.atan2(yDiff, xDiff);
       ctx.translate((this.x2 - this.x1) / 2, (this.y2 - this.y1) / 2);
       ctx.rotate(angle);
 
@@ -113,25 +113,25 @@ export const createFTriArrowClass = () => {
       ctx.restore();
     },
 
-    setStrokeWidth (w) {
+    setStrokeWidth(w) {
       this.set('strokeWidth', w);
     },
 
-    setStrokeDashArray (dashArray) {
+    setStrokeDashArray(dashArray) {
       this.set('strokeDashArray', dashArray);
     },
 
-    setStrokeLineCap (isRound) {
+    setStrokeLineCap(isRound) {
       this.set('strokeLineCap', isRound ? 'round' : 'butt');
-      this.set('strokeLineJoin', isRound ? 'round' : 'miter')
+      this.set('strokeLineJoin', isRound ? 'round' : 'miter');
     },
 
-    toObject (propertiesToInclude) {
+    toObject(propertiesToInclude) {
       return extend(this.callSuper('toObject', propertiesToInclude), { x1: this.x1, y1: this.y1, x2: this.x2, y2: this.y2 });
     },
   });
-  
-  fabric.FTriArrow.fromObject = function(object, callback) {
+
+  fabric.FTriArrow.fromObject = function (object, callback) {
     callback && callback(new fabric.FTriArrow([object.x1, object.y1, object.x2, object.y2], object));
   };
-}
+};

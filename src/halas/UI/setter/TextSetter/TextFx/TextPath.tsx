@@ -4,7 +4,7 @@ import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
 
-export default function TextPath (props) {
+export default function TextPath(props) {
   const [form] = Form.useForm();
   const { value, onChange } = props;
   const { t } = useTranslation();
@@ -12,9 +12,9 @@ export default function TextPath (props) {
   const handleChange = (v) => {
     onChange && onChange({
       ...value,
-      ...v
+      ...v,
     });
-  }
+  };
 
   useEffect(() => {
     if (value) {
@@ -41,5 +41,5 @@ export default function TextPath (props) {
         />
       </FormItem>
     </Form>
-  )
+  );
 }

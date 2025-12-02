@@ -13,16 +13,16 @@ const LayerIcon = ({ type, group }) => {
   if (type === 'f-text' || type === 'textbox') return <Type size={16} color="#666" />;
   if (type === 'f-image' || type === 'image') return <ImageIcon size={16} color="#666" />;
   return <Box size={16} color="#666" />;
-}
+};
 
-export default function Layer () {
+export default function Layer() {
   const { isReady, setReady, object: activeObject, setActiveObject, editor } = useContext(GlobalStateContext);
   const [layers, setLayers] = useState([]);
   const { t } = useTranslation();
 
   const getCanvasLayers = (objects) => {
     const _layers: any = [];
-    const length = objects.length;
+    const { length } = objects;
     if (!length) {
       setLayers([]);
       return;
@@ -43,12 +43,12 @@ export default function Layer () {
           cover: object.__cover,
           group: object.type === 'group',
           object,
-          type: object.type
+          type: object.type,
         });
       }
     }
     setLayers(_layers);
-  }
+  };
 
   const loadDemo = async () => {
     setReady(false);
@@ -57,17 +57,17 @@ export default function Layer () {
     setReady(true);
     setActiveObject(null);
     editor.fireCustomModifiedEvent();
-  }
+  };
 
   const handleItemClick = (item) => {
     editor.canvas.discardActiveObject();
     editor.canvas.setActiveObject(item.object);
     editor.canvas.requestRenderAll();
-  }
+  };
 
   useEffect(() => {
     let canvas;
-    const initCanvasLayers = () => { getCanvasLayers(canvas.getObjects()); }
+    const initCanvasLayers = () => { getCanvasLayers(canvas.getObjects()); };
 
     if (isReady) {
       setLayers([]);
@@ -79,7 +79,7 @@ export default function Layer () {
         'object:removed': initCanvasLayers,
         'object:modified': initCanvasLayers,
         'object:skewing': initCanvasLayers,
-        'halas:object:modified': initCanvasLayers
+        'halas:object:modified': initCanvasLayers,
       });
     }
 
@@ -87,13 +87,13 @@ export default function Layer () {
       if (canvas) {
         canvas.off({
           'object:added': initCanvasLayers,
-          'object:removed':initCanvasLayers,
+          'object:removed': initCanvasLayers,
           'object:modified': initCanvasLayers,
           'object:skewing': initCanvasLayers,
-          'halas:object:modified': initCanvasLayers
+          'halas:object:modified': initCanvasLayers,
         });
       }
-    }
+    };
   }, [isReady]);
 
   return (
@@ -102,50 +102,51 @@ export default function Layer () {
         {t('panel.design.title')}
       </div>
       {
-        layers.length ? 
-        <List
-          dataSource={layers}
-          split={false}
-          renderItem={(item: any) => (
-            <ContextMenu object={item.object} noCareOpen>
-              <div
-                onClick={() => { handleItemClick(item) }}
-                style={{
+        layers.length
+        ? <List
+            dataSource={layers}
+            split={false}
+            renderItem={(item: any) => (
+              <ContextMenu object={item.object} noCareOpen>
+                <div
+                  onClick={() => { handleItemClick(item); }}
+                  style={{
                   padding: '8px 12px',
                   marginBottom: 8,
                   borderRadius: 8,
                   cursor: 'pointer',
                   backgroundColor: activeObject === item.object ? '#e6f4ff' : '#f9f9f9',
                   border: activeObject === item.object ? '1px solid #1677ff' : '1px solid transparent',
-                  transition: 'all 0.2s'
+                  transition: 'all 0.2s',
                 }}
-              >
-                <Flex justify="space-between" align="center" style={{ width: '100%' }}>
-                  <div style={{ 
-                    width: 40, 
-                    height: 40, 
-                    background: '#fff', 
-                    borderRadius: 4, 
+                >
+                  <Flex justify="space-between" align="center" style={{ width: '100%' }}>
+                    <div style={{
+                    width: 40,
+                    height: 40,
+                    background: '#fff',
+                    borderRadius: 4,
                     border: '1px solid #eee',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    overflow: 'hidden'
-                  }}>
-                    <img src={item.cover} style={{ maxWidth: '100%', maxHeight: '100%' }} />
-                  </div>
-                  <div style={{ flex: 1, marginLeft: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <LayerIcon type={item.type} group={item.group} />
-                    <span style={{ fontSize: 12, color: '#333' }}>
-                      {item.type === 'f-text' ? (item.object.text?.slice(0, 10) || 'Text') : item.type}
-                    </span>
-                  </div>
-                </Flex>
-              </div>
-            </ContextMenu>
+                    overflow: 'hidden',
+                  }}
+                    >
+                      <img src={item.cover} style={{ maxWidth: '100%', maxHeight: '100%' }} />
+                    </div>
+                    <div style={{ flex: 1, marginLeft: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <LayerIcon type={item.type} group={item.group} />
+                      <span style={{ fontSize: 12, color: '#333' }}>
+                        {item.type === 'f-text' ? (item.object.text?.slice(0, 10) || 'Text') : item.type}
+                      </span>
+                    </div>
+                  </Flex>
+                </div>
+              </ContextMenu>
           )}
-        /> :
-        <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        />
+        : <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Empty
             image={null}
             description={
@@ -161,5 +162,5 @@ export default function Layer () {
         </div>
       }
     </div>
-  )
+  );
 }

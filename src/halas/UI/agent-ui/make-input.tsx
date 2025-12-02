@@ -8,7 +8,7 @@ import { cn } from '@/utils/cn';
 export const MakeInput: React.FC<InputProps> = (props) => {
   const { inProgress, onSend: propOnSend, onStop } = props;
 
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
   const [sending, setSending] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [textareaHeight, setTextareaHeight] = useState(45);
@@ -25,10 +25,10 @@ export const MakeInput: React.FC<InputProps> = (props) => {
     const maxHeight = 120;
     const target = textareaRef.current;
     if (!target) return;
-    target.style.height = "auto";
+    target.style.height = 'auto';
     const height = Math.min(target.scrollHeight, maxHeight);
     target.style.height = `${height}px`;
-    target.style.overflowY = "auto";
+    target.style.overflowY = 'auto';
     setTextareaHeight(height);
   }, []);
 
@@ -46,7 +46,7 @@ export const MakeInput: React.FC<InputProps> = (props) => {
       if (!messageToSend.trim() || streaming) return;
 
       setSending(true);
-      setInput("");
+      setInput('');
       setTimeout(() => {
         updateTextAreaHeight();
       }, 0);
@@ -63,9 +63,9 @@ export const MakeInput: React.FC<InputProps> = (props) => {
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
       // Support Shift+Enter for new line
-      if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
+      if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
         e.preventDefault();
-        const isEmpty = e.currentTarget.value.trim() === "";
+        const isEmpty = e.currentTarget.value.trim() === '';
         if (!isEmpty && !streaming) {
           e.currentTarget.blur();
           void handleSend();
@@ -109,7 +109,7 @@ export const MakeInput: React.FC<InputProps> = (props) => {
           {streaming ? (
             <button
               className={cn(styles.sendButton, styles.stop)}
-              aria-label='Stop generation'
+              aria-label="Stop generation"
               onClick={onStop}
             >
               <Square size={14} color="#fff" fill="#fff" />
@@ -118,7 +118,7 @@ export const MakeInput: React.FC<InputProps> = (props) => {
             <button
               disabled={!input.trim() || sending}
               className={cn(styles.sendButton, (!input.trim() || sending) ? '' : styles.active)}
-              aria-label='Send message'
+              aria-label="Send message"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();

@@ -5,7 +5,7 @@ import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
 
-export default function TextShadow (props) {
+export default function TextShadow(props) {
   const [form] = Form.useForm();
   const { value, onChange } = props;
   const { t } = useTranslation();
@@ -13,9 +13,9 @@ export default function TextShadow (props) {
   const handleChange = (v) => {
     onChange && onChange({
       ...value,
-      ...v
+      ...v,
     });
-  }
+  };
 
   useEffect(() => {
     if (value) {
@@ -42,5 +42,5 @@ export default function TextShadow (props) {
         />
       </FormItem>
     </Form>
-  )
+  );
 }

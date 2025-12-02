@@ -1,5 +1,5 @@
 import { fabric } from 'fabric';
-const clone = fabric.util.object.clone;
+const { clone } = fabric.util.object;
 
 const additionalProps =
 ('fontFamily fontWeight fontSize text underline overline linethrough' +
@@ -15,7 +15,7 @@ export const createFTextClass = () => {
 
     paintFirst: 'stroke',
 
-    initDimensions: function() {
+    initDimensions: function () {
       if (this.__skipDimension) {
         return;
       }
@@ -44,7 +44,7 @@ export const createFTextClass = () => {
       this.saveState({ propertySet: '_dimensionAffectingProps' });
     },
 
-    toObject: function(propertiesToInclude) {
+    toObject: function (propertiesToInclude) {
       const allProperties = additionalProps.concat(propertiesToInclude);
       const obj = this.callSuper('toObject', allProperties);
       obj.styles = fabric.util.stylesToArray(this.styles, this.text);
@@ -55,20 +55,20 @@ export const createFTextClass = () => {
     },
   });
 
-  fabric.FText.fromObject = function(object, callback) {
-    const objectCopy = clone(object), path = object.path;
+  fabric.FText.fromObject = function (object, callback) {
+    const objectCopy = clone(object),
+{ path } = object;
     delete objectCopy.path;
-    return fabric.Object._fromObject('FText', objectCopy, function(textInstance) {
+    return fabric.Object._fromObject('FText', objectCopy, (textInstance) => {
       textInstance.styles = fabric.util.stylesFromArray(object.styles, object.text);
       if (path) {
-        fabric.Object._fromObject('Path', path, function(pathInstance) {
+        fabric.Object._fromObject('Path', path, (pathInstance) => {
           textInstance.set('path', pathInstance);
           callback(textInstance);
         }, 'path');
-      }
-      else {
+      } else {
         callback(textInstance);
       }
     }, 'text');
   };
-}
+};

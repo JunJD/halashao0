@@ -3,7 +3,7 @@ import { FileImageOutlined } from '@ant-design/icons';
 import ImageSelector from '@/halas/components/ImageSelector';
 import { useTranslation } from '@/i18n/utils';
 
-export default function ReplaceSetter (props) {
+export default function ReplaceSetter(props) {
   const { t } = useTranslation();
   const { onChange } = props;
 

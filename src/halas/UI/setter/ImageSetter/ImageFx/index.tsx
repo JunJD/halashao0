@@ -10,18 +10,18 @@ const handleFilterValue = (filter) => {
   if (!filter) return { type: 'none' };
   const { type } = filter;
   if (type === 'Blur') {
-    return { type, param: filter.blur }
+    return { type, param: filter.blur };
   }
   if (type === 'Pixelate') {
-    return { type, param: filter.blocksize }
+    return { type, param: filter.blocksize };
   }
   if (type === 'HueRotation') {
-    return { type, param: filter.rotation }
+    return { type, param: filter.rotation };
   }
   return { type };
-}
+};
 
-export default function ImageFx () {
+export default function ImageFx() {
   const { object, editor } = useContext(GlobalStateContext);
   const [form] = Form.useForm();
 
@@ -31,9 +31,9 @@ export default function ImageFx () {
       let filter;
       if (type === 'Emboss') {
         filter = new fabric.Image.filters.Convolute({
-          matrix:  [ 1,   1,  1,
+          matrix: [1, 1, 1,
                      1, 0.7, -1,
-                    -1,  -1, -1 ]
+                    -1, -1, -1],
         });
       } else if (type === 'none') {
         filter = null;
@@ -53,15 +53,15 @@ export default function ImageFx () {
       object.canvas.requestRenderAll();
       editor.fireCustomModifiedEvent();
     }
-  }
+  };
 
   const initImageFx = () => {
     const filter = object.getFilter();
     console.log(filter);
     form.setFieldsValue({
-      filter: handleFilterValue(filter)
+      filter: handleFilterValue(filter),
     });
-  }
+  };
 
   useEffect(() => {
     if (object && object.type === 'f-image') {
@@ -78,5 +78,5 @@ export default function ImageFx () {
         <FilterGroup />
       </FormItem>
     </Form>
-  )
+  );
 }

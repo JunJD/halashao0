@@ -5,7 +5,7 @@ import Logo from './Logo';
 import BaseInfo from './BaseInfo';
 import { CenterV } from '@/halas/components/Center';
 
-const { Header} = Layout;
+const { Header } = Layout;
 
 const headerStyle: React.CSSProperties = {
   padding: 0,
@@ -15,7 +15,7 @@ const headerStyle: React.CSSProperties = {
   alignItems: 'center',
   boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.03)',
   zIndex: 100,
-  position: 'relative'
+  position: 'relative',
 };
 
 export default function () {
@@ -31,5 +31,5 @@ export default function () {
       </CenterV>
       <Export />
     </Header>
-  )
+  );
 }

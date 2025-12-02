@@ -8,7 +8,7 @@ import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
 
-export default function QRCodePanel (props) {
+export default function QRCodePanel(props) {
   const { back } = props;
   const [form] = Form.useForm();
   const [form2] = Form.useForm();
@@ -20,9 +20,9 @@ export default function QRCodePanel (props) {
   const handleValuesChange = (values) => {
     setQRCodeConfig({
       ...QRCodeConfig,
-      ...values
+      ...values,
     });
-  }
+  };
 
   const add2Canvas = () => {
     if (!QRCodeConfig.value || !qrRef.current) return;
@@ -32,22 +32,22 @@ export default function QRCodePanel (props) {
     img.onload = () => {
       createImage({
         imageSource: img,
-        canvas: editor.canvas
+        canvas: editor.canvas,
       });
-    }
+    };
     img.src = canvasEl.toDataURL();
-  }
+  };
 
   useEffect(() => {
     form.setFieldsValue({
       value: 'halas',
-      size: 160
+      size: 160,
     });
     form2.setFieldsValue({
       color: '#000000',
       bgColor: '#00000000',
       iconSize: 40,
-      errorLevel: 'M'
+      errorLevel: 'M',
     });
   }, []);
 
@@ -90,13 +90,13 @@ export default function QRCodePanel (props) {
                   <InputNumber />
                 </FormItem>
               </Form>
-            )
-          }
+            ),
+          },
         ]}
       />
       {
-        QRCodeConfig.value ?
-        <Flex vertical align="center" gap={10} style={{ marginTop: 16 }} ref={qrRef}> 
+        QRCodeConfig.value
+        ? <Flex vertical align="center" gap={10} style={{ marginTop: 16 }} ref={qrRef}>
           <QRCode
             type="canvas"
             {...QRCodeConfig}
@@ -106,5 +106,5 @@ export default function QRCodePanel (props) {
         </Flex> : null
       }
     </AppSubPanel>
-  )
+  );
 }

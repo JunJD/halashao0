@@ -13,7 +13,7 @@ import { Trans } from '@/i18n/utils';
 const i18nKeySuffix = 'header.toolbar';
 const ICON_SIZE = 20;
 
-export default function Toolbar () {
+export default function Toolbar() {
   const { setActiveObject, editor } = useContext(GlobalStateContext);
   const [panEnable, setPanEnable] = useState(false);
   const [canUndo, setCanUndo] = useState(false);
@@ -23,18 +23,18 @@ export default function Toolbar () {
     Modal.confirm({
       title: <Trans i18nKey={`${i18nKeySuffix}.clear_confirm`} />,
       icon: <ExclamationCircleFilled />,
-      async onOk () {
+      async onOk() {
         await editor.clearCanvas();
         setActiveObject(editor.sketch);
         editor.fireCustomModifiedEvent();
-      }
+      },
     });
-  }
+  };
 
   const enablePan = () => {
     const enable = editor.switchEnablePan();
     setPanEnable(enable);
-  }
+  };
 
   useEffect(() => {
     if (editor) {
@@ -46,16 +46,16 @@ export default function Toolbar () {
   return (
     <CenterV gap={4} style={{ borderRight: '1px solid #e8e8e8', paddingRight: 12 }}>
       <ToolbarItem
-        disabled={!canUndo} 
-        title={<Trans i18nKey={`${i18nKeySuffix}.undo`} />} 
-        onClick={() => { editor.fhistory.undo() }}
+        disabled={!canUndo}
+        title={<Trans i18nKey={`${i18nKeySuffix}.undo`} />}
+        onClick={() => { editor.fhistory.undo(); }}
       >
         <Undo2 size={ICON_SIZE} />
       </ToolbarItem>
       <ToolbarItem
         disabled={!canRedo}
-        title={<Trans i18nKey={`${i18nKeySuffix}.redo`} />} 
-        onClick={() => { editor.fhistory.redo() }}
+        title={<Trans i18nKey={`${i18nKeySuffix}.redo`} />}
+        onClick={() => { editor.fhistory.redo(); }}
       >
         <Redo2 size={ICON_SIZE} />
       </ToolbarItem>
@@ -66,14 +66,14 @@ export default function Toolbar () {
         style={panEnable ? { backgroundColor: 'rgba(0,0,0,0.06)' } : {}}
       >
         {
-          panEnable ? 
-          <MousePointer2 size={ICON_SIZE} /> :
-          <Hand size={ICON_SIZE} />
+          panEnable
+          ? <MousePointer2 size={ICON_SIZE} />
+          : <Hand size={ICON_SIZE} />
         }
       </ToolbarItem>
       <ToolbarItem onClick={clearCanvas} title={<Trans i18nKey={`${i18nKeySuffix}.clear`} />}>
         <Trash2 size={ICON_SIZE} />
       </ToolbarItem>
     </CenterV>
-  )
+  );
 }

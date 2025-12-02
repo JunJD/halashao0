@@ -13,7 +13,7 @@ const SectionTitle = ({ children }) => (
   </div>
 );
 
-export default function PaintPanel () {
+export default function PaintPanel() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isDrawingMode, setIsDrawingMode] = useState(true);
   const { editor } = useContext(GlobalStateContext);
@@ -31,7 +31,7 @@ export default function PaintPanel () {
       editor.canvas.freeDrawingBrush.strokeLineCap = options.strokeLineCap;
     }
     if (options.shadow) {
-      const shadow = editor.canvas.freeDrawingBrush.shadow;
+      const { shadow } = editor.canvas.freeDrawingBrush;
       const originalShadowObject = shadow ? shadow.toObject() : {};
       const newShadowObject = {
         blur: options.shadow.width || originalShadowObject.blur,
@@ -39,16 +39,16 @@ export default function PaintPanel () {
         offsetY: options.shadow.offset || originalShadowObject.offsetY,
         affectStroke: true,
         color: options.shadow.color || originalShadowObject.color,
-      }
+      };
       editor.canvas.freeDrawingBrush.shadow = new fabric.Shadow(newShadowObject);
     }
-  }
+  };
 
   const toggleDrawingMode = () => {
     const newMode = !editor.canvas.isDrawingMode;
     editor.canvas.isDrawingMode = newMode;
     setIsDrawingMode(newMode);
-  }
+  };
 
   const initBrush = () => {
     if (editor) {
@@ -56,7 +56,7 @@ export default function PaintPanel () {
       editor.canvas.isDrawingMode = true;
       // 简单的十字光标，或者可以自定义
       editor.canvas.freeDrawingCursor = 'crosshair';
-      
+
       const freeDrawingBrush = new fabric.PencilBrush(editor.canvas);
       editor.canvas.freeDrawingBrush = freeDrawingBrush;
       const { color, width } = BrushList[0].options;
@@ -76,8 +76,8 @@ export default function PaintPanel () {
         shadow: {
           color: '#000000',
           width: 0,
-          offset: 0
-        }
+          offset: 0,
+        },
       });
     }
 
@@ -85,8 +85,8 @@ export default function PaintPanel () {
       if (editor?.canvas) {
         editor.canvas.isDrawingMode = false;
       }
-    }
-  }
+    };
+  };
 
   useEffect(() => {
     return initBrush();
@@ -100,14 +100,14 @@ export default function PaintPanel () {
         onClick={toggleDrawingMode}
         type={isDrawingMode ? 'primary' : 'default'}
         icon={isDrawingMode ? <PenTool size={18} /> : <MousePointer2 size={18} />}
-        style={{ 
-          height: 48, 
-          borderRadius: 12, 
+        style={{
+          height: 48,
+          borderRadius: 12,
           marginBottom: 24,
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'center', 
-          gap: 8 
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 8,
         }}
       >
         {isDrawingMode ? t('panel.paint.stop') : t('panel.paint.start')}
@@ -117,24 +117,24 @@ export default function PaintPanel () {
         <SectionTitle>{t('panel.paint.title')}</SectionTitle>
         <Flex wrap="wrap" gap={12}>
           {
-            BrushList.map((item , index) => (
+            BrushList.map((item, index) => (
               <Tooltip trigger="hover" title={item.title} key={item.key}>
                 <div
                   onClick={() => {
                     handleBrushChange(item.options);
-                    setActiveIndex(index); 
+                    setActiveIndex(index);
                     setPenFormValues({
                       ...penFormValues,
-                      ...item.options
+                      ...item.options,
                     });
                   }}
-                  style={{ 
+                  style={{
                     padding: 8,
                     backgroundColor: activeIndex === index ? '#e6f4ff' : '#f5f7fa',
                     border: activeIndex === index ? '1px solid #1677ff' : '1px solid transparent',
                     borderRadius: 12,
                     cursor: 'pointer',
-                    transition: 'all 0.2s'
+                    transition: 'all 0.2s',
                   }}
                 >
                   <img src={`data:image/svg+xml,${encodeURIComponent(item.svg)}`} alt="" style={{ width: 40, height: 40, display: 'block' }} />
@@ -152,5 +152,5 @@ export default function PaintPanel () {
         />
       </div>
     </div>
-  )
+  );
 }

@@ -8,7 +8,7 @@ import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
 
-export default function PathSetterForm (props) {
+export default function PathSetterForm(props) {
   const { value, onChange, shouldFireEvent, showPenTip, showFillConfig } = props;
   const [form] = Form.useForm();
   const { editor } = useContext(GlobalStateContext);
@@ -18,7 +18,7 @@ export default function PathSetterForm (props) {
     if (shouldFireEvent) {
       editor.fireCustomModifiedEvent();
     }
-  }
+  };
 
   useEffect(() => {
     form.setFieldsValue(value);
@@ -45,10 +45,10 @@ export default function PathSetterForm (props) {
         <SliderInputNumber min={1} max={100} onChangeComplete={fireEvent} />
       </FormItem>
       {
-        showFillConfig ?
-        <FormItem
-          label={t('common.fill')}
-          name="fill"
+        showFillConfig
+        ? <FormItem
+            label={t('common.fill')}
+            name="fill"
         >
           <ColorSetter onChange={fireEvent} />
         </FormItem> : null
@@ -73,5 +73,5 @@ export default function PathSetterForm (props) {
         <SliderInputNumber min={0} max={20} onChangeComplete={fireEvent} />
       </FormItem>
     </Form>
-  )
+  );
 }
