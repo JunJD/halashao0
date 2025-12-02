@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { GlobalStateContext } from '@/context';
-import { Lock, Unlock, Copy, Trash2, FlipHorizontal, LocateFixed, AlignLeft, AlignCenterHorizontal, AlignRight, AlignVerticalJustifyStart, AlignVerticalJustifyCenter, AlignVerticalJustifyEnd } from 'lucide-react';
+import { Lock, Unlock, Copy, Trash2, LocateFixed, AlignLeft, AlignCenterHorizontal, AlignRight, AlignVerticalJustifyStart, AlignVerticalJustifyCenter, AlignVerticalJustifyEnd } from 'lucide-react';
 import { SKETCH_ID } from '@/utils/constants';
 import OpacitySetter from './OpacitySetter';
 import ToolbarItem from '../../header/Toolbar/ToolbarItem';

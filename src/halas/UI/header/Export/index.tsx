@@ -57,27 +57,31 @@ export default function Export() {
 
   const handleClick = ({ key }) => {
     const { sketch } = editor;
-    // @ts-ignore
+    // @ts-ignore sketch desc
     const name = sketch.halas_desc;
     switch (key) {
-      case 'png':
+      case 'png': {
         const png = editor.export2Img({ format: 'png' });
         downloadFile(png, 'png', name);
         break;
-      case 'jpg':
+      }
+      case 'jpg': {
         const jpg = editor.export2Img({ format: 'jpeg' });
         downloadFile(jpg, 'jpg', name);
         break;
-      case 'svg':
+      }
+      case 'svg': {
         const svg = editor.export2Svg();
         downloadFile(svg, 'svg', name);
         break;
-      case 'json':
+      }
+      case 'json': {
         const json = editor.canvas2Json();
         downloadFile(`data:text/json;charset=utf-8,${encodeURIComponent(
           JSON.stringify(json, null, 2),
         )}`, 'json', name);
         break;
+      }
       case 'clipboard':
         copyImage();
         break;

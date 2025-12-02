@@ -2,9 +2,9 @@ import { fabric } from 'fabric';
 const { clone } = fabric.util.object;
 
 const additionalProps =
-('fontFamily fontWeight fontSize text underline overline linethrough' +
-' textAlign fontStyle lineHeight textBackgroundColor charSpacing styles' +
-' direction path pathStartOffset pathSide pathAlign minWidth splitByGrapheme').split(' ');
+  ('fontFamily fontWeight fontSize text underline overline linethrough' +
+    ' textAlign fontStyle lineHeight textBackgroundColor charSpacing styles' +
+    ' direction path pathStartOffset pathSide pathAlign minWidth splitByGrapheme').split(' ');
 
 export const createFTextClass = () => {
   // @ts-ignore custom f-text
@@ -36,10 +36,10 @@ export const createFTextClass = () => {
       }
       // clear cache and re-calculate height
       const height = this.calcTextHeight();
-      if (!this.path) {
-        this.height = height;
+      if (this.path) {
+        this.height = Math.max(this.path.height, height);
       } else {
-        this.height = this.path.height > height ? this.path.height : height;
+        this.height = height;
       }
       this.saveState({ propertySet: '_dimensionAffectingProps' });
     },
@@ -57,7 +57,7 @@ export const createFTextClass = () => {
 
   fabric.FText.fromObject = function (object, callback) {
     const objectCopy = clone(object),
-{ path } = object;
+      { path } = object;
     delete objectCopy.path;
     return fabric.Object._fromObject('FText', objectCopy, (textInstance) => {
       textInstance.styles = fabric.util.stylesFromArray(object.styles, object.text);

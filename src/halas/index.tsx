@@ -1,4 +1,4 @@
-import { fabric } from 'fabric';
+import { type fabric } from 'fabric';
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { Layout, Spin } from 'antd';
 import Header from './UI/header';
@@ -96,34 +96,6 @@ export default function Halas() {
     editor.canvas.on('halas:load:json', loadJsonHandler);
   };
 
-  const initEditor = async () => {
-    const _editor = new Editor({
-      canvasEl: canvasEl.current,
-      workspaceEl: workspaceEl.current,
-      sketchEventHandler: {
-        groupHandler: () => { setActiveObject(_editor.canvas.getActiveObject()); },
-      },
-    });
-
-    editorInstance = _editor;
-
-    if (isCancelled) {
-      _editor.destroy();
-      return;
-    }
-
-    await _editor.init();
-
-    if (isCancelled) {
-      _editor.destroy();
-      return;
-    }
-
-    setEditor(_editor);
-    setReady(true);
-    setActiveObject(_editor.sketch);
-  };
-
   const initRoughSvg = () => {
     // @ts-ignore rough svg
     setRoughSvg(rough.svg(roughSvgEl.current));
@@ -142,6 +114,7 @@ export default function Halas() {
       initEvent();
       initRoughSvg();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor]);
 
   useEffect(() => {

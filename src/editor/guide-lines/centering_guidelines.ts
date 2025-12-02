@@ -5,7 +5,7 @@
  * (or maybe use existing fabric.util.fire/observe (if it won't be too slow))
  */
 
-// @ts-nocheck
+// @ts-nocheck legacy code
 export default function initCenteringGuidelines(canvas) {
     let canvasWidth = canvas.getWidth(),
         canvasHeight = canvas.getHeight(),
@@ -19,10 +19,10 @@ export default function initCenteringGuidelines(canvas) {
         ctx = canvas.getSelectionContext(),
         viewportTransform;
 
-    for (var i = canvasWidthCenter - centerLineMargin, len = canvasWidthCenter + centerLineMargin; i <= len; i++) {
+    for (let i = canvasWidthCenter - centerLineMargin, len = canvasWidthCenter + centerLineMargin; i <= len; i++) {
       canvasWidthCenterMap[Math.round(i)] = true;
     }
-    for (var i = canvasHeightCenter - centerLineMargin, len = canvasHeightCenter + centerLineMargin; i <= len; i++) {
+    for (let i = canvasHeightCenter - centerLineMargin, len = canvasHeightCenter + centerLineMargin; i <= len; i++) {
       canvasHeightCenterMap[Math.round(i)] = true;
     }
 
@@ -45,8 +45,7 @@ export default function initCenteringGuidelines(canvas) {
       ctx.restore();
     }
 
-    let afterRenderActions = [],
-        isInVerticalCenter,
+    let isInVerticalCenter,
         isInHorizontalCenter;
 
     canvas.on('mouse:down', () => {

@@ -1,8 +1,5 @@
 {
-  "i18n-ally.localesPaths": [
-    "public/locales",
-    "src/i18n"
-  ],
+  "i18n-ally.localesPaths": ["public/locales", "src/i18n"],
   "i18n-ally.keystyle": "nested",
   "cSpell.words": [
     "applint",
@@ -13,5 +10,36 @@
     "halas",
     "langchain",
     "roughjs"
-  ]
+  ],
+  "editor.pasteAs.preferences": [],
+  "editor.language.brackets": [],
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "eslint.format.enable": true,
+  "[javascript][typescript][typescriptreact]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": [
+      "source.addMissingImports",
+      "source.fixAll.eslint"
+    ]
+  },
+  "[json][jsonc]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[astro]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "astro-build.astro-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  }
 }

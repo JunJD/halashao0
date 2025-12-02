@@ -26,7 +26,7 @@ export default function BaseInfo() {
     const { sketch } = editor;
     // @ts-ignore custom desc
     setDesc(sketch.halas_desc);
-  }, [editor?.sketch]);
+  }, [editor, editor?.sketch]);
 
   return (
     <Text

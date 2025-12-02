@@ -4,7 +4,7 @@
  *
  */
 
-// @ts-nocheck
+// @ts-nocheck legacy code
 export default function initAligningGuidelines(canvas) {
     let ctx = canvas.getSelectionContext(),
         aligningLineOffset = 5,
@@ -194,10 +194,10 @@ export default function initAligningGuidelines(canvas) {
     });
 
     canvas.on('after:render', () => {
-      for (var i = verticalLines.length; i--;) {
+      for (let i = verticalLines.length; i--;) {
         drawVerticalLine(verticalLines[i]);
       }
-      for (var i = horizontalLines.length; i--;) {
+      for (let i = horizontalLines.length; i--;) {
         drawHorizontalLine(horizontalLines[i]);
       }
 

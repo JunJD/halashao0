@@ -10,7 +10,7 @@ export default function TextPath(props) {
   const { t } = useTranslation();
 
   const handleChange = (v) => {
-    onChange && onChange({
+    onChange?.({
       ...value,
       ...v,
     });
@@ -20,7 +20,7 @@ export default function TextPath(props) {
     if (value) {
       form.setFieldsValue(value);
     }
-  }, [value]);
+  }, [form, value]);
 
   return (
     <Form form={form} onValuesChange={handleChange} colon={false}>
@@ -35,10 +35,7 @@ export default function TextPath(props) {
         </Col>
       </Row>
       <FormItem label={t('common.offset')} name="offset">
-        <Slider
-          min={-100}
-          max={100}
-        />
+        <Slider min={-100} max={100} />
       </FormItem>
     </Form>
   );

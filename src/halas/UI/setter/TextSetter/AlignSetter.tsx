@@ -7,12 +7,6 @@ const TEXT_ALIGN_LIST = [
   { label: <AlignRightOutlined />, value: 'right' },
 ];
 
-const TEXT_ALIGN_MAP = {
-  left: AlignLeftOutlined,
-  center: AlignCenterOutlined,
-  right: AlignRightOutlined,
-};
-
 export default function AlignSetter(props) {
   const { value, ...rest } = props;
 

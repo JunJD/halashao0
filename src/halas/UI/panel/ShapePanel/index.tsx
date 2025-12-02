@@ -1,4 +1,4 @@
-import { Flex, Tag } from 'antd';
+import { Tag } from 'antd';
 import LineTypeList from './line-type-list';
 import ShapeTypeList from './shape-type-list';
 import RoughTypeList from './rough-type-list';
@@ -8,7 +8,6 @@ import createShape from '@/editor/objects/shape';
 import { useContext } from 'react';
 import { GlobalStateContext } from '@/context';
 import { createPathFromSvg } from '@/editor/objects/path';
-import Center from '@/halas/components/Center';
 import { useTranslation } from '@/i18n/utils';
 
 const SectionTitle = ({ children }) => (

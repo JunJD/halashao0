@@ -1,5 +1,5 @@
 import type { UserMessageProps } from '@copilotkit/react-ui';
-import { Copy, User } from 'lucide-react';
+import { Copy } from 'lucide-react';
 import styles from './index.module.scss';
 
 export const MakeUserMessage = (props: UserMessageProps) => {

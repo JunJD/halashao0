@@ -1,4 +1,4 @@
-import { fabric } from 'fabric';
+import { type fabric } from 'fabric';
 import { useSearchParams } from '@/utils/router';
 import AppSubPanel from './AppSubPanel';
 import data from '@emoji-mart/data';

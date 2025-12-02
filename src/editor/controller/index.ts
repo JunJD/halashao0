@@ -40,15 +40,15 @@ const renderSizeIcon = (ctx, left, top, styleOverride, fabricObject, TBorLR) => 
   ctx.restore();
 };
 
-const renderLRIcon = (ctx, left, top, styleOverride, fabricObject) => {
-  renderSizeIcon(ctx, left, top, styleOverride, fabricObject, 'LR');
+const renderLRIcon = (ctx, left, top, _styleOverride, _fabricObject) => {
+  renderSizeIcon(ctx, left, top, _styleOverride, _fabricObject, 'LR');
 };
 
-const renderTBIcon = (ctx, left, top, styleOverride, fabricObject) => {
-  renderSizeIcon(ctx, left, top, styleOverride, fabricObject, 'TB');
+const renderTBIcon = (ctx, left, top, _styleOverride, _fabricObject) => {
+  renderSizeIcon(ctx, left, top, _styleOverride, _fabricObject, 'TB');
 };
 
-export const renderVertexIcon = (ctx, left, top, styleOverride, fabricObject) => {
+export const renderVertexIcon = (ctx, left, top, _styleOverride, _fabricObject) => {
   const size = 12;
   ctx.save();
   ctx.fillStyle = '#ffffff';

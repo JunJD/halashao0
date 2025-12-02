@@ -9,7 +9,6 @@ import { useTranslation } from '@/i18n/utils';
 // ⌘ C
 const ContextMenuItem = (props) => {
   const { label, keyboard, cmdKey = false } = props;
-  const { t } = useTranslation();
   const isMac = navigator.userAgent.indexOf('Mac OS X') > -1;
 
   const getCmdkey = () => {

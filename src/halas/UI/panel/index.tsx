@@ -1,4 +1,4 @@
-import { Layout, FloatButton } from 'antd';
+import { Layout } from 'antd';
 import { useContext, useState, useEffect } from 'react';
 import { LayoutTemplate, Type, Image, Shapes, PenTool, AppWindow, Sliders } from 'lucide-react';
 import TextPanel from './TextPanel';

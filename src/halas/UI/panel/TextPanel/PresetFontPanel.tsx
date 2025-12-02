@@ -1,5 +1,4 @@
 import { Flex } from 'antd';
-import Title from '@/halas/components/Title';
 import { Trans, useTranslation, translate } from '@/i18n/utils';
 
 const PRESET_FONT_LIST = [

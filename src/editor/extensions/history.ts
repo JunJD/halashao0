@@ -1,5 +1,5 @@
-import fabric from 'fabric';
-import Editor from '../';
+import type fabric from 'fabric';
+import type Editor from '../';
 import { MAX_HISTORY_LENGTH } from '@/config';
 
 // https://github.com/alimozdemir/fabric-history/blob/master/src/index.js

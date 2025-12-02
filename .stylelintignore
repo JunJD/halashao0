@@ -2,6 +2,6 @@
 build/
 tests/
 demo/
-
+eslintrc.cjs
 # node 覆盖率文件
 coverage/

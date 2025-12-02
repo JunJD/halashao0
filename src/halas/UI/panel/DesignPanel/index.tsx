@@ -2,7 +2,7 @@ import { Flex, List, Empty, Button } from 'antd';
 import { useEffect, useContext, useState } from 'react';
 import { GlobalStateContext } from '@/context';
 import { SKETCH_ID } from '@/utils/constants';
-import { GroupOutlined, HeartTwoTone } from '@ant-design/icons';
+import { GroupOutlined } from '@ant-design/icons';
 import { Layers, Type, Image as ImageIcon, Box } from 'lucide-react';
 import ContextMenu from '@/halas/components/ContextMenu';
 import DEMOJSON from '@/assets/demo.json';

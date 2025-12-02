@@ -2,13 +2,13 @@ import hotkeys from 'hotkeys-js';
 import { copyObject, pasteObject, removeObject } from '@/utils/helper';
 
 export default function initHotKey(canvas, fhistory) {
-  // @ts-ignore
-  hotkeys('ctrl+c,command+c', async (event) => {
+  // @ts-ignore hotkeys
+  hotkeys('ctrl+c,command+c', async (_event) => {
     // event.preventDefault();
     await copyObject(canvas, null);
   });
 
-  hotkeys('ctrl+v,command+v', (event) => {
+  hotkeys('ctrl+v,command+v', (_event) => {
     // event.preventDefault();
     pasteObject(canvas);
   });

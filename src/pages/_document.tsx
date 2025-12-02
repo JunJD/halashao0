@@ -1,4 +1,4 @@
-import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document';
+import Document, { Html, Head, Main, NextScript, type DocumentContext } from 'next/document';
 import pkg from '../../package.json';
 
 class MyDocument extends Document {
