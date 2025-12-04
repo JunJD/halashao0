@@ -3,10 +3,13 @@
   "i18n-ally.keystyle": "nested",
   "cSpell.words": [
     "applint",
+    "checkpointer",
+    "checkpointing",
     "copilotkit",
     "DASHSCOPE",
     "fabritor",
     "fontfaceobserver",
+    "genjsx",
     "halas",
     "langchain",
     "langgraph",

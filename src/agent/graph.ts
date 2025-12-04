@@ -1,6 +1,6 @@
-import { BaseMessage, SystemMessage, AIMessage, HumanMessage, ToolMessage, FunctionMessage } from "@langchain/core/messages";
+import { BaseMessage, SystemMessage, AIMessage, HumanMessage, ToolMessage, FunctionMessage } from '@langchain/core/messages';
 import { StateGraph, START, END, Annotation, MemorySaver } from '@langchain/langgraph';
-import { ChatOpenAI } from '@langchain/openai';
+import { createChatModel } from '@/utils/ai-model';
 
 // Define the state schema
 export const AgentState = Annotation.Root({
@@ -22,11 +22,8 @@ export const AgentState = Annotation.Root({
   }),
 });
 
-// Initialize the model
-const model = new ChatOpenAI({
-  modelName: 'gpt-4o',
-  temperature: 0.7,
-});
+// Initialize the model (configurable via env)
+const model = createChatModel();
 
 // Node 1: Chat / Intent Understanding
 async function chat_node(state: typeof AgentState.State) {
@@ -137,6 +134,7 @@ async function layout(state: typeof AgentState.State) {
   }
 
   return {
+    // eslint-disable-next-line camelcase
     final_design,
     messages: [new AIMessage(`Here is your design:\n\`\`\`json\n${JSON.stringify(final_design)}\n\`\`\``)],
   };
