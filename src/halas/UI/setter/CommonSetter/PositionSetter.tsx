@@ -23,13 +23,15 @@ const PxInputNumber = (props) => {
       changeOnBlur
       value={innerValue}
       onChange={setInnerValue}
-      onPressEnter={() => { onChange?.(innerValue); }}
+      onPressEnter={() => {
+        onChange?.(innerValue);
+      }}
       {...rest}
     />
   );
 };
 
-const noScaledSizeTypes = ['textbox', 'f-text', 'rect'];
+const noScaledSizeTypes = new Set(['textbox', 'f-text', 'rect']);
 
 const PositionForm = (props) => {
   const { editor, object } = props;
@@ -63,7 +65,7 @@ const PositionForm = (props) => {
   };
 
   const handleChange = (values) => {
-    Object.keys(values).forEach(key => {
+    Object.keys(values).forEach((key) => {
       const value = values[key];
       if (key === 'width' || key === 'height') {
         handleSize(key, value);
@@ -92,8 +94,9 @@ const PositionForm = (props) => {
     setFormData();
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const init = () => {
-    isNoScaledSizeTypeRef.current = noScaledSizeTypes.includes(object.type);
+    isNoScaledSizeTypeRef.current = noScaledSizeTypes.has(object.type);
     setFormData();
 
     object.on('modified', handleModified);
@@ -104,19 +107,15 @@ const PositionForm = (props) => {
   };
 
   useEffect(() => {
-    if (object && !object.group || object.type !== 'activeSelection') {
+    if (object && (!object.group || object.type !== 'activeSelection')) {
       return init();
     }
+    return undefined;
   }, [object]);
 
   return (
     <div style={{ marginTop: 24 }}>
-      <Form
-        form={form}
-        layout="vertical"
-        colon={false}
-        onValuesChange={handleChange}
-      >
+      <Form form={form} layout="vertical" colon={false} onValuesChange={handleChange}>
         <Row gutter={8}>
           <Col span={8}>
             <FormItem label={`${t('setter.size.width')}(${t('setter.common.px')})`} name="width">
@@ -163,12 +162,15 @@ export default function PositionSetter() {
 
   return (
     <>
-      <Button block onClick={() => { setShowMore(true); }}>{t('setter.common.adjust_position')}</Button>
-      <MoreConfigWrapper
-        open={showMore}
-        setOpen={setShowMore}
-        title={t('setter.common.adjust_position')}
+      <Button
+        block
+        onClick={() => {
+          setShowMore(true);
+        }}
       >
+        {t('setter.common.adjust_position')}
+      </Button>
+      <MoreConfigWrapper open={showMore} setOpen={setShowMore} title={t('setter.common.adjust_position')}>
         {showMore ? <PositionForm editor={editor} object={object} /> : null}
       </MoreConfigWrapper>
     </>

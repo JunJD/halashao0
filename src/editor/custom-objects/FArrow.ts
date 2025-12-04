@@ -64,8 +64,8 @@ export const createFArrowClass = () => {
     },
   });
 
-  fabric.FArrow.fromObject = function (object, callback) {
-    callback && callback(new fabric.FArrow([object.x1, object.y1, object.x2, object.y2], object));
+  (fabric as any).FArrow.fromObject = function (object, callback) {
+    callback && callback(new (fabric as any).FArrow([object.x1, object.y1, object.x2, object.y2], object));
   };
 };
 
@@ -131,7 +131,7 @@ export const createFTriArrowClass = () => {
     },
   });
 
-  fabric.FTriArrow.fromObject = function (object, callback) {
-    callback && callback(new fabric.FTriArrow([object.x1, object.y1, object.x2, object.y2], object));
+  (fabric as any).FTriArrow.fromObject = function (object, callback) {
+    callback && callback(new (fabric as any).FTriArrow([object.x1, object.y1, object.x2, object.y2], object));
   };
 };

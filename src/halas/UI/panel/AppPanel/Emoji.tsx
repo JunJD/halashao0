@@ -1,5 +1,5 @@
 import { type fabric } from 'fabric';
-import { useSearchParams } from '@/utils/router';
+import { useSearchParams } from 'next/navigation';
 import AppSubPanel from './AppSubPanel';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
@@ -10,13 +10,13 @@ import { GlobalStateContext } from '@/context';
 export default function EmojiPanel(props) {
   const { back } = props;
   const { editor } = useContext(GlobalStateContext);
-  const [searchParams] = useSearchParams();
+  const searchParams = useSearchParams();
   const lng = searchParams.get('lng') || 'en-US';
   const [emojiLocale, setEmojiLocale] = useState('en');
 
   const handleEmojiSelect = async (emoji) => {
     const object = editor.canvas.getActiveObject() as fabric.Textbox;
-    if (object && object.type === 'textbox') {
+    if (object?.type === 'textbox') {
       object.set('text', `${object.text}${emoji.native}`);
       editor.canvas.requestRenderAll();
     } else {

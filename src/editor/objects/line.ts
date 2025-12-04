@@ -4,7 +4,7 @@ import { uuid } from '@/utils';
 export const drawLine = (options) => {
   const { points, canvas, ...rest } = options;
 
-  const line = new fabric.FLine(points || [0, 0, 300, 0], {
+  const line = new (fabric as any).FLine(points || [0, 0, 300, 0], {
     strokeWidth: 4,
     stroke: '#000000',
     strokeLineJoin: 'round',
@@ -30,7 +30,7 @@ export const drawLine = (options) => {
 export const drawArrowLine = (options) => {
   const { points, canvas, ...rest } = options;
 
-  const arrow = new fabric.FArrow(points || [0, 0, 300, 0], {
+  const arrow = new (fabric as any).FArrow(points || [0, 0, 300, 0], {
     strokeWidth: 4,
     stroke: '#000000',
     fill: '#000000',
@@ -56,7 +56,7 @@ export const drawArrowLine = (options) => {
 export const drawTriArrowLine = (options) => {
   const { points, canvas, ...rest } = options;
 
-  const arrow = new fabric.FTriArrow(points || [0, 0, 300, 0], {
+  const arrow = new (fabric as any).FTriArrow(points || [0, 0, 300, 0], {
     strokeWidth: 4,
     stroke: '#000000',
     fill: '#000000',

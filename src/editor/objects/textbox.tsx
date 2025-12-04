@@ -56,7 +56,7 @@ export const createTextbox = async (options) => {
 
   let tmpPathInfo = { hasPath: false, offset: 100 };
 
-  const textBox = new fabric.FText(text || translate('panel.text.add'), {
+  const textBox = new (fabric as any).FText(text || translate('panel.text.add'), {
     ...TEXTBOX_DEFAULT_CONFIG,
     ...rest,
     fontFamily,

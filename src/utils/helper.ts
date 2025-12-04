@@ -1,5 +1,5 @@
 import { fabric } from 'fabric';
-import { FABRITOR_CUSTOM_PROPS } from './constants';
+import { HALAS_CUSTOM_PROPS } from './constants';
 import { createTextbox } from '@/editor/objects/textbox';
 import { getSystemClipboard } from './index';
 import { createFImage } from '@/editor/objects/image';
@@ -45,7 +45,7 @@ export const copyObject = async (canvas, target) => {
     return target.clone(cloned => {
       _clipboard = cloned;
       return resolve(true);
-    }, FABRITOR_CUSTOM_PROPS);
+    }, HALAS_CUSTOM_PROPS);
   });
 };
 
@@ -93,7 +93,7 @@ export const pasteObject = async (canvas) => {
     canvas.setActiveObject(cloned);
     canvas.requestRenderAll();
     canvas.fire('halas:clone', { target: cloned });
-  }, FABRITOR_CUSTOM_PROPS);
+  }, HALAS_CUSTOM_PROPS);
 };
 
 export const removeObject = (target, canvas) => {

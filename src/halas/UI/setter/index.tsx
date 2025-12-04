@@ -17,7 +17,7 @@ export default function Setter() {
 
   const getRenderSetter = () => {
     if (!isReady) return null;
-    if (!object || object.id === SKETCH_ID) return <SketchSetter />;
+    if (!object || (object as any).id === SKETCH_ID) return <SketchSetter />;
     switch (objectType) {
       case 'textbox':
       case 'f-text':
@@ -35,12 +35,12 @@ export default function Setter() {
       case 'f-image':
         return <ImageSetter />;
       case 'path':
-        if (object?.sub_type === 'rough') {
+        if ((object as any)?.sub_type === 'rough') {
           return <RoughSetter />;
         }
         return <PathSetter />;
       case 'group':
-        if (object?.sub_type === 'rough') {
+        if ((object as any)?.sub_type === 'rough') {
           return <RoughSetter />;
         }
         return <GroupSetter />;

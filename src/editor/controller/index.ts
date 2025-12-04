@@ -74,11 +74,12 @@ function renderSvgIcon(icon) {
   };
 }
 
-const handleCopyObject = async (eventData, transform) => {
+const handleCopyObject = (eventData, transform) => {
   const { target } = transform;
   const { canvas } = target;
-  await copyObject(canvas, target);
-  pasteObject(canvas);
+  copyObject(canvas, target).then(() => {
+    pasteObject(canvas);
+  });
   return true;
 };
 

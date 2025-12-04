@@ -49,14 +49,14 @@ export default function ImageFx() {
       if (type === 'HueRotation') {
         filter.rotation = param == undefined ? 0 : param;
       }
-      object.applyFilter(filter);
+      (object as any).applyFilter(filter);
       object.canvas.requestRenderAll();
       editor.fireCustomModifiedEvent();
     }
   };
 
   const initImageFx = () => {
-    const filter = object.getFilter();
+    const filter = (object as any).getFilter();
     console.log(filter);
     form.setFieldsValue({
       filter: handleFilterValue(filter),

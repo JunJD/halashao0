@@ -99,7 +99,7 @@ export default function Panel() {
   };
 
   useEffect(() => {
-    if (object && object.id !== SKETCH_ID) {
+    if (object && (object as any).id !== SKETCH_ID) {
       setActiveTab('settings');
     }
   }, [object]);

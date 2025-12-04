@@ -28,7 +28,7 @@ export const createFImageClass = () => {
     _createBorderRect({ stroke, strokeWidth, borderRadius }) {
       const width = this.img.getScaledWidth();
       const height = this.img.getScaledHeight();
-      const options = {
+      const options: any = {
         width,
         height,
         rx: borderRadius || 0,
@@ -120,11 +120,11 @@ export const createFImageClass = () => {
     },
   });
 
-  fabric.FImage.fromObject = (object, callback) => {
+  (fabric as any).FImage.fromObject = (object, callback) => {
     const { objects, ...options } = object;
     const imgJson = { ...objects[0] };
-    fabric.Image.fromObject(imgJson, (img) => {
-      callback(new fabric.FImage({ image: img, ...options }, true));
+    (fabric.Image as any).fromObject(imgJson, (img) => {
+      callback(new (fabric as any).FImage({ image: img, ...options }, true));
     });
   };
 };

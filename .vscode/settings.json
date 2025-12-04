@@ -9,7 +9,10 @@
     "fontfaceobserver",
     "halas",
     "langchain",
-    "roughjs"
+    "langgraph",
+    "roughjs",
+    "Sider",
+    "SUBTARGET"
   ],
   "editor.pasteAs.preferences": [],
   "editor.language.brackets": [],
@@ -23,10 +26,7 @@
   "[javascript][typescript][typescriptreact]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.codeActionsOnSave": [
-      "source.addMissingImports",
-      "source.fixAll.eslint"
-    ]
+    "editor.codeActionsOnSave": ["source.addMissingImports", "source.fixAll.eslint"]
   },
   "[json][jsonc]": {
     "editor.formatOnSave": true,

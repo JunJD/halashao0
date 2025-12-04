@@ -30,7 +30,7 @@ export default function RoughSetter() {
   };
 
   useEffect(() => {
-    if (object?.sub_type) {
+    if ((object as any)?.sub_type) {
       if (object.type === 'path') {
         form.setFieldsValue({
           stroke: object.stroke,

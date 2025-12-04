@@ -119,7 +119,7 @@ export default function CommonSetter() {
     }
   }, [object]);
 
-  if (!object || object.id === SKETCH_ID) return null;
+  if (!object || (object as any).id === SKETCH_ID) return null;
 
   return (
     <>

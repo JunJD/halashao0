@@ -32,7 +32,7 @@ export default function PaintPanel() {
     }
     if (options.shadow) {
       const { shadow } = editor.canvas.freeDrawingBrush;
-      const originalShadowObject = shadow ? shadow.toObject() : {};
+      const originalShadowObject = shadow ? (shadow as any).toObject() : {};
       const newShadowObject = {
         blur: options.shadow.width || originalShadowObject.blur,
         offsetX: options.shadow.offset || originalShadowObject.offsetX,

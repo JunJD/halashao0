@@ -7,7 +7,7 @@ export const initFTextControl = () => {
   const objectControls = fabric.Object.prototype.controls;
 
   if (fabric.Rect) {
-    const ftextControl: any = fabric.FText.prototype.controls = {};
+    const ftextControl: any = (fabric as any).FText.prototype.controls = {};
     ftextControl.tr = objectControls.tr;
     ftextControl.br = objectControls.br;
     ftextControl.tl = objectControls.tl;

@@ -24,7 +24,7 @@ export default function PathSetter() {
     }
     if (values.shadow) {
       const { shadow } = object;
-      const originalShadowObject = shadow ? shadow.toObject() : {};
+      const originalShadowObject = shadow ? (shadow as any).toObject() : {};
       const newShadowObject = {
         blur: values.shadow.width || originalShadowObject.blur,
         offsetX: values.shadow.offset || originalShadowObject.offsetX,
@@ -58,7 +58,7 @@ export default function PathSetter() {
 
   return (
     <PathSetterForm
-      showFillConfig={object?.sub_type}
+      showFillConfig={(object as any)?.sub_type}
       shouldFireEvent
       value={value}
       onChange={handleChange}

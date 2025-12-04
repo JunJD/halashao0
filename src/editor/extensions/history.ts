@@ -13,7 +13,7 @@ export default class FabricHistory {
   private saving: boolean; // if saving 2 history
   private doing: boolean; // if doing undo or redo
   private currentState: string;
-  private canvas: fabric.Canvas;
+  private canvas: any;
   private editor: Editor;
 
   constructor(editor) {

@@ -27,7 +27,7 @@ export default function ShapeSetter() {
     }
 
     if (object.type === 'rect') {
-      object.set({
+      (object as any).set({
         rx: borderRadius,
         ry: borderRadius,
       });
@@ -58,10 +58,10 @@ export default function ShapeSetter() {
     if (object) {
       form.setFieldsValue({
         border: {
-          type: getObjectBorderType(object),
+          type: getObjectBorderType(object as any),
           stroke: object.stroke || '#000000',
           strokeWidth: object.strokeWidth || 1,
-          borderRadius: object.rx || object.ry || (object.strokeLineJoin === 'round' ? 100 : 0),
+          borderRadius: (object as any).rx || (object as any).ry || (object.strokeLineJoin === 'round' ? 100 : 0),
         },
         fill: transformFill2Colors(object.fill),
       });

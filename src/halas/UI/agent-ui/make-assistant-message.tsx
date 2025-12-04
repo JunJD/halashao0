@@ -5,7 +5,7 @@ import remarkGfm from 'remark-gfm';
 import { Bot } from 'lucide-react';
 import styles from './index.module.scss';
 
-export const MakeAssistantMessage: React.FC<AssistantMessageProps> = (props) => {
+export const MakeAssistantMessage: React.FC<any> = (props) => {
   const { message, isLoading, isCurrentMessage, isGenerating } = props;
 
   // 如果有自定义的生成式 UI，渲染它

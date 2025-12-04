@@ -52,7 +52,7 @@ export const createImage = async (options) => {
     img = await loadImage(imageSource);
   } catch (e) { console.log(e); }
 
-  if (!img) return;
+  if (!img) return null;
 
   img.set({
     ...rest,
@@ -78,7 +78,7 @@ export const createFImage = async (options) => {
 
   if (!img) return;
 
-  const fimg = new fabric.FImage({
+  const fimg = new (fabric as any).FImage({
     image: img,
     id: uuid(),
   });

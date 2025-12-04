@@ -113,6 +113,19 @@ export default function Halas() {
     if (editor) {
       initEvent();
       initRoughSvg();
+
+      const handleLoadDesign = (event: Event) => {
+        const customEvent = event as CustomEvent;
+        if (customEvent.detail) {
+          editor.loadFromJSON(customEvent.detail);
+        }
+      };
+
+      window.addEventListener('halas:load-json', handleLoadDesign);
+
+      return () => {
+        window.removeEventListener('halas:load-json', handleLoadDesign);
+      };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor]);

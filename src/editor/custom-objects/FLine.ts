@@ -29,7 +29,7 @@ export const createFLineClass = () => {
   });
 
   // @ts-ignore FLine
-  fabric.FLine.fromObject = (object, callback) => {
+  (fabric as any).FLine.fromObject = (object, callback) => {
     function _callback(instance) {
       delete instance.points;
       callback && callback(instance);

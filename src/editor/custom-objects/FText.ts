@@ -47,7 +47,7 @@ export const createFTextClass = () => {
     toObject: function (propertiesToInclude) {
       const allProperties = additionalProps.concat(propertiesToInclude);
       const obj = this.callSuper('toObject', allProperties);
-      obj.styles = fabric.util.stylesToArray(this.styles, this.text);
+      obj.styles = (fabric.util as any).stylesToArray(this.styles, this.text);
       if (obj.path) {
         obj.path = this.path.toObject();
       }
@@ -55,12 +55,12 @@ export const createFTextClass = () => {
     },
   });
 
-  fabric.FText.fromObject = function (object, callback) {
+  (fabric as any).FText.fromObject = function (object, callback) {
     const objectCopy = clone(object),
       { path } = object;
     delete objectCopy.path;
     return fabric.Object._fromObject('FText', objectCopy, (textInstance) => {
-      textInstance.styles = fabric.util.stylesFromArray(object.styles, object.text);
+      textInstance.styles = (fabric.util as any).stylesFromArray(object.styles, object.text);
       if (path) {
         fabric.Object._fromObject('Path', path, (pathInstance) => {
           textInstance.set('path', pathInstance);

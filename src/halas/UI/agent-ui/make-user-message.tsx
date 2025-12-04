@@ -2,7 +2,7 @@ import type { UserMessageProps } from '@copilotkit/react-ui';
 import { Copy } from 'lucide-react';
 import styles from './index.module.scss';
 
-export const MakeUserMessage = (props: UserMessageProps) => {
+export const MakeUserMessage = (props: any) => {
   const { message } = props;
 
   return (

@@ -38,7 +38,7 @@ export default function BaseInfo() {
         },
       }}
       ellipsis={{
-        rows: 1,
+        tooltip: true,
       }}
       style={{ margin: 0, width: 200 }}
     >

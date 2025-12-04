@@ -32,7 +32,7 @@ export default function TextSetter() {
   ];
 
   const handleFontStyles = (styles) => {
-    object.set({
+    (object as any).set({
       fontWeight: styles?.bold ? 'bold' : 'normal',
       fontStyle: styles?.italic ? 'italic' : 'normal',
       underline: !!styles.underline,
@@ -72,17 +72,17 @@ export default function TextSetter() {
         try {
           await loadFont(values[key]);
         } finally {
-          object.set(key, values[key]);
+          (object as any).set(key, values[key]);
         }
       } else if (key === 'fill') {
         handleFill(values[key]);
       } else {
-        const selectedText = object.getSelectedText();
+        const selectedText = (object as any).getSelectedText();
         if (selectedText && key === 'fill') {
-          object.setSelectionStyles({ fill: values[key] });
+          (object as any).setSelectionStyles({ fill: values[key] });
         } else {
-          object.set('styles', {});
-          object.set(key, values[key]);
+          (object as any).set('styles', {});
+          (object as any).set(key, values[key]);
         }
       }
 

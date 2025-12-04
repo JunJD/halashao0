@@ -12,7 +12,12 @@ import FabricHistory from './extensions/history';
 import AutoSave from './extensions/autosave';
 import { createGroup } from './objects/group';
 import createCustomClass from './custom-objects';
-import { HOVER_OBJECT_CORNER, HOVER_OBJECT_CONTROL, CAPTURE_SUBTARGET_WHEN_DBLCLICK, LOAD_JSON_IGNORE_LOAD_FONT } from '@/config';
+import {
+  HOVER_OBJECT_CORNER,
+  HOVER_OBJECT_CONTROL,
+  CAPTURE_SUBTARGET_WHEN_DBLCLICK,
+  LOAD_JSON_IGNORE_LOAD_FONT,
+} from '@/config';
 import { translate } from '@/i18n/utils';
 export default class Editor {
   public canvas: fabric.Canvas;
@@ -171,10 +176,11 @@ export default class Editor {
       if (this._pan.enable && this._pan.isDragging) {
         const { e } = opt;
         const vpt = this.canvas.viewportTransform;
-            // @ts-ignore vpt
-            vpt[4] += e.clientX - this._pan.lastPosX;
-            // @ts-ignore vpt
-            vpt[5] += e.clientY - this._pan.lastPosY;        this.canvas.requestRenderAll();
+        // @ts-ignore vpt
+        vpt[4] += e.clientX - this._pan.lastPosX;
+        // @ts-ignore vpt
+        vpt[5] += e.clientY - this._pan.lastPosY;
+        this.canvas.requestRenderAll();
         this._pan.lastPosX = e.clientX;
         this._pan.lastPosY = e.clientY;
       }
@@ -184,23 +190,26 @@ export default class Editor {
       if (this._pan.enable) return;
 
       if (HOVER_OBJECT_CORNER) {
-        const corner = target?.__corner;
+        const corner = (target as any)?.__corner;
         if (corner) {
           handleMouseOverCorner(corner, opt.target);
         }
       }
 
       if (HOVER_OBJECT_CONTROL) {
-        if (target && target.id !== SKETCH_ID && target !== this.canvas.getActiveObject()) {
-              // @ts-ignore target
-              target._renderControls(this.canvas.contextTop, { hasControls: false });        }
+        const _target = target as any;
+        if (_target && _target.id !== SKETCH_ID && _target !== this.canvas.getActiveObject()) {
+          // @ts-ignore target
+          _target._renderControls(this.canvas.contextTop, { hasControls: false });
+        }
       }
     });
     this.canvas.on('mouse:out', (opt) => {
       const { target } = opt;
       if (HOVER_OBJECT_CORNER) {
-        if (target && target.id !== SKETCH_ID) {
-          handleMouseOutCorner(target);
+        const _target = target as any;
+        if (_target && _target.id !== SKETCH_ID) {
+          handleMouseOutCorner(_target);
           this.canvas.requestRenderAll();
         }
       }
@@ -209,167 +218,167 @@ export default class Editor {
       // on mouse up we want to recalculate new interaction
       // for all objects, so we call setViewportTransform
       if (this._pan.enable) {
-              // @ts-ignore viewportTransform
-              this.canvas.setViewportTransform(this.canvas.viewportTransform);
-              this._pan.isDragging = false;
-            }
-          });
-          this.canvas.on('mouse:wheel', this._scrollSketch.bind(this));
-        
-          this.canvas.on('mouse:dblclick', (opt) => {
-            const { target, subTargets } = opt;
-            const subTarget = subTargets?.[0];
-            if (target?.type === 'group' && subTarget) {
-              if (subTarget.type === 'f-text') {
-                this._editTextInGroup(target, subTarget);
-              } else {
-                if (CAPTURE_SUBTARGET_WHEN_DBLCLICK) {
-                  subTarget.set('hasControls', false);
-                  this.canvas.discardActiveObject();
-                  this.canvas.setActiveObject(subTarget);
-                  this.canvas.requestRenderAll();
-                }
-              }
-            }
-          });
-        
-          this.canvas.on('object:modified', (opt) => {
-            const { target } = opt;
-            if (!target || target.id === SKETCH_ID) return;
-            const scaledWidth = target.getScaledWidth();
-            const scaledHeight = target.getScaledHeight();
-            if (target.type !== 'f-line' && target.type !== 'f-image') {
-              if (target.type !== 'f-text') {
-                target.setControlVisible('mt', scaledWidth >= 100);
-                target.setControlVisible('mb', scaledWidth >= 100);
-              }
-              target.setControlVisible('ml', scaledHeight >= 40);
-              target.setControlVisible('mr', scaledHeight >= 40);
-              this.canvas.requestRenderAll();
-            }
-        
-            if (target.type === 'f-line' || target.type === 'f-arrow' || target.type === 'f-tri-arrow') {
-              // fabric Line doesnot change points when moving
-              // but change left/top when change points ....
-              handleFLinePointsWhenMoving(opt);
-            }
-          });
-        }
-        
-        private _editTextInGroup(group, textbox) {
-          let items = group.getObjects();
-        
-          textbox.on('editing:exited', () => {
-            for (const item of items) {
-              this.canvas.remove(item);
-            }
-            const grp = createGroup({
-              items,
-              canvas: this.canvas,
-            });
-            this.canvas.renderAll();
-            this.canvas.setActiveObject(grp);
-            this.canvas.fire('halas:group', { target: this.canvas.getActiveObject() });
-        
-            textbox.off('editing:exited');
-          });
-        
-          group._restoreObjectsState();
-          this.canvas.remove(group);
-          this.canvas.renderAll();
-          for (const item of items) {
-            item.selectable = false;
-            item.set('hasControls', false);
-            this.canvas.add(item);
-          }
-          this.canvas.renderAll();
-        
-          this.canvas.setActiveObject(textbox);
-          textbox.enterEditing();
-          textbox.selectAll();
-        }
-        
-        public switchEnablePan() {
-          this._pan.enable = !this._pan.enable;
-          this.canvas.discardActiveObject();
-          this.canvas.hoverCursor = this._pan.enable ? 'grab' : 'move';
-          this.canvas.getObjects().forEach((obj) => {
-            if (obj.id !== SKETCH_ID) {
-              obj.set('selectable', !this._pan.enable);
-            }
-          });
-          this.canvas.selection = !this._pan.enable;
-          this.canvas.requestRenderAll();
-          return this._pan.enable;
-        }
-        
-        public getIfPanEnable() {
-          return this._pan.enable;
-        }
-        
-        public fireCustomModifiedEvent(data: any = null) {
-          this.canvas.fire('halas:object:modified', data);
-        }
-        
-        private _scrollSketch(opt) {
-          const delta = opt.e.deltaY;
-          let zoom = this.canvas.getZoom();
-          zoom *= 0.999 ** delta;
-          if (zoom > 20) zoom = 20;
-          if (zoom < 0.01) zoom = 0.01;
-          const center = this.canvas.getCenter();
-          this.canvas.zoomToPoint({ x: center.left, y: center.top }, zoom);
-          opt.e.preventDefault();
-          opt.e.stopPropagation();
-        }
-        
-        public destroy() {
-          if (this.canvas) {
-            this.canvas.dispose();
-            // @ts-ignore canvas null
-            this.canvas = null;
-          }
-          if (this.fhistory) {
-            this.fhistory.dispose();
-          }
-          if (this.autoSave) {
-            this.autoSave.dispose();
-          }
-          const { workspaceEl } = this._options;
-          if (this._resizeObserver) {
-            this._resizeObserver.unobserve(workspaceEl);
-            this._resizeObserver = null;
-          }
-        }
-        
-        public export2Img(options) {
-          const transform = this.canvas.viewportTransform;
-          const { clipPath } = this.canvas;
-          this.canvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
-          // @ts-ignore setBackgroundColor
-          this.canvas.setBackgroundColor('#ffffff');
-          this.canvas.clipPath = null;
-        
-          const { left, top, width, height } = this.sketch;
-          const dataURL = this.canvas.toDataURL({
-            // multiplier: 2,
-            left,
-            top,
-            width,
-            height,
-            format: 'png',
-            ...options,
-          });
-        
-          // @ts-ignore setViewportTransform
-          this.canvas.setViewportTransform(transform);
-          this.canvas.clipPath = clipPath;
-          // @ts-ignore setBackgroundColor
-          this.canvas.setBackgroundColor('#dddddd', () => {
+        // @ts-ignore viewportTransform
+        this.canvas.setViewportTransform(this.canvas.viewportTransform);
+        this._pan.isDragging = false;
+      }
+    });
+    this.canvas.on('mouse:wheel', this._scrollSketch.bind(this));
+
+    this.canvas.on('mouse:dblclick', (opt) => {
+      const { target, subTargets } = opt;
+      const subTarget = subTargets?.[0];
+      if (target?.type === 'group' && subTarget) {
+        if (subTarget.type === 'f-text') {
+          this._editTextInGroup(target, subTarget);
+        } else {
+          if (CAPTURE_SUBTARGET_WHEN_DBLCLICK) {
+            subTarget.set('hasControls', false);
+            this.canvas.discardActiveObject();
+            this.canvas.setActiveObject(subTarget);
             this.canvas.requestRenderAll();
-          });
-          return dataURL;
+          }
         }
+      }
+    });
+
+    this.canvas.on('object:modified', (opt) => {
+      const target = opt.target as any;
+      if (!target || target.id === SKETCH_ID) return;
+      const scaledWidth = target.getScaledWidth();
+      const scaledHeight = target.getScaledHeight();
+      if (target.type !== 'f-line' && target.type !== 'f-image') {
+        if (target.type !== 'f-text') {
+          target.setControlVisible('mt', scaledWidth >= 100);
+          target.setControlVisible('mb', scaledWidth >= 100);
+        }
+        target.setControlVisible('ml', scaledHeight >= 40);
+        target.setControlVisible('mr', scaledHeight >= 40);
+        this.canvas.requestRenderAll();
+      }
+
+      if (target.type === 'f-line' || target.type === 'f-arrow' || target.type === 'f-tri-arrow') {
+        // fabric Line doesnot change points when moving
+        // but change left/top when change points ....
+        handleFLinePointsWhenMoving(opt);
+      }
+    });
+  }
+
+  private _editTextInGroup(group, textbox) {
+    let items = group.getObjects();
+
+    textbox.on('editing:exited', () => {
+      for (const item of items) {
+        this.canvas.remove(item);
+      }
+      const grp = createGroup({
+        items,
+        canvas: this.canvas,
+      });
+      this.canvas.renderAll();
+      this.canvas.setActiveObject(grp);
+      this.canvas.fire('halas:group', { target: this.canvas.getActiveObject() });
+
+      textbox.off('editing:exited');
+    });
+
+    group._restoreObjectsState();
+    this.canvas.remove(group);
+    this.canvas.renderAll();
+    for (const item of items) {
+      item.selectable = false;
+      item.set('hasControls', false);
+      this.canvas.add(item);
+    }
+    this.canvas.renderAll();
+
+    this.canvas.setActiveObject(textbox);
+    textbox.enterEditing();
+    textbox.selectAll();
+  }
+
+  public switchEnablePan() {
+    this._pan.enable = !this._pan.enable;
+    this.canvas.discardActiveObject();
+    this.canvas.hoverCursor = this._pan.enable ? 'grab' : 'move';
+    this.canvas.getObjects().forEach((obj) => {
+      if ((obj as any).id !== SKETCH_ID) {
+        obj.set('selectable', !this._pan.enable);
+      }
+    });
+    this.canvas.selection = !this._pan.enable;
+    this.canvas.requestRenderAll();
+    return this._pan.enable;
+  }
+
+  public getIfPanEnable() {
+    return this._pan.enable;
+  }
+
+  public fireCustomModifiedEvent(data: any = null) {
+    this.canvas.fire('halas:object:modified', data);
+  }
+
+  private _scrollSketch(opt) {
+    const delta = opt.e.deltaY;
+    let zoom = this.canvas.getZoom();
+    zoom *= 0.999 ** delta;
+    if (zoom > 20) zoom = 20;
+    if (zoom < 0.01) zoom = 0.01;
+    const center = this.canvas.getCenter();
+    this.canvas.zoomToPoint({ x: center.left, y: center.top }, zoom);
+    opt.e.preventDefault();
+    opt.e.stopPropagation();
+  }
+
+  public destroy() {
+    if (this.canvas) {
+      this.canvas.dispose();
+      // @ts-ignore canvas null
+      this.canvas = null;
+    }
+    if (this.fhistory) {
+      this.fhistory.dispose();
+    }
+    if (this.autoSave) {
+      this.autoSave.dispose();
+    }
+    const { workspaceEl } = this._options;
+    if (this._resizeObserver) {
+      this._resizeObserver.unobserve(workspaceEl);
+      this._resizeObserver = null;
+    }
+  }
+
+  public export2Img(options) {
+    const transform = this.canvas.viewportTransform;
+    const { clipPath } = this.canvas;
+    this.canvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
+    // @ts-ignore setBackgroundColor
+    this.canvas.setBackgroundColor('#ffffff');
+    this.canvas.clipPath = null;
+
+    const { left, top, width, height } = this.sketch;
+    const dataURL = this.canvas.toDataURL({
+      // multiplier: 2,
+      left,
+      top,
+      width,
+      height,
+      format: 'png',
+      ...options,
+    });
+
+    // @ts-ignore setViewportTransform
+    this.canvas.setViewportTransform(transform);
+    this.canvas.clipPath = clipPath;
+    // @ts-ignore setBackgroundColor
+    this.canvas.setBackgroundColor('#dddddd', () => {
+      this.canvas.requestRenderAll();
+    });
+    return dataURL;
+  }
   public export2Svg() {
     const { left, top, width, height } = this.sketch;
     const svg = this.canvas.toSVG({
@@ -409,10 +418,6 @@ export default class Editor {
         return false;
       }
     }
-    if (json[SCHEMA_VERSION_KEY] !== SCHEMA_VERSION) {
-      console.warn('此模板已经无法与当前版本兼容，请更换模板');
-      return false;
-    }
 
     if (LOAD_JSON_IGNORE_LOAD_FONT) {
       const { objects } = json;
@@ -430,28 +435,32 @@ export default class Editor {
     this.autoSave.setCanSave(false);
 
     return new Promise((resolve) => {
-      this.canvas.loadFromJSON(json, () => {
-        this.canvas.requestRenderAll();
+      this.canvas.loadFromJSON(
+        json,
+        () => {
+          this.canvas.requestRenderAll();
 
-        this.autoSave.setCanSave(true);
-        this.canvas.fire('halas:load:json', { lastActiveObject: nowActiveObject });
-        resolve(true);
-      }, (o, obj) => {
-        if (obj.id === SKETCH_ID) {
-          this.sketch = obj;
-          this.setSketchSize({ width: obj.width, height: obj.height });
-        }
-        // after undo/redo record last active object
-        if (obj.id === lastActiveObject?.id) {
-          nowActiveObject = obj;
-        }
-      });
+          this.autoSave.setCanSave(true);
+          this.canvas.fire('halas:load:json', { lastActiveObject: nowActiveObject });
+          resolve(true);
+        },
+        (o, obj) => {
+          if (obj.id === SKETCH_ID) {
+            this.sketch = obj;
+            this.setSketchSize({ width: obj.width, height: obj.height });
+          }
+          // after undo/redo record last active object
+          if ((obj as any).id === (lastActiveObject as any)?.id) {
+            nowActiveObject = obj;
+          }
+        },
+      );
     });
   }
 
   public async clearCanvas() {
     // eslint-disable-next-line camelcase
-    const { width, height, halas_desc } = this.sketch;
+    const { width, height, halas_desc } = this.sketch as any;
     // eslint-disable-next-line camelcase
     const originalJson = `{"halas_schema_version":3,"version":"5.3.0","objects":[{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":${width},"height":${height},"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"id":"halas-sketch","halas_desc":"${halas_desc}","selectable":false,"hasControls":false}],"clipPath":{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":${width},"height":${height},"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"selectable":true,"hasControls":true},"backgroundColor":"#dddddd"}`;
     await this.loadFromJSON(originalJson);

@@ -5,7 +5,7 @@ import { Send, Square } from 'lucide-react';
 import styles from './index.module.scss';
 import { cn } from '@/utils/cn';
 
-export const MakeInput: React.FC<InputProps> = (props) => {
+export const MakeInput: React.FC<any> = (props) => {
   const { inProgress, onSend: propOnSend, onStop } = props;
 
   const [input, setInput] = useState('');

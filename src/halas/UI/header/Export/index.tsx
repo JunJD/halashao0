@@ -7,7 +7,7 @@ import { GlobalStateContext } from '@/context';
 import LocalFileSelector from '@/halas/components/LocalFileSelector';
 import { CenterV } from '@/halas/components/Center';
 import { SETTER_WIDTH } from '@/config';
-import { Trans, useTranslation } from '@/i18n/utils';
+import { Trans, useTranslation, translate } from '@/i18n/utils';
 
 const i18nKeySuffix = 'header.export';
 

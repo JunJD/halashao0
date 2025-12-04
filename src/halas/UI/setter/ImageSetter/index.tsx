@@ -41,9 +41,9 @@ export default function ImageSetter() {
   const handleBorder = (border) => {
     const { type, stroke = '#000000', strokeWidth, borderRadius } = border || {};
     if (type === 'none') {
-      object.setBorder({ stroke: null, borderRadius });
+      (object as any).setBorder({ stroke: null, borderRadius });
     } else {
-      object.setBorder({
+      (object as any).setBorder({
         stroke,
         strokeWidth,
         borderRadius,
@@ -70,7 +70,7 @@ export default function ImageSetter() {
 
   useEffect(() => {
     if (object) {
-      const border = object.getBorder();
+      const border = (object as any).getBorder();
       form.setFieldsValue({
         border: {
           type: getObjectBorderType(border),

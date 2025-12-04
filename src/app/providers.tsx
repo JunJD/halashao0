@@ -1,26 +1,19 @@
-import type { AppProps } from 'next/app';
+'use client';
+
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 import { ConfigProvider } from 'antd';
 import enUS from 'antd/locale/en_US';
 import zhCN from 'antd/locale/zh_CN';
 import type { Locale } from 'antd/es/locale';
 import * as dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
-import { CopilotKit } from '@copilotkit/react-core';
-import '@copilotkit/react-ui/styles.css';
+// REMOVED: import { CopilotKit } from '@copilotkit/react-core';
+// REMOVED: import '@copilotkit/react-ui/styles.css';
 
-import '@/global.css';
-import '@/font.css';
-import 'antd/dist/reset.css';
-import 'cropperjs/dist/cropper.css';
-import '@/halas/UI/header/Toolbar/index.scss';
-import '@/halas/UI/panel/index.scss';
-import '@/halas/UI/setter/ImageSetter/ImageFx/FilterGroup/index.scss';
-
-export default function App({ Component, pageProps }: AppProps) {
-  const router = useRouter();
-  const lngParam = (router.query?.lng as string) || 'en-US';
+export function Providers({ children }: Readonly<{ children: React.ReactNode }>) {
+  const searchParams = useSearchParams();
+  const lngParam = searchParams?.get('lng') || 'en-US';
   const [antDLocale, setAntDLocale] = useState<Locale>(enUS);
 
   useEffect(() => {
@@ -37,16 +30,16 @@ export default function App({ Component, pageProps }: AppProps) {
       dayjs.locale('zh-cn');
       import('@/i18n').then((m) => m.default?.changeLanguage?.('zh-CN')).catch(() => {});
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lngParam]);
 
   return (
-    <CopilotKit publicApiKey="ck_pub_e013a509e2f8641795ee0f15af8e2622">
+    // REMOVED: <CopilotKit publicApiKey="ck_pub_e013a509e2f8641795ee0f15af8e2622">
       <ConfigProvider
         locale={antDLocale}
         theme={{
           token: {
-            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
+            fontFamily:
+              '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
             colorPrimary: '#000000',
             borderRadius: 8,
           },
@@ -82,8 +75,8 @@ export default function App({ Component, pageProps }: AppProps) {
           },
         }}
       >
-        <Component {...pageProps} />
+        {children}
       </ConfigProvider>
-    </CopilotKit>
+    // REMOVED: </CopilotKit>
   );
 }
