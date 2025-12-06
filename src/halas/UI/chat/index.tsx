@@ -36,6 +36,14 @@ import { CopyIcon, GlobeIcon, RefreshCcwIcon, Sparkles } from 'lucide-react'; //
 import { Source, Sources, SourcesContent, SourcesTrigger } from '@/components/ai-elements/sources';
 import { Reasoning, ReasoningContent, ReasoningTrigger } from '@/components/ai-elements/reasoning';
 import { Loader } from '@/components/ai-elements/loader';
+import {
+  ChainOfThought,
+  ChainOfThoughtContent,
+  ChainOfThoughtHeader,
+  ChainOfThoughtSearchResult,
+  ChainOfThoughtSearchResults,
+  ChainOfThoughtStep,
+} from '@/components/ai-elements/chain-of-thought';
 
 const { Sider } = Layout; // Destructure Sider
 const CHAT_WIDTH = 320; // Define chat width
@@ -59,6 +67,10 @@ const ChatBotDemo = () => {
     api: '/api/chat', // Ensure API path is set
   });
 
+  // Stable thread id per conversation (persisted locally)
+  const [threadId, setThreadId] = useState<string | null>(null);
+  // Show Chain-of-Thought only after design flow triggers
+  const [showCot, setShowCot] = useState(false);
   const conversationEndRef = useRef<HTMLDivElement>(null); // Ref for auto-scrolling
 
   // Auto-scroll to bottom
@@ -92,12 +104,82 @@ const ChatBotDemo = () => {
     }
   }, [messages, status]);
 
+  // Initialize and persist a thread id
+  useEffect(() => {
+    try {
+      const key = 'halas:thread-id';
+      let id = globalThis.localStorage?.getItem(key);
+      if (!id) {
+        id = crypto.randomUUID();
+        globalThis.localStorage?.setItem(key, id);
+      }
+      setThreadId(id);
+    } catch {}
+  }, []);
+
+  // Chain-of-thought step state (lightweight; driven by assistant text markers)
+  type StepStatus = 'pending' | 'active' | 'complete';
+  const [steps, setSteps] = useState<
+    { key: 'intent' | 'gen' | 'layout' | 'done'; label: string; status: StepStatus }[]
+  >([
+    { key: 'intent', label: '理解需求', status: 'pending' },
+    { key: 'gen', label: '生成元素', status: 'pending' },
+    { key: 'layout', label: '布局', status: 'pending' },
+    { key: 'done', label: '完成', status: 'pending' },
+  ]);
+  const [lastPrompt, setLastPrompt] = useState<string>('');
+
+  // Update CoT steps based on assistant messages
+  useEffect(() => {
+    const last = messages[messages.length - 1];
+    if (!last) return;
+    if (last.role !== 'assistant') return;
+
+    const textPart = last.parts.find((p) => p.type === 'text');
+    const text = typeof textPart?.text === 'string' ? textPart.text : '';
+    if (!text) return;
+
+    setSteps((prev) => {
+      const next = [...prev];
+      const find = (k: (typeof prev)[number]['key']) => next.find((s) => s.key === k)!;
+
+      // When assistant acknowledges design intent
+      if (text.includes("I'm working on a design for:") || text.includes('DESIGN_INTENT:')) {
+        find('intent').status = 'complete';
+        if (find('gen').status === 'pending') find('gen').status = 'active';
+        setShowCot(true);
+      }
+      // When genjsx reports element count
+      if (
+        (text.includes('Generated') &&
+          (text.includes('elements') || text.includes('JSX') || text.includes('View/Text'))) ||
+        text.includes('```jsx')
+      ) {
+        find('gen').status = 'complete';
+        if (find('layout').status === 'pending') find('layout').status = 'active';
+        setShowCot(true);
+      }
+      // When layout returns final design JSON
+      if (text.includes('Here is your design:')) {
+        find('layout').status = 'complete';
+        find('done').status = 'complete';
+        setShowCot(true);
+      }
+      return next;
+    });
+  }, [messages]);
+
   const handleSubmit = (message: PromptInputMessage) => {
     const hasText = Boolean(message.text);
     const hasAttachments = Boolean(message.files?.length);
     if (!(hasText || hasAttachments)) {
       return;
     }
+    // Mark the first step as active on submission
+    setSteps((prev) =>
+      prev.map((s) => (s.key === 'intent' && s.status === 'pending' ? { ...s, status: 'active' } : s)),
+    );
+
     sendMessage(
       {
         text: message.text || 'Sent with attachments',
@@ -107,10 +189,12 @@ const ChatBotDemo = () => {
         body: {
           model: model,
           webSearch: webSearch,
+          threadId: threadId ?? undefined,
         },
       },
     );
     setInput('');
+    if (message.text) setLastPrompt(message.text);
   };
 
   return (
@@ -141,6 +225,66 @@ const ChatBotDemo = () => {
         <Sparkles size={18} color="#faad14" />
         <span style={{ fontWeight: 600, fontSize: 16 }}>Halas AI</span>
       </div>
+
+      {/* Chain of Thought panel (render only after triggered) */}
+      {showCot && (
+        <div style={{ marginBottom: 12 }}>
+          <ChainOfThought defaultOpen>
+            <ChainOfThoughtHeader />
+            <ChainOfThoughtContent>
+              {steps.map((s) => {
+                // Derive lightweight, context-aware contents per step
+                const lastAssistant = [...messages].reverse().find((m) => m.role === 'assistant');
+                const assistantText = String(
+                  lastAssistant?.parts.find((p) => p.type === 'text')?.text || ''
+                );
+                const sourceUrls = (lastAssistant?.parts || [])
+                  .filter((p: any) => p.type === 'source-url' && p.url)
+                  .map((p: any) => p.url as string);
+
+                // Did we embed a JSON design block?
+                const hasDesignJson = /```json[\s\S]*?```/i.test(assistantText);
+
+                return (
+                  <ChainOfThoughtStep
+                    key={s.key}
+                    label={s.label}
+                    status={s.status === 'active' ? 'active' : s.status === 'complete' ? 'complete' : 'pending'}
+                  >
+                    {s.key === 'intent' && lastPrompt && (
+                      <div className="text-xs text-muted-foreground">用户输入：{lastPrompt}</div>
+                    )}
+
+                    {s.key === 'gen' && sourceUrls.length > 0 && (
+                      <ChainOfThoughtSearchResults>
+                        {sourceUrls.slice(0, 5).map((u) => (
+                          <ChainOfThoughtSearchResult key={u}>
+                            {(() => {
+                              try {
+                                return new URL(u).hostname;
+                              } catch {
+                                return u;
+                              }
+                            })()}
+                          </ChainOfThoughtSearchResult>
+                        ))}
+                      </ChainOfThoughtSearchResults>
+                    )}
+
+                    {s.key === 'layout' && hasDesignJson && (
+                      <div className="text-xs text-muted-foreground">已生成设计数据（JSON）并应用到画布</div>
+                    )}
+
+                    {s.key === 'done' && s.status === 'complete' && (
+                      <div className="text-xs text-muted-foreground">完成 ✅</div>
+                    )}
+                  </ChainOfThoughtStep>
+                );
+              })}
+            </ChainOfThoughtContent>
+          </ChainOfThought>
+        </div>
+      )}
 
       <div className="flex flex-col h-full overflow-hidden">
         <Conversation className="flex-grow overflow-y-auto">

@@ -5,7 +5,7 @@ import { graph } from '@/agent/graph';
 // import { HumanMessage, AIMessage, BaseMessage, ToolMessage, FunctionMessage } from '@langchain/core/messages';
 import { toUIMessageStream } from '@ai-sdk/langchain';
 import { convertVercelMessageToLangChainMessage } from '@/utils/message-converters';
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 
 
 export async function POST(req: NextRequest) {
@@ -24,11 +24,9 @@ export async function POST(req: NextRequest) {
       // For instance: modelPreference: selectedModel, enableWebSearch: webSearch
     };
 
-
     // Resolve a thread id for LangGraph checkpointing
     const threadId = body.threadId || req.headers.get('x-thread-id') || randomUUID();
 
-    // Create the event stream with required thread_id in RunnableConfig
     const eventStream = graph.streamEvents(initialState, {
       version: 'v2',
       configurable: { thread_id: String(threadId) },

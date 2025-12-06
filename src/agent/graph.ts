@@ -1,6 +1,7 @@
 import { BaseMessage, SystemMessage, AIMessage, HumanMessage, ToolMessage, FunctionMessage } from '@langchain/core/messages';
 import { StateGraph, START, END, Annotation, MemorySaver } from '@langchain/langgraph';
 import { createChatModel } from '@/utils/ai-model';
+import { layoutNode } from './layoutNode';
 
 // Define the state schema
 export const AgentState = Annotation.Root({
@@ -11,6 +12,10 @@ export const AgentState = Annotation.Root({
   intent: Annotation<string>({
     reducer: (x, y) => y ?? x,
     default: () => '',
+  }),
+  view_tree: Annotation<any>({
+    reducer: (x, y) => y ?? x,
+    default: () => null,
   }),
   elements: Annotation<any[]>({
     reducer: (x, y) => y ?? x,
@@ -26,9 +31,9 @@ export const AgentState = Annotation.Root({
 const model = createChatModel();
 
 // Node 1: Chat / Intent Understanding
-async function chat_node(state: typeof AgentState.State) {
+async function chatNode(state: typeof AgentState.State) {
   const { messages } = state;
-  const lastMsg = messages.at(-1);
+  // const lastMsg = messages.at(-1);
 
   // System prompt to guide the intent extraction
   const systemPrompt = `You are Halas, an intelligent design assistant.
@@ -54,7 +59,6 @@ async function chat_node(state: typeof AgentState.State) {
 
   if (content.includes('DESIGN_INTENT:')) {
     intent = content.split('DESIGN_INTENT:')[1].trim();
-    // We can refine the response to be more natural for the user
     return {
       messages: [new AIMessage({ content: `I'm working on a design for: ${intent}`, id: response.id })],
       intent,
@@ -64,81 +68,41 @@ async function chat_node(state: typeof AgentState.State) {
   return { messages: [response], intent: '' };
 }
 
-// Node 2: Generate Visual Elements (GenJSX equivalent)
+// Node 2: Generate View/Text/Image tree (React Native JSX, not JSON)
 async function genjsx(state: typeof AgentState.State) {
   const { intent } = state;
   if (!intent) return {};
 
-  const prompt = `Based on the design intent: "${intent}", generate a list of visual elements required.
-  Return ONLY a raw JSON array of objects. Do not use Markdown blocks.
-  Each object should have:
-  - type: 'i-text' | 'rect' | 'circle' | 'image'
-  - text: (for i-text)
-  - fill: color string (hex)
-  - width: number (approximate)
-  - height: number (approximate)
-  
-  Example:
-  [
-    {"type": "rect", "fill": "#ff0000", "width": 100, "height": 100},
-    {"type": "i-text", "text": "Coffee", "fill": "#000000", "fontSize": 40}
-  ]`;
+  const prompt = `You are a UI layout generator. Based on the design intent: "${intent}", output a minimal React Native JSX component tree (not JSON).
+
+Requirements:
+- Use only React Native primitives supported by react-sketchapp: View, Text, Image, Svg.
+- Use inline style with absolute positioning when needed: style={{ left, top, width, height, backgroundColor }}.
+- For Text, include fontSize, color, and textAlign in style.
+- For Image, use source={{ uri: 'data:image/...base64...' }} or src="..."; include style with width/height and left/top.
+- The root should be a container View with width/height and backgroundColor in style.
+- Keep values simple (numbers, hex colors). Do not import or reference external components or packages.
+- Output ONLY a fenced JSX code block (no prose, no explanations):
+
+\`\`\`jsx
+<View style={{ width: 800, height: 800, backgroundColor: '#ffffff' }}>
+  <View style={{ left: 40, top: 40, width: 720, height: 720, backgroundColor: '#f5f5f5' }} />
+  <Text style={{ left: 80, top: 120, fontSize: 36, color: '#111111', textAlign: 'left' }}>Some title</Text>
+  <Image style={{ left: 100, top: 200, width: 400, height: 300 }} source={{ uri: 'data:image/png;base64,...' }} />
+</View>
+\`\`\``;
 
   const response = await model.invoke([new SystemMessage(prompt)]);
+  // Keep the JSX in the message stream; layoutNode will parse the JSX block.
 
-  let elements = [];
-  try {
-    // Attempt to clean and parse JSON
-    const cleanContent = (response.content as string).replace(/```json/g, '').replace(/```/g, '').trim();
-    elements = JSON.parse(cleanContent);
-  } catch (e) {
-    console.error('Failed to parse genjsx output', e);
-    // Fallback
-    elements = [{ type: 'i-text', text: intent, fill: '#000000' }];
-  }
-
+  const content = response.content || '';
   return {
-    elements,
-    // detailed log for debug/CoT
-    messages: [new AIMessage({ content: `Generated ${elements.length} elements based on intent.` })],
+    messages: [new AIMessage({ content })],
   };
 }
 
 // Node 3: Layout (Fabric JSON)
-async function layout(state: typeof AgentState.State) {
-  const { elements } = state;
-  if (!elements || elements.length === 0) return {};
-
-  const prompt = `You are a layout engine. Canvas size is 800x800.
-  Arrange the following elements into a beautiful composition:
-  ${JSON.stringify(elements)}
-  
-  Return ONLY a raw JSON object representing a partial Fabric.js canvas export.
-  The structure must be:
-  {
-    "objects": [
-      { ...element_properties, left: number, top: number }
-    ]
-  }
-  Ensure no elements overlap in a bad way. Center main text.
-  Do not use Markdown blocks.`;
-
-  const response = await model.invoke([new SystemMessage(prompt)]);
-
-  let final_design = null;
-  try {
-    const cleanContent = (response.content as string).replace(/```json/g, '').replace(/```/g, '').trim();
-    final_design = JSON.parse(cleanContent);
-  } catch (e) {
-    console.error('Failed to parse layout output', e);
-  }
-
-  return {
-    // eslint-disable-next-line camelcase
-    final_design,
-    messages: [new AIMessage(`Here is your design:\n\`\`\`json\n${JSON.stringify(final_design)}\n\`\`\``)],
-  };
-}
+const layout = layoutNode;
 
 // Routing
 function route(state: typeof AgentState.State) {
@@ -150,7 +114,7 @@ function route(state: typeof AgentState.State) {
 
 // Build Graph
 const workflow = new StateGraph(AgentState)
-  .addNode('chat_node', chat_node)
+  .addNode('chat_node', chatNode)
   .addNode('genjsx', genjsx)
   .addNode('layout', layout)
 

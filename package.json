@@ -3,6 +3,7 @@
   "version": "3.0.1",
   "description": "halas-web",
   "dependencies": {
+    "@babel/parser": "^7.26.2",
     "@ai-sdk/langchain": "^1.0.106",
     "@ai-sdk/react": "^2.0.106",
     "@ant-design/icons": "^5.2.6",
@@ -50,6 +51,7 @@
     "react-dom": "^18.2.0",
     "react-i18next": "^14.1.1",
     "react-markdown": "^10.1.0",
+    "react-sketchapp": "^3.2.6",
     "remark-gfm": "^4.0.1",
     "roughjs": "^4.6.6",
     "shiki": "^3.19.0",
